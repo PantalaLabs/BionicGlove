@@ -72,5 +72,7 @@ Even the most difficult one is a very simple esketch with a few lines.
 ### Ableton
 There is a Live4Max component called BionicGlove freely available. It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
 
+![ableton](/pictures/bgableton.png)
+
 I´m developing a second component called BionicGlove Lite that will be smaller than the the above, and will receive the datapack directly from Serial Bluetooth and will cover only finger position and X/Y accel angles.
 
