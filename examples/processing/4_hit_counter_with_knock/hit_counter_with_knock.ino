@@ -6,10 +6,10 @@ void setup()
 {
     Serial.begin(38400);
     bionic.start();
-    bionic.attachCallOnVerticalPositiveStump(message1);
-    bionic.attachCallOnVerticalNegativeStump(message2);
-    bionic.attachCallOnHorizontalPositiveStump(message3);
-    bionic.attachCallOnHorizontalNegativeStump(message4);
+    bionic.attachCallOnVerticalPositiveKnock(message1);
+    bionic.attachCallOnVerticalNegativeKnock(message2);
+    bionic.attachCallOnHorizontalPositiveKnock(message3);
+    bionic.attachCallOnHorizontalNegativeKnock(message4);
 }
 
 void loop()

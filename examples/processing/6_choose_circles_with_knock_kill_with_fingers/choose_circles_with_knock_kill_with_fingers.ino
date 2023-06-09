@@ -4,10 +4,10 @@ BionicGlove bionic;
 void setup()
 {
     Serial.begin(115200);
-    bionic.attachCallOnVerPosStump(message1);
-    bionic.attachCallOnVerNegStump(message2);
-    bionic.attachCallOnHorPosStump(message1);
-    bionic.attachCallOnHorNegStump(message2);
+    bionic.attachCallOnVerPosKnock(message1);
+    bionic.attachCallOnVerNegKnock(message2);
+    bionic.attachCallOnHorPosKnock(message1);
+    bionic.attachCallOnHorNegKnock(message2);
     bionic.attachCallOnClosedFingerIndex(message3);
     bionic.attachCallOnOpenedFingerIndex(message3);
     bionic.setAllRedlinePercentage(10); // wide open all fingers

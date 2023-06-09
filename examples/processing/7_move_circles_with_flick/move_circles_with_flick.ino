@@ -6,10 +6,10 @@ void setup()
     Serial.begin(115200);
     bionic.attachCallOnFlickOpenedFingerIndex(message2);
     bionic.attachCallOnFlickClosedFingerIndex(message1);
-    bionic.attachCallOnHorizontalPositiveStump(message3);
-    bionic.attachCallOnHorizontalNegativeStump(message3);
-    bionic.setStumpThreshold(6.0);
-    bionic.setStumpDebounceInterval(500);
+    bionic.attachCallOnHorizontalPositiveKnock(message3);
+    bionic.attachCallOnHorizontalNegativeKnock(message3);
+    bionic.setKnockThreshold(6.0);
+    bionic.setKnockDebounceInterval(500);
     bionic.setLedBuiltIn();
     bionic.start();
 }

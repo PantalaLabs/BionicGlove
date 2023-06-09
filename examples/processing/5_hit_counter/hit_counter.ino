@@ -6,8 +6,8 @@ void setup()
 {
     Serial.begin(38400);
     bionic.start();
-    bionic.attachCallOnPosVerStump(printMessageA);
-    bionic.attachCallOnNegVerStump(printMessageB);
+    bionic.attachCallOnPosVerKnock(printMessageA);
+    bionic.attachCallOnNegVerKnock(printMessageB);
     bionic.setAllRedlinePercentage(20);
 }
 
