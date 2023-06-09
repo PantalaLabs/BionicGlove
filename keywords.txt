@@ -6,8 +6,6 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-ADXL345_WE	KEYWORD1
-
 # ENUM TYPES
 
 # STRUCT TYPES
