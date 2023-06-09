@@ -37,27 +37,27 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>finger position</td>
 <td>each of all 4 fingers absolute position</td>
 <td>n/a</td>
-<td>value</td>
+<td>4 - one value for each finger</td>
 </tr>
 
 <tr>
 <td>finger acceleration</td>
 <td>regardless of the position of the fingers, when moving, it generates an acceleration. which increases when you start the movement and decreases as the finger returns to rest</td>
 <td>n/a</td>
-<td>value</td>
+<td>4 - one value for each finger</td>
 
 </tr>
 <td>finger flick</td>
 <td>everytime a high acceleration is reached when opening or closing a finger, like a flick, you can trigger a callback</td>
 <td>value</td>
-<td>callback</td>
+<td>8 - one callback for each finger at opening or closing</td>
 </tr>
 
 <tr>
 <td>finger limits</td>
 <td>configurable finger wide closed and/or opened limits</td>
 <td>percentage</td>
-<td>callback</td>
+<td>8 - one callback for each finger at wide open or wide close</td>
 </tr>
 <tr>
 
@@ -65,7 +65,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>hand knock</td>
 <td>configurable vertical/horizontal , positive/negative hand knock</td>
 <td>value</td>
-<td>callback</td>
+<td>4 - one callback for vertical/horizontal , positive/negative </td>
 </tr>
 
 </table>
