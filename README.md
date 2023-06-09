@@ -48,6 +48,6 @@ Methods with parameters:
 
 5. uint8_t pct - refers to any data that uses percentage. You can use any unsigned 8 bit number from 1 to 100
 
-6. <any datatype> val - any value inside the allowed range. Must read all library.
+6. any datatype val - any value inside the allowed range. Must read all library.
 
 7. float trs - refers to threshold parameters. You can use any value inside the allowed range. Must read all library.
