@@ -18,22 +18,22 @@ void loop()
 
 void printMessageA()
 {
-    if (bionic.getClosedFingerStatus(RAW_F_INDEX))
+    if (bionic.getFclosedStatus(FINGER_INDEX))
     {
         Serial.println("1");
     }
-    else if (bionic.getClosedFingerStatus(RAW_F_MIDDLE))
+    else if (bionic.getFclosedStatus(FINGER_MIDDLE))
     {
         Serial.println("3");
     }
 }
 void printMessageB()
 {
-    if (bionic.getClosedFingerStatus(RAW_F_INDEX))
+    if (bionic.getFclosedStatus(FINGER_INDEX))
     {
         Serial.println("2");
     }
-    else if (bionic.getClosedFingerStatus(RAW_F_MIDDLE))
+    else if (bionic.getFclosedStatus(FINGER_MIDDLE))
     {
         Serial.println("4");
     }

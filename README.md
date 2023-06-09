@@ -65,22 +65,22 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>hand knock</td>
 <td>configurable vertical/horizontal , positive/negative hand knock</td>
 <td>value</td>
-<td>4 - one callback for vertical/horizontal , positive/negative </td>
+<td>4 - one callback for each vertical/horizontal , positive/negative </td>
 </tr>
 
 </table>
 
 #### Dependencies:
 
-I use 2 math calculations in my code:
+2 math calculations in my code:
 1. EMA (https://en.wikipedia.org/wiki/Moving_average) : this one is implemented by a macro called ALPHAFILTER in the BionicGlove.h
-2. Linear regression (https://en.wikipedia.org/wiki/Linear_regression) : this one I call a library LinearRegression.h by https://github.com/cubiwan/Regressino . You will need to download and install this library too.
+2. Linear Regression (https://en.wikipedia.org/wiki/Linear_regression) : this one I call a library LinearRegression.h by https://github.com/cubiwan/Regressino . You will need to download and install this library too.
 
 #### Conventions:
 
-Methods with parameters:
+Methods with parameters. Every method has one kind of parameter. Be careful not to mix the types of parameters or unexpected results may happen.
 
-1. uint32_t ms - means millisseconds , you can use any long int number
+1. uint32_t ms - means millisseconds , you can use any unsigned long int number
 2. uint8_t raw - refers to any of the raw data received in the data packet. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "RAW_" :
 
 - #define RAW_F_INDEX 0
@@ -98,11 +98,11 @@ Methods with parameters:
 - #define RAW_A_Z_DEG 12
 - #define RAW_SMOOTHFACTOR 13
 
-3. uint8_t axl - refers to any of the accelerometer axle. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "IDX_A_"
+3. uint8_t axl - refers to any of the accelerometer axle. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "AXL_A_"
 
-- #define IDX_A_X 0
-- #define IDX_A_Y 1
-- #define IDX_A_Z 2
+- #define AXL_A_X 0
+- #define AXL_A_Y 1
+- #define AXL_A_Z 2
 
 4. uint8_t f - refers to any of the fingers. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "FINGER_"
 
