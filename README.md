@@ -124,5 +124,5 @@ There is a Live4Max component called BionicGlove freely available. It abstracts 
 
 ![ableton](/pictures/bgableton.png)
 
-I´m developing a second component called BionicGlove Lite that will be smaller than the the above, will receive the datapack directly from Serial Bluetooth and cover only finger position and X/Y accelerometer angles.
+A second component called BionicGlove Lite is in the way. It will be smaller than the the above, receive the datapack directly from Serial Bluetooth and cover only finger position and X/Y accelerometer angles.
 
