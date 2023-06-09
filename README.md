@@ -1,6 +1,6 @@
 # BionicGlove
 
-Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove that can control microcontrolled devices , robots, mobile apps, desktop programs (like Ableton), games, art, entertainment, etc through the interpretation of their behaviors and movements.
+Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove that can control microcontrolled or not, devices , robots, mobile apps, desktop programs (like Ableton), games, art, entertainment, etc through the interpretation of their behaviors and movements.
 
 Here you will find usage tips and an ESP32 library to the Bionic Glove.
 
