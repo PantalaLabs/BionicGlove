@@ -67,6 +67,11 @@ Z
 #define RAW_A_Z_DEG 12
 #define RAW_SMOOTHFACTOR 13
 
+#define FINGER_INDEX 0
+#define FINGER_MIDDLE 1
+#define FINGER_RING 2
+#define FINGER_LITTLE 3
+
 #define IDX_A_X 0
 #define IDX_A_Y 1
 #define IDX_A_Z 2
@@ -133,7 +138,7 @@ public:
   void setOpenedRedLinePercentage(uint8_t f, uint8_t pct);                        // set opened Percentage for individual finger
   bool getFclosedStatus(uint8_t f);                                               // return if the finger is still inside closed area
   bool getFopenedStatus(uint8_t f);                                               // return if the finger is still inside opened area
-  void setStumpThreshold(float verPos, float verNeg, float horPos, float horNeg); // set new stump treshold
+  void setStumpThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg); // set new stump treshold
   void setStumpDebounceInterval(uint32_t val);                                    // set new stump debounce interval
   void setFlickAllThreshold(float trs);                                           // set all new flick treshold
   void setFlickOpenedThreshold(uint8_t f, float trs);                             // set new finger positive flick treshold

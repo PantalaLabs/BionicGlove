@@ -936,16 +936,16 @@ void BionicGlove::setLedBuiltIn()
   pinMode(BULTINLED, OUTPUT);
 }
 
-void BionicGlove::setStumpThreshold(float verPos, float verNeg, float horPos, float horNeg)
+void BionicGlove::setStumpThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg)
 {
   // discard out of range values
-  if ((verPos > MINSTUMPTHRESHOLD) && (verPos < MINSTUMPTHRESHOLD))
+  if ((val_verPos > MINSTUMPTHRESHOLD) && (val_verPos < MINSTUMPTHRESHOLD))
     stumpVerticalPositiveThreshold = constrain(verPos, MINSTUMPTHRESHOLD, MAXSTUMPTHRESHOLD);
-  if ((verNeg > MINSTUMPTHRESHOLD) && (verNeg < MINSTUMPTHRESHOLD))
+  if ((val_verNeg > MINSTUMPTHRESHOLD) && (val_verNeg < MINSTUMPTHRESHOLD))
     stumpVerticalNegativeThreshold = constrain(verNeg, MINSTUMPTHRESHOLD, MAXSTUMPTHRESHOLD);
-  if ((horPos > MINSTUMPTHRESHOLD) && (horPos < MINSTUMPTHRESHOLD))
+  if ((val_horPos > MINSTUMPTHRESHOLD) && (val_horPos < MINSTUMPTHRESHOLD))
     stumpHorizontalPositiveThreshold = constrain(horPos, MINSTUMPTHRESHOLD, MAXSTUMPTHRESHOLD);
-  if ((horNeg > MINSTUMPTHRESHOLD) && (horNeg < MINSTUMPTHRESHOLD))
+  if ((val_horNeg > MINSTUMPTHRESHOLD) && (val_horNeg < MINSTUMPTHRESHOLD))
     stumpHorizontalNegativeThreshold = constrain(horNeg, MINSTUMPTHRESHOLD, MAXSTUMPTHRESHOLD);
 }
 
