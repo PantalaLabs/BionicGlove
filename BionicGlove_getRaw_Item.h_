@@ -1,0 +1,227 @@
+/********************************************************************
+* This is a library for the Bionic Glove.
+*
+* You'll find an example which should enable you to use the library.
+*
+* You are free to use it, change it or build on it. In case you like
+* it, it would be cool if you give it a star.
+*
+* If you find bugs, please open an Issue  https://github.com/PantalaLabs/BionicGlove
+* If you want new features , please open a Pull Request at https://github.com/PantalaLabs/BionicGlove
+*
+* Gibran Curtiss Salomão 2023
+* http://www.pantalalabs.com
+*
+TODO
+
+reaplace GETRAW() por GETITEM()
+
+ * Bionic Glove.cpp
+ * Author: Gibran Curtiss Salomão 2023
+
+
+DATAPACK
+0-finger[0].fingerRead
+1-finger[1].fingerRead
+2-finger[2].fingerRead
+3-finger[3].fingerRead
+
+X
+4-accel[0].raw
+5-accel[0].g
+6-accel[0].ang
+
+Y
+7-accel[1].raw
+8-accel[1].g
+9-accel[1].ang
+
+Z
+10-accel[2].raw
+11-accel[2].g
+12-accel[2].ang
+
+13-smoothness
+**********************************************************************/
+
+#ifndef BionicGlove_h
+#define BionicGlove_h
+
+#define BULTINLED 2
+
+#define MAXBTDATAPACK 14
+
+#define RAW_F_INDEX 0
+#define RAW_F_MIDDLE 1
+#define RAW_F_RING 2
+#define RAW_F_LITTLE 3
+#define RAW_A_X 4
+#define RAW_A_X_G 5
+#define RAW_A_X_DEG 6
+#define RAW_A_Y 7
+#define RAW_A_Y_G 8
+#define RAW_A_Y_DEG 9
+#define RAW_A_Z 10
+#define RAW_A_Z_G 11
+#define RAW_A_Z_DEG 12
+#define RAW_SMOOTHFACTOR 13
+
+#define IDX_A_X 0
+#define IDX_A_Y 1
+#define IDX_A_Z 2
+
+#define MAXLOG 20
+
+#define MAXFINGERCHANNELS 4
+#define MAXACCELCHANNELS 3
+
+#define MINPERCENTAGE 10
+#define MAXPERCENTAGE 90
+#define DEFAULREDLINEPERCENTAGE 15
+
+#define SCHMITTTRIGGERPERCENTAGE 5
+
+#define ALPHAFILTER(tar, amt, alpha)                                            \
+  {                                                                             \
+    tar = (((float)(alpha) * (float)(amt)) + ((1.0 - (alpha)) * (float)(tar))); \
+  }
+
+#define GETITEM(idx)           \
+  {                            \
+    btDataPack[idx].toFloat() \
+  }
+
+class BionicGlove
+{
+public:
+  BionicGlove();
+
+  void start();                                            // begin BT communication
+  void end();                                              // end BT communication
+  bool read();                                             // read BT serial
+  bool active();                                           // return if BT is active
+  void setLedBuiltIn();                                    // use led built in to visual debug
+  String getSerialData();                                  // return all serial data pack
+  float getRaw(uint8_t index);                             // get raw value from each one value at BT pack
+  float getSmoothed(uint8_t axl);                          // get smoothed accel raw values
+  uint16_t get12bit(uint8_t f);                            // get expanded finger value
+  void setAllRedlinePercentage(uint8_t val);               // set all closed and opened bounds
+  void setAllClosedRedLinePercentage(uint8_t val);         // set all closed Percentage for all fingers
+  void setAllOpenedRedLinePercentage(uint8_t val);         // set all opened Percentage for all fingers
+  void setClosedRedLinePercentage(uint8_t f, uint8_t val); // set closed Percentage for individual finger
+  void setOpenedRedLinePercentage(uint8_t f, uint8_t val); // set opened Percentage for individual finger
+  bool getClosedFingerStatus(uint8_t f);                   // return if the finger is still inside closed area
+  bool getOpenedFingerStatus(uint8_t f);                   // return if the finger is still inside opened area
+  void setStumpTreshold(float trs);                        // set new stump treshold
+  float getLastGStump();                                   // return last stump treshold
+
+  // attach and detach
+  void attachCallOnClosedFingerLittle(void (*onRise)(void));
+  void detachCallOnClosedFingerLittle();
+  void attachCallOnClosedFingerRing(void (*onRise)(void));
+  void detachCallOnClosedFingerRing();
+  void attachCallOnClosedFingerMiddle(void (*onRise)(void));
+  void detachCallOnClosedFingerMiddle();
+  void attachCallOnClosedFingerIndex(void (*onRise)(void));
+  void detachCallOnClosedFingerIndex();
+
+  void attachCallOnOpenedFingerLittle(void (*onRise)(void));
+  void detachCallOnOpenedFingerLittle();
+  void attachCallOnOpenedFingerRing(void (*onRise)(void));
+  void detachCallOnOpenedFingerRing();
+  void attachCallOnOpenedFingerMiddle(void (*onRise)(void));
+  void detachCallOnOpenedFingerMiddle();
+  void attachCallOnOpenedFingerIndex(void (*onRise)(void));
+  void detachCallOnOpenedFingerIndex();
+
+  void attachCallOnVerPosStump(void (*onRise)(void));
+  void detachCallOnVerPosStump();
+  void attachCallOnVerNegStump(void (*onRise)(void));
+  void detachCallOnVerNegStump();
+
+  void attachCallOnHorPosStump(void (*onRise)(void));
+  void detachCallOnHorPosStump();
+  void attachCallOnHorNegStump(void (*onRise)(void));
+  void detachCallOnHorNegStump();
+
+private:
+  void ledOnAsync();
+  void ledOffAsync();
+  bool ledBuiltInActive;
+  String serialData;                    // receive the BT string line on each READ
+  String btDataPack[MAXBTDATAPACK];     // receive splitted dataSerial string
+  bool on;                              // flags if BT is active
+  const char *pin = "1234";             // default slave pin
+  String device_name = "BIONICSlave";   // default slave name
+  float stumpTreshold = 10.0;           // stump ativation limiar
+  float lastGStump;                     // last G value when stump was unlocked
+  float offsetRemovalAccelG[3][MAXLOG]; // smoothed accel Z G readings to define if the hand is in normal or twisted posiction
+  float smoothFactor;                   // smooth factor received from MASTER
+  float smoothedAccelFactor = 0.02;     // smooth factor received from MASTER
+  float smoothedAccelG[3];              // smoothed accel Z G readings to define if the hand is in normal or twisted posiction
+  float smoothedAccelAZG;               // smoothed accel A Z G readings to compute stumps
+  float smoothedLogAccelZG[MAXLOG];     // smoothed accel Z G readings to define if the hand is in normal or twisted posiction
+  float stumpLogAccelZG[MAXLOG];        // last 2 X stump readings for 3 axls
+  uint32_t stumpInterval_ms = 500;      // time in ms between to allowed stumps
+  uint32_t nextAllowedStump_ms = 0;     // millis() + stumpInterval
+  void receiveDataPack();               // receive BT serial string and split
+  void callbackClosedFinger();          // check if any finger reached closed area and callback them
+  void callbackOpenedFinger();          // check if any finger reached opened area and callback them
+  void updateNewLimits();               // compare if new readings are outside preset area and update to new ones
+  void logAccelGtoRemoveOffset();       // stores last MAXLOGs values of 3 G accell axle to eventually remove its offsets
+  void removeXGoffset();
+  void logStumpData();                 // put new finger read into stump array
+  void callbackStump();                // check if there is new X stump condition
+  void updateClosedRedline(uint8_t f); // update individual closed finger area and recalculate all limits
+  void updateOpenedRedline(uint8_t f); // update individual opened finger area and recalculate all limits
+  void clearStumpLog();
+  // void expandReadings();                           // map all fingers to full 12bit scale  !!gone inside to update Limits!!
+
+  // callbacks
+  void (*callClosedLittle)(void);
+  void (*callClosedRing)(void);
+  void (*callClosedMiddle)(void);
+  void (*callClosedIndex)(void);
+
+  void (*callOpenedLittle)(void);
+  void (*callOpenedRing)(void);
+  void (*callOpenedMiddle)(void);
+  void (*callOpenedIndex)(void);
+
+  void (*callVerPosStump)(void);
+  void (*callVerNegStump)(void);
+  void (*callHorPosStump)(void);
+  void (*callHorNegStump)(void);
+
+  static void isrDefaultUnused(); // to dettach callbacks
+
+  typedef struct
+  {
+    int16_t fingerRead;              // raw finger read value
+    int16_t expanded;                // raw finger read value
+    int16_t closedMinValue = 100;    // stores maximum closed value
+    int16_t openedMaxValue = 2000;   // stores minimum opened value
+    uint8_t closedRedLinePercentage; // percent value set by user to calculate internal closed critical area
+    uint8_t openedRedLinePercentage; // percent value set by user to calculate internal iopened critical area
+    uint16_t closedRedLineIn;        // internal closed critical value
+    uint16_t closedRedLineOut;       // internal closed critical value
+    uint16_t openedRedLineIn;        // internal opened critical value
+    uint16_t openedRedLineOut;       // internal opened critical value
+    bool closedFingerStatus;         // status flagging that you are inside critical area
+    bool openedFingerStatus;         // status flagging that you are inside critical area
+  } record_finger;
+  record_finger finger[MAXFINGERCHANNELS];
+
+  typedef struct
+  {
+    float raw; // raw accel value
+    float g;   // g accel value
+    float ang; // corrected angle accel value
+  } record_accel;
+  record_accel accel[MAXACCELCHANNELS];
+  bool firstReading = true;
+  bool flipFlopStumpLog = true;
+  uint32_t turnOffLed;
+};
+
+#endif

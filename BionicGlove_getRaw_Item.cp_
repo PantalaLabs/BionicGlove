@@ -1,0 +1,672 @@
+/********************************************************************
+ * This is a library for the Bionic Glove.
+ *
+ * You'll find an example which should enable you to use the library.
+ *
+ * You are free to use it, change it or build on it. In case you like
+ * it, it would be cool if you give it a star.
+ *
+ * If you find bugs, please open an Issue  https://github.com/PantalaLabs/BionicGlove
+ * If you want new features , please open a Pull Request at https://github.com/PantalaLabs/BionicGlove
+ *
+ * Gibran Curtiss Salomão 2023
+ * http://www.pantalalabs.com
+ *
+ *********************************************************************/
+
+#include <BluetoothSerial.h>
+#include "BionicGlove.h"
+
+#if !defined(CONFIG_BT_SPP_ENABLED)
+#error Serial Bluetooth not available or not enabled. It is only available for the ESP32 chip.
+#endif
+
+BluetoothSerial SerialBT;
+
+BionicGlove::BionicGlove()
+{
+  detachCallOnClosedFingerLittle(); // detach all
+  detachCallOnClosedFingerIndex();
+  detachCallOnClosedFingerMiddle();
+  detachCallOnClosedFingerRing();
+  detachCallOnOpenedFingerIndex();
+  detachCallOnOpenedFingerMiddle();
+  detachCallOnOpenedFingerRing();
+  detachCallOnOpenedFingerLittle();
+  detachCallOnVerPosStump();
+  detachCallOnVerNegStump();
+  detachCallOnHorPosStump();
+  detachCallOnHorNegStump();
+  setAllRedlinePercentage(DEFAULREDLINEPERCENTAGE); // set all critical area to 20%
+  updateNewLimits();
+}
+
+void BionicGlove::start()
+{
+  ledOnAsync();
+  SerialBT.begin(device_name); // Bluetooth device name
+  // Serial.printf("The device with name \"%s\" is started.\nNow you can pair it with Bluetooth!\n", device_name.c_str());
+  SerialBT.setPin(pin);
+  // Serial.print("Using PIN");
+  on = true;
+  ledOffAsync();
+}
+uint32_t now;
+uint32_t newprint;
+
+bool BionicGlove::read()
+{
+  ledOffAsync();
+  if (SerialBT.available()) //@ each 10ms - MASTER controlled
+  {
+    // 435 - 460 micros - eventually 500 micros
+    receiveDataPack();
+    updateNewLimits();
+    callbackClosedFinger();
+    callbackOpenedFinger();
+    logAccelGtoRemoveOffset();
+    if (millis() > newprint)
+    {
+      newprint = millis() + 1000;
+      removeXGoffset();
+    }
+    logStumpData();
+    callbackStump();
+    return true;
+  }
+  return false;
+}
+
+void BionicGlove::receiveDataPack()
+{
+  // receive datapack
+  serialData = SerialBT.readStringUntil('\n');
+  uint8_t thisSeparator = 0, nextSeparator = 0;
+  for (uint8_t i = 0; i < MAXBTDATAPACK; i++)
+  {
+    nextSeparator = serialData.indexOf(',', thisSeparator);
+    btDataPack[i] = serialData.substring(thisSeparator, nextSeparator);
+    thisSeparator = nextSeparator + 1;
+    switch (i)
+    {
+    case 0:
+      finger[0].fingerRead = btDataPack[0].toInt();
+      break;
+    case 1:
+      finger[1].fingerRead = btDataPack[i].toInt();
+      break;
+    case 2:
+      finger[2].fingerRead = btDataPack[i].toInt();
+      break;
+    case 3:
+      finger[3].fingerRead = btDataPack[i].toInt();
+      break;
+    case 4:
+      accel[IDX_A_X].raw = btDataPack[i].toFloat();
+      break;
+    case 5:
+      accel[IDX_A_X].g = btDataPack[i].toFloat();
+      ALPHAFILTER(smoothedAccelG[IDX_A_X], accel[IDX_A_X].g, smoothedAccelFactor);
+      break;
+    case 6:
+      accel[IDX_A_X].ang = btDataPack[i].toFloat();
+      break;
+    case 7:
+      accel[IDX_A_Y].raw = btDataPack[i].toFloat();
+      break;
+    case 8:
+      accel[IDX_A_Y].g = btDataPack[i].toFloat();
+      ALPHAFILTER(smoothedAccelG[IDX_A_Y], accel[IDX_A_Y].g, smoothedAccelFactor);
+      break;
+    case 9:
+      accel[IDX_A_Y].ang = btDataPack[i].toFloat();
+      break;
+    case 10:
+      accel[IDX_A_Z].raw = btDataPack[i].toFloat();
+      break;
+    case 11:
+      accel[IDX_A_Z].g = btDataPack[i].toFloat();
+      ALPHAFILTER(smoothedAccelG[IDX_A_Z], accel[IDX_A_Z].g, smoothedAccelFactor);
+      break;
+    case 12:
+      accel[IDX_A_Z].ang = btDataPack[i].toFloat();
+      break;
+    case 13:
+      smoothFactor = btDataPack[i].toFloat();
+      break;
+    }
+  }
+}
+
+float BionicGlove::getRaw(uint8_t index)
+{
+  return btDataPack[index].toFloat();
+
+  // if ((index >= 0) && (index < MAXBTDATAPACK))
+  //   if (index <= 3)
+  //     return btDataPack[index].toInt();
+  //   else
+  //     return btDataPack[index].toFloat();
+  // else
+  //   return 0;
+}
+
+String BionicGlove::getSerialData()
+{
+  return serialData;
+}
+
+float BionicGlove::getSmoothed(uint8_t axl)
+{
+  return smoothedAccelG[axl];
+}
+
+void BionicGlove::end()
+{
+  SerialBT.end();
+  on = false;
+}
+
+bool BionicGlove::active()
+{
+  return on;
+}
+
+uint16_t BionicGlove::get12bit(uint8_t f) // get expanded finger value
+{
+  return finger[f].expanded;
+}
+
+void BionicGlove::logAccelGtoRemoveOffset()
+{
+  for (uint8_t j = 0; j < MAXACCELCHANNELS; j++)
+  {
+    for (uint8_t i = 0; i < (MAXLOG - 2); i++)
+    {
+      offsetRemovalAccelG[j][i] = offsetRemovalAccelG[j][i + 1];
+    }
+    offsetRemovalAccelG[j][(MAXLOG - 2)] = GETITEM(RAW_A_X_G);
+  }
+}
+
+void BionicGlove::removeXGoffset()
+{
+  Serial.println(offsetRemovalAccelG[0][0]);
+  for (uint8_t i = 1; i < (MAXLOG - 1); i++)
+  {
+    Serial.print(offsetRemovalAccelG[0][i]);
+    Serial.print(",");
+  }
+  Serial.println("");
+  for (uint8_t i = 1; i < (MAXLOG - 1); i++)
+  {
+    Serial.print(offsetRemovalAccelG[0][i] - offsetRemovalAccelG[0][0]);
+    Serial.print(",");
+  }
+  Serial.println("");
+}
+
+void BionicGlove::logStumpData() // FILO
+{
+  for (uint8_t i = 0; i < (MAXLOG - 2); i++)
+  {
+    stumpLogAccelZG[i] = stumpLogAccelZG[i + 1];
+    smoothedLogAccelZG[i] = smoothedLogAccelZG[i + 1];
+  }
+
+  stumpLogAccelZG[MAXLOG - 1] = getRaw(RAW_A_Z_G) + 10.0;
+  smoothedLogAccelZG[MAXLOG - 1] = smoothedAccelG[IDX_A_Z];
+}
+
+/*
+                   _
+                  /|\
+                 /|| \
+                /|||  \
+_______________/||||   \       ____________
+                        \     /
+                         \   /
+                          \_/
+               || +
+               | | +
+               |  | +
+               |   | = acc > STUMPACCINTEGRAL
+*/
+
+void BionicGlove::callbackStump()
+{
+  float acc, rate;
+
+  flipFlopStumpLog = !flipFlopStumpLog; // slow down Slave SR to (bionic glove master SR)/2
+  if ((millis() > nextAllowedStump_ms) && flipFlopStumpLog)
+  {
+    acc = 0.0;
+    for (uint8_t i = 1; i < (MAXLOG - 1); i++)
+    {
+      acc += (stumpLogAccelZG[i] - stumpLogAccelZG[0]);
+      if (abs(acc) > stumpTreshold)
+      {
+        // debug stump -----------------------------------
+
+        // Serial.print(stumpLogAccelZG[0]);
+        // Serial.print(", ");
+        // for (uint8_t j = 1; j < MAXLOG; j++)
+        // {
+        //   Serial.print(stumpLogAccelZG[j] - stumpLogAccelZG[0]);
+        //   Serial.print(", ");
+        // }
+        // Serial.println(".");
+
+        // for (uint8_t j = 0; j < MAXLOG; j++)
+        // {
+        //   Serial.print(stumpLogAccelZG[j]);
+        //   Serial.print(", ");
+        // }
+        // Serial.println(".");
+        // for (uint8_t j = 0; j < MAXLOG; j++)
+        // {
+        //   Serial.print(smoothedLogAccelZG[j]);
+        //   Serial.print(", ");
+        // }
+        // Serial.println("");
+        // Serial.println(acc);
+
+        // --------------------------------------------
+
+        nextAllowedStump_ms = millis() + stumpInterval_ms;
+        lastGStump = stumpLogAccelZG[i];
+        // hand twisted or not
+        if (smoothedLogAccelZG[0] > 0.6) // && (abs(acc) > 2.5) // vertical
+        {
+          if (acc > 0) // if last integralled item is positive
+          {
+            // Serial.println("ver pos");
+            callVerPosStump();
+            clearStumpLog();
+            break;
+          }
+          else // if negative G integral
+          {
+            // Serial.println("ver neg");
+            callVerNegStump();
+            clearStumpLog();
+            break;
+          }
+        }
+        else // horizontal
+        {
+          if (acc > 0) // if positive G integral
+          {
+            // Serial.println("hor pos");
+            callHorPosStump();
+            clearStumpLog();
+            break;
+          }
+          else // if negative G integral
+          {
+            // Serial.println("hor neg");
+            callHorNegStump();
+            clearStumpLog();
+            break;
+          }
+        }
+        ledOnAsync();
+      }
+    }
+  }
+}
+
+void BionicGlove::updateNewLimits()
+{
+  int16_t croped;
+
+  // if (firstReading)
+  // {
+  //   // if first time library was called
+  //   // force some values to init properlly min and max
+  //   // with real analogread values and not arbitrary development values
+  //   firstReading = false;
+  //   for (uint8_t i = 0; i < MAXFINGERCHANNELS; i++)
+  //   {
+  //     finger[i].closedMinValue = constrain(finger[i].fingerRead + 1, 0, 4095);
+  //     finger[i].openedMaxValue = constrain(finger[i].fingerRead - 1, 0, 4095);
+  //     // Serial.print(finger[i].closedMinValue);
+  //     // Serial.print(",");
+  //     // Serial.println(finger[i].openedMaxValue);
+  //   }
+  // }
+
+  for (uint8_t i = 0; i < MAXFINGERCHANNELS; i++)
+  {
+    if (finger[i].fingerRead < finger[i].closedMinValue) // if read smaller than smallest
+    {
+      finger[i].closedMinValue = finger[i].fingerRead; // set new smallest
+      updateClosedRedline(i);
+    }
+    else if (finger[i].fingerRead > finger[i].openedMaxValue) // if read bigger than biggest
+    {
+      finger[i].openedMaxValue = finger[i].fingerRead; // set new biggest
+      updateOpenedRedline(i);
+    }
+    // expand
+    croped = constrain(finger[i].fingerRead, finger[i].closedMinValue, finger[i].openedMaxValue);
+    finger[i].expanded = map(finger[i].fingerRead, finger[i].closedMinValue, finger[i].openedMaxValue, 0, 4095);
+  }
+}
+
+/*
+smallest values on scale
+
+fingerRead
+       \                /
+        \              /
+         \            /
+          \          / _ _ _ _ out
+in _ _ _ _ \       //
+            \\    //
+             =====
+*/
+void BionicGlove::callbackClosedFinger()
+{
+  // closed pinch ------------------------------------------------------
+  for (uint8_t i = 0; i < MAXFINGERCHANNELS; i++)
+  {
+    if (!finger[i].closedFingerStatus && (finger[i].fingerRead < finger[i].closedRedLineIn))
+    {
+      finger[i].closedFingerStatus = true;
+      switch (i)
+      {
+      case RAW_F_INDEX:
+        callClosedIndex();
+        break;
+      case RAW_F_MIDDLE:
+        callClosedMiddle();
+        break;
+      case RAW_F_RING:
+        callClosedRing();
+        break;
+      case RAW_F_LITTLE:
+        callClosedLittle();
+        break;
+      }
+      ledOnAsync();
+    }
+    else if (finger[i].closedFingerStatus && (finger[i].fingerRead > finger[i].closedRedLineOut))
+    {
+      finger[i].closedFingerStatus = false;
+    }
+  }
+}
+
+/*
+biggest values on scale
+             =====
+in _ _ _ _  //    \\
+           /       \\ _ _ _ _ out
+          /          \
+         /            \
+        /              \
+       /                \
+fingerRead
+*/
+void BionicGlove::callbackOpenedFinger()
+{
+  for (uint8_t i = 0; i < MAXFINGERCHANNELS; i++)
+  {
+    if (!finger[i].openedFingerStatus && (finger[i].fingerRead > finger[i].openedRedLineIn))
+    {
+      finger[i].openedFingerStatus = true;
+      switch (i)
+      {
+      case RAW_F_INDEX:
+        callOpenedIndex();
+        break;
+      case RAW_F_MIDDLE:
+        callOpenedMiddle();
+        break;
+      case RAW_F_RING:
+        callOpenedRing();
+        break;
+      case RAW_F_LITTLE:
+        callOpenedLittle();
+        break;
+      }
+      ledOnAsync();
+    }
+    else if (finger[i].openedFingerStatus && (finger[i].fingerRead < finger[i].openedRedLineOut))
+    {
+      finger[i].openedFingerStatus = false;
+    }
+  }
+}
+
+void BionicGlove::setAllRedlinePercentage(uint8_t val)
+{
+  setAllClosedRedLinePercentage(val);
+  setAllOpenedRedLinePercentage(val);
+}
+
+void BionicGlove::setAllClosedRedLinePercentage(uint8_t val)
+{
+  for (uint8_t i = 0; i < MAXFINGERCHANNELS; i++)
+    setClosedRedLinePercentage(i, val);
+}
+void BionicGlove::setClosedRedLinePercentage(uint8_t f, uint8_t val)
+{
+  finger[f].closedRedLinePercentage = constrain(val, MINPERCENTAGE, MAXPERCENTAGE);
+  updateClosedRedline(f);
+}
+
+void BionicGlove::setAllOpenedRedLinePercentage(uint8_t val)
+{
+  for (uint8_t i = 0; i < MAXFINGERCHANNELS; i++)
+    setOpenedRedLinePercentage(i, val);
+}
+void BionicGlove::setOpenedRedLinePercentage(uint8_t f, uint8_t val)
+{
+  finger[f].openedRedLinePercentage = constrain(val, MINPERCENTAGE, MAXPERCENTAGE);
+  updateOpenedRedline(f);
+}
+
+/*
+this is called when:
+a-user sets by glove new finger limits
+b-user sets by code new finger percentage / critical area
+smallest values on scale
+
+fingerRead
+       \                /
+        \              /
+         \            /
+          \          / _ _ _ _ out
+in _ _ _ _ \       //
+            \\    //
+             =====
+*/
+void BionicGlove::updateClosedRedline(uint8_t f) // smallest values on scale
+{
+  int16_t availab = (finger[f].openedMaxValue - finger[f].closedMinValue); // available  scale
+  finger[f].closedRedLineIn = finger[f].closedMinValue + ((abs(availab) * (finger[f].closedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].closedRedLineOut = finger[f].closedMinValue + ((abs(availab) * (finger[f].closedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
+}
+
+/*
+this is called when:
+a-user sets by glove new finger limits
+b-user sets by code new finger percentage / critical area
+biggest values on scale
+             =====
+in _ _ _ _  //    \\
+           /       \\ _ _ _ _ out
+          /          \
+         /            \
+        /              \
+       /                \
+  fingerRead
+
+*/
+void BionicGlove::updateOpenedRedline(uint8_t f)
+{
+  int16_t availab = (finger[f].openedMaxValue - finger[f].closedMinValue); // available  scale
+  finger[f].openedRedLineIn = finger[f].openedMaxValue - ((abs(availab) * (finger[f].openedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].openedRedLineOut = finger[f].openedMaxValue - ((abs(availab) * (finger[f].openedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
+}
+
+bool BionicGlove::getClosedFingerStatus(uint8_t f)
+{
+  return finger[f].closedFingerStatus;
+}
+
+bool BionicGlove::getOpenedFingerStatus(uint8_t f)
+{
+  return finger[f].openedFingerStatus;
+}
+
+void BionicGlove::ledOnAsync()
+{
+  if (ledBuiltInActive)
+  {
+    digitalWrite(BULTINLED, HIGH);
+    turnOffLed = millis() + 5;
+  }
+}
+
+void BionicGlove::ledOffAsync()
+{
+  if (ledBuiltInActive)
+  {
+    if ((turnOffLed > 0) && (millis() > turnOffLed))
+    {
+      turnOffLed = 0;
+      digitalWrite(BULTINLED, LOW);
+    }
+  }
+}
+
+// pinchs -----------------------------------------------------------
+void BionicGlove::attachCallOnClosedFingerLittle(void (*onRise)())
+{
+  callClosedLittle = onRise;
+}
+void BionicGlove::detachCallOnClosedFingerLittle()
+{
+  attachCallOnClosedFingerLittle(isrDefaultUnused);
+}
+void BionicGlove::attachCallOnClosedFingerRing(void (*onRise)())
+{
+  callClosedRing = onRise;
+}
+void BionicGlove::detachCallOnClosedFingerRing()
+{
+  attachCallOnClosedFingerRing(isrDefaultUnused);
+}
+void BionicGlove::attachCallOnClosedFingerMiddle(void (*onRise)())
+{
+  callClosedMiddle = onRise;
+}
+void BionicGlove::detachCallOnClosedFingerMiddle()
+{
+  attachCallOnClosedFingerMiddle(isrDefaultUnused);
+}
+void BionicGlove::attachCallOnClosedFingerIndex(void (*onRise)())
+{
+  callClosedIndex = onRise;
+}
+void BionicGlove::detachCallOnClosedFingerIndex()
+{
+  attachCallOnClosedFingerIndex(isrDefaultUnused);
+}
+
+void BionicGlove::attachCallOnOpenedFingerLittle(void (*onRise)())
+{
+  callOpenedLittle = onRise;
+}
+void BionicGlove::detachCallOnOpenedFingerLittle()
+{
+  attachCallOnOpenedFingerLittle(isrDefaultUnused);
+}
+void BionicGlove::attachCallOnOpenedFingerRing(void (*onRise)())
+{
+  callOpenedRing = onRise;
+}
+void BionicGlove::detachCallOnOpenedFingerRing()
+{
+  attachCallOnOpenedFingerRing(isrDefaultUnused);
+}
+void BionicGlove::attachCallOnOpenedFingerMiddle(void (*onRise)())
+{
+  callOpenedMiddle = onRise;
+}
+void BionicGlove::detachCallOnOpenedFingerMiddle()
+{
+  attachCallOnOpenedFingerMiddle(isrDefaultUnused);
+}
+void BionicGlove::attachCallOnOpenedFingerIndex(void (*onRise)())
+{
+  callOpenedIndex = onRise;
+}
+void BionicGlove::detachCallOnOpenedFingerIndex()
+{
+  attachCallOnOpenedFingerIndex(isrDefaultUnused);
+}
+
+// stumps -----------------------------------------------------------
+void BionicGlove::attachCallOnVerPosStump(void (*onRise)(void))
+{
+  callVerPosStump = onRise;
+}
+void BionicGlove::detachCallOnVerPosStump()
+{
+  attachCallOnVerPosStump(isrDefaultUnused);
+}
+void BionicGlove::attachCallOnVerNegStump(void (*onRise)(void))
+{
+  callVerNegStump = onRise;
+}
+void BionicGlove::detachCallOnVerNegStump()
+{
+  attachCallOnVerNegStump(isrDefaultUnused);
+}
+
+void BionicGlove::attachCallOnHorPosStump(void (*onRise)(void))
+{
+  callHorPosStump = onRise;
+}
+void BionicGlove::detachCallOnHorPosStump()
+{
+  attachCallOnHorPosStump(isrDefaultUnused);
+}
+void BionicGlove::attachCallOnHorNegStump(void (*onRise)(void))
+{
+  callHorNegStump = onRise;
+}
+void BionicGlove::detachCallOnHorNegStump()
+{
+  attachCallOnHorNegStump(isrDefaultUnused);
+}
+
+void BionicGlove::clearStumpLog()
+{
+  for (uint8_t i = 0; i < (MAXLOG - 2); i++)
+    stumpLogAccelZG[i] = stumpLogAccelZG[MAXLOG - 1];
+}
+
+void BionicGlove::isrDefaultUnused()
+{
+}
+
+void BionicGlove::setLedBuiltIn()
+{
+  ledBuiltInActive = true;
+  pinMode(BULTINLED, OUTPUT);
+}
+
+void BionicGlove::setStumpTreshold(float trs)
+{
+  stumpTreshold = trs;
+}
+
+float BionicGlove::getLastGStump()
+{
+  return lastGStump;
+}
