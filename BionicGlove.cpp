@@ -76,7 +76,7 @@ bool BionicGlove::read()
     updateNewLimits();
     // now = micros();
     logFremoveOffset();
-    logAZGstump();
+    logAZGknock();
     if (doneMs(ts_frozen, frozen))
     {
       callbackClosedFinger();
@@ -369,10 +369,10 @@ void BionicGlove::callbackFlick()
   }
 }
 
-void BionicGlove::logAZGstump() // FILO
+void BionicGlove::logAZGknock() // FILO
 {
-  stumpAllowed = !stumpAllowed; // slow down Slave SR to (bionic glove master SR)/2
-  if (stumpAllowed)
+  knockAllowed = !knockAllowed; // slow down Slave SR to (bionic glove master SR)/2
+  if (knockAllowed)
   {
     for (uint8_t i = 0; i < (MAXKNOCKLOG - 1); i++)
     {
@@ -389,7 +389,7 @@ void BionicGlove::callbackKnockLr()
   float rlResult;
   bool hit = false;
 
-  if (doneMs(ts_lastKnock, stumpDebounceInterval) && stumpAllowed)
+  if (doneMs(ts_lastKnock, knockDebounceInterval) && knockAllowed)
   {
     for (uint8_t i = 0; i < MAXKNOCKLINEARREGRESSIONLEARNS; i++) // learn
       lr.learn(i, logAZG[i] * 100);
@@ -404,13 +404,13 @@ void BionicGlove::callbackKnockLr()
 
     if ((logAZGsmoothed[0] > 0.6)) // vertical
     {
-      if (rlResult > stumpVerticalPositiveThreshold)
+      if (rlResult > knockVerticalPositiveThreshold)
       {
         // Serial.println("vp");
         callVerticalPositiveKnock();
         hit = true;
       }
-      else if (-rlResult > stumpVerticalNegativeThreshold)
+      else if (-rlResult > knockVerticalNegativeThreshold)
       {
         // Serial.println("vn");
         callVerticalNegativeKnock();
@@ -419,13 +419,13 @@ void BionicGlove::callbackKnockLr()
     }
     else // horizontal
     {
-      if (rlResult > stumpHorizontalPositiveThreshold)
+      if (rlResult > knockHorizontalPositiveThreshold)
       {
         // Serial.println("hp");
         callHorizontalPositiveKnock();
         hit = true;
       }
-      else if (-rlResult > stumpHorizontalNegativeThreshold)
+      else if (-rlResult > knockHorizontalNegativeThreshold)
       {
         // Serial.println("hn");
         callHorizontalNegativeKnock();
@@ -436,7 +436,7 @@ void BionicGlove::callbackKnockLr()
     {
       ts_lastKnock = millis();
       lastKnockAZG = logAZG[MAXKNOCKLOG - 1];
-      // logAZGclear(); //do not clear - as soon as the array becomes filled again, theLR will hit another false stump
+      // logAZGclear(); //do not clear - as soon as the array becomes filled again, theLR will hit another false knock
       ledOnAsync();
       hit = false;
     }
@@ -804,7 +804,7 @@ void BionicGlove::detachCallOnFlickOpenedFingerIndex()
   attachCallOnFlickOpenedFingerIndex(isrDefaultUnused);
 }
 
-// stumps -----------------------------------------------------------
+// knocks -----------------------------------------------------------
 void BionicGlove::attachCallOnVerticalPositiveKnock(void (*onRise)(void))
 {
   callVerticalPositiveKnock = onRise;
@@ -867,13 +867,13 @@ void BionicGlove::setKnockThreshold(float val_verPos, float val_verNeg, float va
 {
   // discard out of range values
   if ((val_verPos > MINKNOCKTHRESHOLD) && (val_verPos < MINKNOCKTHRESHOLD))
-    stumpVerticalPositiveThreshold = constrain(verPos, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
+    knockVerticalPositiveThreshold = constrain(verPos, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
   if ((val_verNeg > MINKNOCKTHRESHOLD) && (val_verNeg < MINKNOCKTHRESHOLD))
-    stumpVerticalNegativeThreshold = constrain(verNeg, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
+    knockVerticalNegativeThreshold = constrain(verNeg, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
   if ((val_horPos > MINKNOCKTHRESHOLD) && (val_horPos < MINKNOCKTHRESHOLD))
-    stumpHorizontalPositiveThreshold = constrain(horPos, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
+    knockHorizontalPositiveThreshold = constrain(horPos, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
   if ((val_horNeg > MINKNOCKTHRESHOLD) && (val_horNeg < MINKNOCKTHRESHOLD))
-    stumpHorizontalNegativeThreshold = constrain(horNeg, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
+    knockHorizontalNegativeThreshold = constrain(horNeg, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
 }
 
 void BionicGlove::setFlickAllThreshold(float trs)
@@ -902,7 +902,7 @@ float BionicGlove::getAZGlastKnock()
 
 void BionicGlove::setKnockDebounceInterval(uint32_t val)
 {
-  stumpDebounceInterval = val;
+  knockDebounceInterval = val;
 }
 
 void BionicGlove::setFlickDebounceInterval(uint32_t val)

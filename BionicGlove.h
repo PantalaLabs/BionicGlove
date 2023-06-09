@@ -92,7 +92,7 @@ Z
 #define DEFKNOCKVERTICALNEGATIVETHRESHOLD 15.0   //  ** preciselly adjusted , do not touch
 #define DEFKNOCKHORIZONTALPOSITIVETHRESHOLD 13.0 //  ** preciselly adjusted , do not touch
 #define DEFKNOCKHORIZONTALNEGATIVETHRESHOLD 15.0 //  ** preciselly adjusted , do not touch
-#define DEFKNOCKDEBOUNCEINTERVAL 400             // time in ms to considert next stump
+#define DEFKNOCKDEBOUNCEINTERVAL 400             // time in ms to considert next knock
 #define MAXKNOCKLINEARREGRESSIONLEARNS 4          // 90us each LR round
 
 #define MAXFLICKLOG 9                   // 9 samples @ 10ms master Sample Rate = 90ms to climb the flick  ** preciselly adjusted , do not touch
@@ -138,13 +138,13 @@ public:
   void setOpenedRedLinePercentage(uint8_t f, uint8_t pct);                        // set opened Percentage for individual finger
   bool getFclosedStatus(uint8_t f);                                               // return if the finger is still inside closed area
   bool getFopenedStatus(uint8_t f);                                               // return if the finger is still inside opened area
-  void setKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg); // set new stump treshold
-  void setKnockDebounceInterval(uint32_t val);                                    // set new stump debounce interval
+  void setKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg); // set new knock treshold
+  void setKnockDebounceInterval(uint32_t val);                                    // set new knock debounce interval
   void setFlickAllThreshold(float trs);                                           // set all new flick treshold
   void setFlickOpenedThreshold(uint8_t f, float trs);                             // set new finger positive flick treshold
   void setFlickClosedThreshold(uint8_t f, float trs);                             // set new  finger negative flick treshold
   void setFlickDebounceInterval(uint32_t val);                                    // set new flick  debounce interval
-  float getAZGlastKnock();                                                        // return last stump treshold
+  float getAZGlastKnock();                                                        // return last knock treshold
 
   // attach and detach
   void attachCallOnWideClosedFingerLittle(void (*onRise)(void));
@@ -210,22 +210,22 @@ private:
   String device_name = "BIONICSlave";                                           // default slave name
   float logF[MAXFINGERCHANNELS][MAXFLICKLOG] = {0};                             // log finger readings to apply  offset removal
   float flickThreshold[MAXFINGERCHANNELS][2] = {0};                             // flick activation limiar
-  float stumpVerticalPositiveThreshold = DEFKNOCKVERTICALPOSITIVETHRESHOLD;     // positive stump activation limiar
-  float stumpVerticalNegativeThreshold = DEFKNOCKVERTICALNEGATIVETHRESHOLD;     // negative stump activation limiar
-  float stumpHorizontalPositiveThreshold = DEFKNOCKHORIZONTALPOSITIVETHRESHOLD; // positive stump activation limiar
-  float stumpHorizontalNegativeThreshold = DEFKNOCKHORIZONTALNEGATIVETHRESHOLD; // negative stump activation limiar
-  float lastKnockAZG = 0;                                                       // last G value when stump was unlocked
+  float knockVerticalPositiveThreshold = DEFKNOCKVERTICALPOSITIVETHRESHOLD;     // positive knock activation limiar
+  float knockVerticalNegativeThreshold = DEFKNOCKVERTICALNEGATIVETHRESHOLD;     // negative knock activation limiar
+  float knockHorizontalPositiveThreshold = DEFKNOCKHORIZONTALPOSITIVETHRESHOLD; // positive knock activation limiar
+  float knockHorizontalNegativeThreshold = DEFKNOCKHORIZONTALNEGATIVETHRESHOLD; // negative knock activation limiar
+  float lastKnockAZG = 0;                                                       // last G value when knock was unlocked
   float smoothFactor = 0;                                                       // smooth factor received from MASTER
   float fixedSmoothCoeffToKnock = 0.05;                                         // smooth factor received from MASTER
-  float logAZG[MAXKNOCKLOG] = {0};                                              // last Accel Z G readings to compute stump
+  float logAZG[MAXKNOCKLOG] = {0};                                              // last Accel Z G readings to compute knock
   float logAZGsmoothed[MAXKNOCKLOG] = {0};                                      // smoothed accel Z G readings to define if the hand is in normal or twisted posiction
   float lastAGsmoothed[MAXACCELCHANNELS] = {0};                                 // smoothed RAW accels
   float lastAAngsmoothed[MAXACCELCHANNELS] = {0};                               // smoothed RAW accels
   float logAG[MAXACCELCHANNELS][MAXKNOCKLOG] = {0};                             // log all accel axles G readings to aplly offset removal
-  uint32_t stumpDebounceInterval = DEFKNOCKDEBOUNCEINTERVAL; // time in ms between to allowed stumps
-  uint32_t ts_lastKnock = 0;                                 // millis() + stumpInterval
-  uint32_t flickDebounceInterval = DEFFLICKDEBOUNCEINTERVAL; // time in ms between to allowed stumps
-  uint32_t ts_lastFlick = 0;                                 // millis() + stumpInterval
+  uint32_t knockDebounceInterval = DEFKNOCKDEBOUNCEINTERVAL; // time in ms between to allowed knocks
+  uint32_t ts_lastKnock = 0;                                 // millis() + knockInterval
+  uint32_t flickDebounceInterval = DEFFLICKDEBOUNCEINTERVAL; // time in ms between to allowed knocks
+  uint32_t ts_lastFlick = 0;                                 // millis() + knockInterval
   void receiveDataPack();                                    // receive BT serial string and split
   void callbackClosedFinger();                               // check if any finger reached closed area and callback them
   void callbackOpenedFinger();                               // check if any finger reached opened area and callback them
@@ -234,9 +234,9 @@ private:
   void callbackFlickLr();                                    // apply linear regression to 4 readings
   void updateNewLimits();                                    // compare if new readings are outside preset area and update to new ones
   void logAGremoveOffset();                                  // stores last MAXLOGs values of 3 G accell axle to eventually remove its offsets
-  void logAZGstump();                  // put new finger read into stump array
-  void callbackKnock();                // integrate ZG signal to find stump condition
-  void callbackKnockLr();              // integrate ZG signal to find stump condition
+  void logAZGknock();                  // put new finger read into knock array
+  void callbackKnock();                // integrate ZG signal to find knock condition
+  void callbackKnockLr();              // integrate ZG signal to find knock condition
   void updateClosedRedline(uint8_t f); // update individual closed finger area and recalculate all limits
   void updateOpenedRedline(uint8_t f); // update individual opened finger area and recalculate all limits
   void logAZGclear();
@@ -299,7 +299,7 @@ private:
   } record_accel;
   record_accel accel[MAXACCELCHANNELS];
   bool firstReading = true;
-  bool stumpAllowed = true;
+  bool knockAllowed = true;
   uint32_t turnOffLed = 0;
 };
 
