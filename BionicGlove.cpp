@@ -57,10 +57,8 @@ BionicGlove::BionicGlove()
 void BionicGlove::start()
 {
   ledOnAsync();
-  SerialBT.begin(device_name); // Bluetooth device name
-  // Serial.printf("The device with name \"%s\" is started.\nNow you can pair it with Bluetooth!\n", device_name.c_str());
+  SerialBT.begin(device_name);
   SerialBT.setPin(pin);
-  // Serial.print("Using PIN");
   on = true;
   ledOffAsync();
 }
@@ -69,29 +67,23 @@ uint32_t newprint;
 
 bool BionicGlove::read()
 {
-  uint32_t now;
+  //uint32_t now;
 
   ledOffAsync();
   if (SerialBT.available()) //@ each 10ms - MASTER defined
   {
     receiveDataPack();
     updateNewLimits();
-
     // now = micros();
-
     logFremoveOffset();
     logAZGstump();
-    // logAGremoveOffset();
-    // removeXGoffset();
     if (doneMs(ts_frozen, frozen))
     {
       callbackClosedFinger();
       callbackOpenedFinger();
       callbackFlickLr();
       callbackStumpLr();
-      // callbackStump();
     }
-
     // Serial.println(micros() - now);
 
     return true;
@@ -232,8 +224,8 @@ void BionicGlove::logFremoveOffset()
   // }
 }
 
-// apply linear regression to the 4 last finger readings
-// 350us
+// linear regression to the 4 items array finger readings ~ 350us
+// linear regression to the 3 items array finger readings ~ 270us
 void BionicGlove::callbackFlickLr()
 {
   if ((doneMs(ts_lastFlick, flickDebounceInterval)))
@@ -377,16 +369,6 @@ void BionicGlove::callbackFlick()
   }
 }
 
-// void BionicGlove::getAGOffset(uint8_t a)
-// {
-//   for (uint8_t i = 1; i < (MAXSTUMPLOG - 1); i++)
-//   {
-//     Serial.print(logAG[0][i] - logAG[0][0]);
-//     Serial.print(",");
-//   }
-//   Serial.println("");
-// }
-
 void BionicGlove::logAZGstump() // FILO
 {
   stumpAllowed = !stumpAllowed; // slow down Slave SR to (bionic glove master SR)/2
@@ -460,61 +442,6 @@ void BionicGlove::callbackStumpLr()
     }
   }
 }
-
-// old maths based on the accumulation of the difference between N and N-1 reading
-// void BionicGlove::callbackStump()
-// {
-//   float acc;
-//   if (doneMs(ts_lastStump, stumpDebounceInterval) && stumpAllowed)
-//   {
-//     acc = 0.0;
-//     for (uint8_t i = 1; i < MAXSTUMPLOG; i++)
-//     {
-//       acc += (logAZG[i] - logAZG[0]);
-//       if (abs(acc) > stumpPositiveThreshold)
-//       {
-//         ts_lastStump = millis();
-//         lastStumpAZG = logAZG[i];
-//         // hand twisted or not
-//         if (logAZGsmoothed[0] > 0.6) // && (abs(acc) > 2.5) // vertical
-//         {
-//           if (acc > 0) // if last integralled item is positive
-//           {
-//             // Serial.println("ver pos");
-//             callVerticalPositiveStump();
-//             logAZGclear();
-//             break;
-//           }
-//           else // if negative G integral
-//           {
-//             // Serial.println("ver neg");
-//             callVerticalNegativeStump();
-//             logAZGclear();
-//             break;
-//           }
-//         }
-//         else // horizontal
-//         {
-//           if (acc > 0) // if positive G integral
-//           {
-//             // Serial.println("hor pos");
-//             callHorizontalPositiveStump();
-//             logAZGclear();
-//             break;
-//           }
-//           else // if negative G integral
-//           {
-//             // Serial.println("hor neg");
-//             callHorizontalNegativeStump();
-//             logAZGclear();
-//             break;
-//           }
-//         }
-//         ledOnAsync();
-//       }
-//     }
-//   }
-// }
 
 void BionicGlove::updateNewLimits()
 {

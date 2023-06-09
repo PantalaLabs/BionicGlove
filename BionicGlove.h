@@ -222,7 +222,6 @@ private:
   float lastAGsmoothed[MAXACCELCHANNELS] = {0};                                 // smoothed RAW accels
   float lastAAngsmoothed[MAXACCELCHANNELS] = {0};                               // smoothed RAW accels
   float logAG[MAXACCELCHANNELS][MAXSTUMPLOG] = {0};                             // log all accel axles G readings to aplly offset removal
-  // float offsetedAG[MAXACCELCHANNELS];              // last G offseted value
   uint32_t stumpDebounceInterval = DEFSTUMPDEBOUNCEINTERVAL; // time in ms between to allowed stumps
   uint32_t ts_lastStump = 0;                                 // millis() + stumpInterval
   uint32_t flickDebounceInterval = DEFFLICKDEBOUNCEINTERVAL; // time in ms between to allowed stumps
@@ -235,7 +234,6 @@ private:
   void callbackFlickLr();                                    // apply linear regression to 4 readings
   void updateNewLimits();                                    // compare if new readings are outside preset area and update to new ones
   void logAGremoveOffset();                                  // stores last MAXLOGs values of 3 G accell axle to eventually remove its offsets
-  // void getAGOffset(uint8_t a);                     // get last offseted G value
   void logAZGstump();                  // put new finger read into stump array
   void callbackStump();                // integrate ZG signal to find stump condition
   void callbackStumpLr();              // integrate ZG signal to find stump condition
@@ -243,7 +241,6 @@ private:
   void updateOpenedRedline(uint8_t f); // update individual opened finger area and recalculate all limits
   void logAZGclear();
   void logFclear(uint8_t f); // clear all last finger readings
-  // void expandReadings();                           // map all fingers to full 12bit scale  !!gone inside to update Limits!!
   bool doneMs(uint32_t t0, uint32_t dt);
   bool doneUs(uint32_t t0, uint32_t dt);
   bool done(uint32_t t, uint32_t t0, uint32_t dt);
