@@ -14,33 +14,33 @@ void loop()
     if (millis() > nextRead)
     {
         nextRead = millis() + 30;
-        Serial.print(bionic.getF(RAW_F_INDEX));
+        Serial.print(bionic.getF(FINGER_INDEX));
         Serial.print(",");
-        Serial.print(bionic.getF(RAW_F_MIDDLE));
+        Serial.print(bionic.getF(FINGER_MIDDLE));
         Serial.print(",");
-        Serial.print(bionic.getF(RAW_F_RING));
+        Serial.print(bionic.getF(FINGER_RING));
         Serial.print(",");
-        Serial.print(bionic.getF(RAW_F_LITTLE));
+        Serial.print(bionic.getF(FINGER_LITTLE));
 
         Serial.print(",");
-        Serial.print(bionic.getClosedFingerStatus(RAW_F_INDEX));
+        Serial.print(bionic.getFclosedStatus(FINGER_INDEX));
         Serial.print(",");
-        Serial.print(bionic.getOpenedFingerStatus(RAW_F_INDEX));
+        Serial.print(bionic.getFopenedStatus(FINGER_INDEX));
 
         Serial.print(",");
-        Serial.print(bionic.getClosedFingerStatus(RAW_F_MIDDLE));
+        Serial.print(bionic.getFclosedStatus(FINGER_MIDDLE));
         Serial.print(",");
-        Serial.print(bionic.getOpenedFingerStatus(RAW_F_MIDDLE));
+        Serial.print(bionic.getFopenedStatus(FINGER_MIDDLE));
 
         Serial.print(",");
-        Serial.print(bionic.getClosedFingerStatus(RAW_F_RING));
+        Serial.print(bionic.getFclosedStatus(FINGER_RING));
         Serial.print(",");
-        Serial.print(bionic.getOpenedFingerStatus(RAW_F_RING));
+        Serial.print(bionic.getFopenedStatus(FINGER_RING));
 
         Serial.print(",");
-        Serial.print(bionic.getClosedFingerStatus(RAW_F_LITTLE));
+        Serial.print(bionic.getFclosedStatus(FINGER_LITTLE));
         Serial.print(",");
-        Serial.print(bionic.getOpenedFingerStatus(RAW_F_LITTLE));
+        Serial.print(bionic.getFopenedStatus(FINGER_LITTLE));
 
         // serial.print(","); // NUNCA USAR ÚLTIMA VIRGULA
         Serial.println("");

@@ -20,5 +20,5 @@ void setup()
 void loop()
 {
   bionic.read();
-  ledcWrite(PWM1_Ch, bionic.getRaw(RAW_F_LITTLE));
+  ledcWrite(PWM1_Ch, bionic.getRaw(FINGER_LITTLE));
 }

@@ -4,10 +4,10 @@ BionicGlove bionic;
 void setup()
 {
     Serial.begin(38400);
-    bionic.attachCallOnPosVerKnock(message1);
-    bionic.attachCallOnNegVerKnock(message2);
-    bionic.attachCallOnPosHorKnock(message3);
-    bionic.attachCallOnNegHorKnock(message4);
+    bionic.attachCallOnVerticalPositiveKnock(message1);
+    bionic.attachCallOnVerticalNegativeKnock(message2);
+    bionic.attachCallOnHorizontalPositiveKnock(message3);
+    bionic.attachCallOnHorizontalNegativeKnock(message4);
     bionic.start();
 }
 

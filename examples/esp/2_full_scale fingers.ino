@@ -11,13 +11,13 @@ void loop()
 {
     if (bionic.read())
     {
-        Serial.print(bionic.getF(RAW_F_INDEX));
+        Serial.print(bionic.getF(FINGER_INDEX));
         Serial.print(",");
-        Serial.print(bionic.getF(RAW_F_MIDDLE));
+        Serial.print(bionic.getF(FINGER_MIDDLE));
         Serial.print(",");
-        Serial.print(bionic.getF(RAW_F_RING));
+        Serial.print(bionic.getF(FINGER_RING));
         Serial.print(",");
         // serial.print(","); // NUNCA USAR ÚLTIMA VIRGULA
-        Serial.println(bionic.getF(RAW_F_LITTLE));
+        Serial.println(bionic.getF(FINGER_LITTLE));
     }
 }
