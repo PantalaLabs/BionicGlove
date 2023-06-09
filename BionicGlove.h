@@ -85,15 +85,15 @@ Z
 #define MAXPERCENTAGE 90        // opened fingers
 #define DEFREDLINEPERCENTAGE 15 // defaul for all fingers
 
-#define MAXPUNCHLOG 10                           // 10 samples @ 10ms master Sample Rate = 100ms to take a picture of the mountain ** preciselly adjusted , do not touch
-#define MINPUNCHTHRESHOLD 2                      // min value expected out of LR calcs
-#define MAXPUNCHTHRESHOLD 50.0                   // max value expected out of LR calcs
-#define DEFPUNCHVERTICALPOSITIVETHRESHOLD 15.0   //  ** preciselly adjusted , do not touch
-#define DEFPUNCHVERTICALNEGATIVETHRESHOLD 15.0   //  ** preciselly adjusted , do not touch
-#define DEFPUNCHHORIZONTALPOSITIVETHRESHOLD 13.0 //  ** preciselly adjusted , do not touch
-#define DEFPUNCHHORIZONTALNEGATIVETHRESHOLD 15.0 //  ** preciselly adjusted , do not touch
-#define DEFPUNCHDEBOUNCEINTERVAL 400             // time in ms to considert next stump
-#define MAXPUNCHLINEARREGRESSIONLEARNS 4          // 90us each LR round
+#define MAXKNOCKLOG 10                           // 10 samples @ 10ms master Sample Rate = 100ms to take a picture of the mountain ** preciselly adjusted , do not touch
+#define MINKNOCKTHRESHOLD 2                      // min value expected out of LR calcs
+#define MAXKNOCKTHRESHOLD 50.0                   // max value expected out of LR calcs
+#define DEFKNOCKVERTICALPOSITIVETHRESHOLD 15.0   //  ** preciselly adjusted , do not touch
+#define DEFKNOCKVERTICALNEGATIVETHRESHOLD 15.0   //  ** preciselly adjusted , do not touch
+#define DEFKNOCKHORIZONTALPOSITIVETHRESHOLD 13.0 //  ** preciselly adjusted , do not touch
+#define DEFKNOCKHORIZONTALNEGATIVETHRESHOLD 15.0 //  ** preciselly adjusted , do not touch
+#define DEFKNOCKDEBOUNCEINTERVAL 400             // time in ms to considert next stump
+#define MAXKNOCKLINEARREGRESSIONLEARNS 4          // 90us each LR round
 
 #define MAXFLICKLOG 9                   // 9 samples @ 10ms master Sample Rate = 90ms to climb the flick  ** preciselly adjusted , do not touch
 #define MINFLICKTHRESHOLD 0.5           // min value expected out of LR calcs
@@ -138,13 +138,13 @@ public:
   void setOpenedRedLinePercentage(uint8_t f, uint8_t pct);                        // set opened Percentage for individual finger
   bool getFclosedStatus(uint8_t f);                                               // return if the finger is still inside closed area
   bool getFopenedStatus(uint8_t f);                                               // return if the finger is still inside opened area
-  void setPunchThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg); // set new stump treshold
-  void setPunchDebounceInterval(uint32_t val);                                    // set new stump debounce interval
+  void setKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg); // set new stump treshold
+  void setKnockDebounceInterval(uint32_t val);                                    // set new stump debounce interval
   void setFlickAllThreshold(float trs);                                           // set all new flick treshold
   void setFlickOpenedThreshold(uint8_t f, float trs);                             // set new finger positive flick treshold
   void setFlickClosedThreshold(uint8_t f, float trs);                             // set new  finger negative flick treshold
   void setFlickDebounceInterval(uint32_t val);                                    // set new flick  debounce interval
-  float getAZGlastPunch();                                                        // return last stump treshold
+  float getAZGlastKnock();                                                        // return last stump treshold
 
   // attach and detach
   void attachCallOnWideClosedFingerLittle(void (*onRise)(void));
@@ -183,15 +183,15 @@ public:
   void attachCallOnFlickOpenedFingerIndex(void (*onRise)(void));
   void detachCallOnFlickOpenedFingerIndex();
 
-  void attachCallOnVerticalPositivePunch(void (*onRise)(void));
-  void detachCallOnVerticalPositivePunch();
-  void attachCallOnVerticalNegativePunch(void (*onRise)(void));
-  void detachCallOnVerticalNegativePunch();
+  void attachCallOnVerticalPositiveKnock(void (*onRise)(void));
+  void detachCallOnVerticalPositiveKnock();
+  void attachCallOnVerticalNegativeKnock(void (*onRise)(void));
+  void detachCallOnVerticalNegativeKnock();
 
-  void attachCallOnHorizontalPositivePunch(void (*onRise)(void));
-  void detachCallOnHorizontalPositivePunch();
-  void attachCallOnHorizontalNegativePunch(void (*onRise)(void));
-  void detachCallOnHorizontalNegativePunch();
+  void attachCallOnHorizontalPositiveKnock(void (*onRise)(void));
+  void detachCallOnHorizontalPositiveKnock();
+  void attachCallOnHorizontalNegativeKnock(void (*onRise)(void));
+  void detachCallOnHorizontalNegativeKnock();
 
 private:
  
@@ -210,20 +210,20 @@ private:
   String device_name = "BIONICSlave";                                           // default slave name
   float logF[MAXFINGERCHANNELS][MAXFLICKLOG] = {0};                             // log finger readings to apply  offset removal
   float flickThreshold[MAXFINGERCHANNELS][2] = {0};                             // flick activation limiar
-  float stumpVerticalPositiveThreshold = DEFPUNCHVERTICALPOSITIVETHRESHOLD;     // positive stump activation limiar
-  float stumpVerticalNegativeThreshold = DEFPUNCHVERTICALNEGATIVETHRESHOLD;     // negative stump activation limiar
-  float stumpHorizontalPositiveThreshold = DEFPUNCHHORIZONTALPOSITIVETHRESHOLD; // positive stump activation limiar
-  float stumpHorizontalNegativeThreshold = DEFPUNCHHORIZONTALNEGATIVETHRESHOLD; // negative stump activation limiar
-  float lastPunchAZG = 0;                                                       // last G value when stump was unlocked
+  float stumpVerticalPositiveThreshold = DEFKNOCKVERTICALPOSITIVETHRESHOLD;     // positive stump activation limiar
+  float stumpVerticalNegativeThreshold = DEFKNOCKVERTICALNEGATIVETHRESHOLD;     // negative stump activation limiar
+  float stumpHorizontalPositiveThreshold = DEFKNOCKHORIZONTALPOSITIVETHRESHOLD; // positive stump activation limiar
+  float stumpHorizontalNegativeThreshold = DEFKNOCKHORIZONTALNEGATIVETHRESHOLD; // negative stump activation limiar
+  float lastKnockAZG = 0;                                                       // last G value when stump was unlocked
   float smoothFactor = 0;                                                       // smooth factor received from MASTER
-  float fixedSmoothCoeffToPunch = 0.05;                                         // smooth factor received from MASTER
-  float logAZG[MAXPUNCHLOG] = {0};                                              // last Accel Z G readings to compute stump
-  float logAZGsmoothed[MAXPUNCHLOG] = {0};                                      // smoothed accel Z G readings to define if the hand is in normal or twisted posiction
+  float fixedSmoothCoeffToKnock = 0.05;                                         // smooth factor received from MASTER
+  float logAZG[MAXKNOCKLOG] = {0};                                              // last Accel Z G readings to compute stump
+  float logAZGsmoothed[MAXKNOCKLOG] = {0};                                      // smoothed accel Z G readings to define if the hand is in normal or twisted posiction
   float lastAGsmoothed[MAXACCELCHANNELS] = {0};                                 // smoothed RAW accels
   float lastAAngsmoothed[MAXACCELCHANNELS] = {0};                               // smoothed RAW accels
-  float logAG[MAXACCELCHANNELS][MAXPUNCHLOG] = {0};                             // log all accel axles G readings to aplly offset removal
-  uint32_t stumpDebounceInterval = DEFPUNCHDEBOUNCEINTERVAL; // time in ms between to allowed stumps
-  uint32_t ts_lastPunch = 0;                                 // millis() + stumpInterval
+  float logAG[MAXACCELCHANNELS][MAXKNOCKLOG] = {0};                             // log all accel axles G readings to aplly offset removal
+  uint32_t stumpDebounceInterval = DEFKNOCKDEBOUNCEINTERVAL; // time in ms between to allowed stumps
+  uint32_t ts_lastKnock = 0;                                 // millis() + stumpInterval
   uint32_t flickDebounceInterval = DEFFLICKDEBOUNCEINTERVAL; // time in ms between to allowed stumps
   uint32_t ts_lastFlick = 0;                                 // millis() + stumpInterval
   void receiveDataPack();                                    // receive BT serial string and split
@@ -235,8 +235,8 @@ private:
   void updateNewLimits();                                    // compare if new readings are outside preset area and update to new ones
   void logAGremoveOffset();                                  // stores last MAXLOGs values of 3 G accell axle to eventually remove its offsets
   void logAZGstump();                  // put new finger read into stump array
-  void callbackPunch();                // integrate ZG signal to find stump condition
-  void callbackPunchLr();              // integrate ZG signal to find stump condition
+  void callbackKnock();                // integrate ZG signal to find stump condition
+  void callbackKnockLr();              // integrate ZG signal to find stump condition
   void updateClosedRedline(uint8_t f); // update individual closed finger area and recalculate all limits
   void updateOpenedRedline(uint8_t f); // update individual opened finger area and recalculate all limits
   void logAZGclear();
@@ -266,10 +266,10 @@ private:
   void (*callFlickOpenedMiddle)(void);
   void (*callFlickOpenedIndex)(void);
 
-  void (*callVerticalPositivePunch)(void);
-  void (*callVerticalNegativePunch)(void);
-  void (*callHorizontalPositivePunch)(void);
-  void (*callHorizontalNegativePunch)(void);
+  void (*callVerticalPositiveKnock)(void);
+  void (*callVerticalNegativeKnock)(void);
+  void (*callHorizontalPositiveKnock)(void);
+  void (*callHorizontalNegativeKnock)(void);
 
   static void isrDefaultUnused(); // to dettach callbacks
 

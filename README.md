@@ -61,8 +61,8 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <tr>
 
 <tr>
-<td>hand punch</td>
-<td>configurable vertical/horizontal , positive/negative hand punch</td>
+<td>hand knock</td>
+<td>configurable vertical/horizontal , positive/negative hand knock</td>
 <td>value</td>
 <td>callback</td>
 </tr>
