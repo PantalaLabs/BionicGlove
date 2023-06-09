@@ -1,5 +1,7 @@
 - # BionicGlove
 
+## This is an early version of the readme and is constantly being updated!!!
+
 Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove that can control microcontrolled or not, devices , robots, mobile apps, desktop programs (like Ableton), games, art, entertainment, etc through the interpretation of their behaviors and movements.
 
 ### Prototype
@@ -66,3 +68,9 @@ Methods with parameters:
 ### Examples
 All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.
+
+### Ableton
+There is a Live4Max component called BionicGlove freely available. It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
+
+I´m developing a second component called BionicGlove Lite that will be smaller than the the above, and will receive the datapack directly from Serial Bluetooth and will cover only finger position and X/Y accel angles.
+
