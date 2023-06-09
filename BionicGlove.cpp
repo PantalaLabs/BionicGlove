@@ -1004,35 +1004,3 @@ bool BionicGlove::done(uint32_t t, uint32_t t0, uint32_t dt)
   return ((t >= t0) && (t - t0 >= dt)) ||     // normal case
          ((t < t0) && (t + (~t0) + 1 >= dt)); // overflow case
 }
-
-// void BionicGlove::simpLinReg(float myx[], float myy[], float lrC[], int n)
-// {
-//   //3 us
-//   // pass x and y arrays (pointers), lrCoef pointer, and n.
-//   // The lrCoef array is comprised of the slope=lrCoef[0] and intercept=lrCoef[1].
-//   // n is length of the x and y arrays.
-//   // http://en.wikipedia.org/wiki/Simple_linear_regression
-
-//   // initialize variables
-//   float xbar = 0;
-//   float ybar = 0;
-//   float xybar = 0;
-//   float xsqbar = 0;
-
-//   // calculations required for linear regression
-//   for (int i = 0; i < n; i++)
-//   {
-//     xbar = xbar + myx[i];
-//     ybar = ybar + myy[i];
-//     xybar = xybar + myx[i] * myy[i];
-//     xsqbar = xsqbar + myx[i] * myx[i];
-//   }
-//   xbar = xbar / n;
-//   ybar = ybar / n;
-//   xybar = xybar / n;
-//   xsqbar = xsqbar / n;
-
-//   // simple linear regression algorithm
-//   lrC[0] = (xybar - xbar * ybar) / (xsqbar - xbar * xbar);
-//   lrC[1] = ybar - lrC[0] * xbar;
-// }
