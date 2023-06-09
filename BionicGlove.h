@@ -125,7 +125,7 @@ public:
   bool active();                                                                  // return if BT is active
   void freeze(uint32_t ms);                                                       // freeze any callback for n ms
   void setLedBuiltIn();                                                           // use led built in to visual debug
-  String getSerialData();                                                         // return all serial data pack
+  String getSerialData();                                                         // return one line of serial data pack
   float getRaw(uint8_t raw);                                                      // get raw value from each one value at BT pack
   float getAGsmoothed(uint8_t axl);                                               // get smoothed accel G raw values
   float getAAngsmoothed(uint8_t axl);                                             // get smoothed accel Angle values

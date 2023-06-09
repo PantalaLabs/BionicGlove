@@ -11,7 +11,13 @@ The library creates an abstraction for the data received from the Bionic Glove a
 
 b) without the library: the user will be responsible for reading and interpreting the data received by the glove via Serial Bluetooth. You will need an BlueTooth compatiple dongle on your PC. Inside BionicGlove.h you will find the description of the data packet that the glove transmits. This is the alternative for advanced users.
 
-Library conventions:
+### Library dependencies:
+
+I use 2 math calculations in my code:
+1. EMA (https://en.wikipedia.org/wiki/Moving_average) : this one is implemented by a macro called ALPHAFILTER in the BionicGlove.h
+2. Linear regression (https://en.wikipedia.org/wiki/Linear_regression) : this one I call a library LinearRegression.h by https://github.com/cubiwan/Regressino . You will need to download and install this library too.
+
+### Library conventions:
 
 Methods with parameters:
 
@@ -50,6 +56,6 @@ Methods with parameters:
 6. any datatype val - any value inside the allowed range. Must read all library.
 7. float trs - refers to threshold parameters. You can use any value inside the allowed range. Must read all library.
 
-Examples
+### Examples
 All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.
