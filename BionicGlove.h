@@ -72,9 +72,9 @@ Z
 #define FINGER_RING 2
 #define FINGER_LITTLE 3
 
-#define AXL_A_X 0
-#define AXL_A_Y 1
-#define AXL_A_Z 2
+#define AXL_X 0
+#define AXL_Y 1
+#define AXL_Z 2
 
 #define AZGOFFSET 10.0
 

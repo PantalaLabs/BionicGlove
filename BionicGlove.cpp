@@ -116,37 +116,37 @@ void BionicGlove::receiveDataPack()
       finger[3].fingerRead = btDataPack[i].toInt();
       break;
     case 4:
-      accel[AXL_A_X].raw = btDataPack[i].toFloat();
+      accel[AXL_X].raw = btDataPack[i].toFloat();
       break;
     case 5:
-      accel[AXL_A_X].g = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAGsmoothed[AXL_A_X], accel[AXL_A_X].g, fixedSmoothCoeffToKnock);
+      accel[AXL_X].g = btDataPack[i].toFloat();
+      ALPHAFILTER(lastAGsmoothed[AXL_X], accel[AXL_X].g, fixedSmoothCoeffToKnock);
       break;
     case 6:
-      accel[AXL_A_X].ang = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAAngsmoothed[AXL_A_X], accel[AXL_A_X].ang, smoothFactor / 10);
+      accel[AXL_X].ang = btDataPack[i].toFloat();
+      ALPHAFILTER(lastAAngsmoothed[AXL_X], accel[AXL_X].ang, smoothFactor / 10);
       break;
     case 7:
-      accel[AXL_A_Y].raw = btDataPack[i].toFloat();
+      accel[AXL_Y].raw = btDataPack[i].toFloat();
       break;
     case 8:
-      accel[AXL_A_Y].g = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAGsmoothed[AXL_A_Y], accel[AXL_A_Y].g, fixedSmoothCoeffToKnock);
+      accel[AXL_Y].g = btDataPack[i].toFloat();
+      ALPHAFILTER(lastAGsmoothed[AXL_Y], accel[AXL_Y].g, fixedSmoothCoeffToKnock);
       break;
     case 9:
-      accel[AXL_A_Y].ang = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAAngsmoothed[AXL_A_Y], accel[AXL_A_Y].ang, smoothFactor / 10);
+      accel[AXL_Y].ang = btDataPack[i].toFloat();
+      ALPHAFILTER(lastAAngsmoothed[AXL_Y], accel[AXL_Y].ang, smoothFactor / 10);
       break;
     case 10:
-      accel[AXL_A_Z].raw = btDataPack[i].toFloat();
+      accel[AXL_Z].raw = btDataPack[i].toFloat();
       break;
     case 11:
-      accel[AXL_A_Z].g = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAGsmoothed[AXL_A_Z], accel[AXL_A_Z].g, fixedSmoothCoeffToKnock);
+      accel[AXL_Z].g = btDataPack[i].toFloat();
+      ALPHAFILTER(lastAGsmoothed[AXL_Z], accel[AXL_Z].g, fixedSmoothCoeffToKnock);
       break;
     case 12:
-      accel[AXL_A_Z].ang = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAAngsmoothed[AXL_A_Z], accel[AXL_A_Z].ang, smoothFactor / 10);
+      accel[AXL_Z].ang = btDataPack[i].toFloat();
+      ALPHAFILTER(lastAAngsmoothed[AXL_Z], accel[AXL_Z].ang, smoothFactor / 10);
       break;
     case 13:
       smoothFactor = btDataPack[i].toFloat();
@@ -380,7 +380,7 @@ void BionicGlove::logAZGknock() // FILO
       logAZGsmoothed[i] = logAZGsmoothed[i + 1];
     }
     logAZG[MAXKNOCKLOG - 1] = GETITEM(RAW_A_Z_G) + AZGOFFSET;
-    logAZGsmoothed[MAXKNOCKLOG - 1] = lastAGsmoothed[AXL_A_Z];
+    logAZGsmoothed[MAXKNOCKLOG - 1] = lastAGsmoothed[AXL_Z];
   }
 }
 

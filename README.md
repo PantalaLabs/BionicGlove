@@ -78,7 +78,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 
 #### Conventions:
 
-Methods with parameters. Every method has one kind of parameter. Be careful not to mix the types of parameters or unexpected results may happen.
+Every method has one kind of parameter. Be careful not to mix the types of parameters or unexpected results may happen.
 
 1. uint32_t ms - means millisseconds , you can use any unsigned long int number
 2. uint8_t raw - refers to any of the raw data received in the data packet. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "RAW_" :
@@ -98,11 +98,11 @@ Methods with parameters. Every method has one kind of parameter. Be careful not 
 - #define RAW_A_Z_DEG 12
 - #define RAW_SMOOTHFACTOR 13
 
-3. uint8_t axl - refers to any of the accelerometer axle. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "AXL_A_"
+3. uint8_t axl - refers to any of the accelerometer axle. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "AXL_"
 
-- #define AXL_A_X 0
-- #define AXL_A_Y 1
-- #define AXL_A_Z 2
+- #define AXL_X 0
+- #define AXL_Y 1
+- #define AXL_Z 2
 
 4. uint8_t f - refers to any of the fingers. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "FINGER_"
 
