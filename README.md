@@ -62,6 +62,20 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <tr>
 
 <tr>
+<td>accelerometers</td>
+<td>x and y axes accelerometers</td>
+<td>n/a</td>
+<td>2 - one value for each axle</td>
+</tr>
+
+<tr>
+<td>inclinometer</td>
+<td>x and y angles</td>
+<td>n/a</td>
+<td>2 - one value for each axle</td>
+</tr>
+
+<tr>
 <td>hand knock</td>
 <td>configurable vertical/horizontal , positive/negative hand knock</td>
 <td>value</td>
