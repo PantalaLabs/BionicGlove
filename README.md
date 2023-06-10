@@ -16,10 +16,9 @@ Here you will find usage tips and an ESP32 library to the Bionic Glove.
 
 There are two ways to use the glove.
 
-a) using the library in an ESP32: the user uses an ESP32 to receive the data and the library to create his sketches without worrying about the instance of communication and interpretation of the data. This is the alternative for all types of users including beginners.
-The library creates an abstraction for the data received from the Bionic Glove and implements several functionalities without the headache of complicated coding.
+a) with the library and an ESP32: create sketches without worrying about the instance of communication and interpretation of the data. This is the alternative for all types of users including beginners. The library creates an abstraction for the data received from the Bionic Glove and implements several functionalities without the headache of complicated coding.
 
-b) without the library: the user will be responsible for reading and interpreting the data received by the glove via Serial Bluetooth. You will need an Bluetooth compatible dongle on your PC. Inside BionicGlove.h you will find the description of the data packet that the glove transmits. This is the alternative for advanced users.
+b) without the library: the user will be responsible for receiving and interpreting the data received via Serial Bluetooth. You will need an Bluetooth compatible dongle on your computer. Inside BionicGlove.h you will find the description of the data pack sent by the glove. This is for advanced users.
 
 #### Movement/position recognition:
 
