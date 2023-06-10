@@ -85,9 +85,9 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 
 #### Dependencies:
 
-2 math calculations in my code:
+There are two mathematical calculations that are widely used in the library:
 1. EMA (https://en.wikipedia.org/wiki/Moving_average) : this one is implemented by a macro called ALPHAFILTER in the BionicGlove.h
-2. Linear Regression (https://en.wikipedia.org/wiki/Linear_regression) : this one I call a library LinearRegression.h by https://github.com/cubiwan/Regressino . You will need to download and install this library too.
+2. Linear Regression (https://en.wikipedia.org/wiki/Linear_regression) : this is a library LinearRegression.h by https://github.com/cubiwan/Regressino . You will need to download and install it too.
 
 #### Conventions:
 
@@ -125,7 +125,9 @@ Every method has one kind of parameter. Be careful not to mix the types of param
 - #define FINGER_LITTLE 3
 
 5. uint8_t pct - refers to any data that uses percentage. You can use any unsigned 8 bit number from 1 to 100 , if allowed
+
 6. any datatype val - any value inside the allowed range. Must read all library.
+
 7. float trs - refers to threshold parameters. You can use any value inside the allowed range. Must read all library.
 
 #### Examples
