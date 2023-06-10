@@ -34,7 +34,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 
 <tr>
 <td>finger position</td>
-<td>each of all 4 fingers absolute position</td>
+<td>each of all 4 fingers absolute position. It tracks every position of the finger</td>
 <td>n/a</td>
 <td>4 - one value for each finger</td>
 </tr>
@@ -47,14 +47,14 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 
 </tr>
 <td>finger flick</td>
-<td>everytime a high acceleration is reached when opening or closing a finger, like a flick, you can trigger a callback</td>
+<td>everytime a high acceleration is reached when opening or closing a finger, like a flick, you can trigger a callback everytime a flick reaches a threshold</td>
 <td>value</td>
-<td>8 - one callback for each finger at opening or closing</td>
+<td>8 - one callback for each finger at opening or closing threshold</td>
 </tr>
 
 <tr>
 <td>finger limits</td>
-<td>configurable finger wide closed and/or opened limits</td>
+<td>everytime a finger reaches a position wide closed and/or opened, you can trigger a callback. the limits are configurable </td>
 <td>percentage</td>
 <td>8 - one callback for each finger at wide open or wide close</td>
 </tr>
@@ -76,7 +76,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 
 <tr>
 <td>hand knock</td>
-<td>configurable vertical/horizontal , positive/negative hand knock</td>
+<td>everytime you simulate a knock, like a door knock, you create a trigger inside the library. The knock can be in a horizontal or a vertical orientation and positive (up or right) and/or negative (down or left) way</td>
 <td>value</td>
 <td>4 - one callback for each vertical/horizontal , positive/negative </td>
 </tr>
