@@ -180,7 +180,7 @@ A second component called BionicGlove Lite is in the way. It will be smaller tha
 
 ##### Max4Live <-> Ableton
 
-By default Max4Live will not map controls directly to Ableton. But there is a way to create a new Control Surface like any other Midi Controller and map thru a MIDI loop:
+By default Max4Live will not map controls directly to Ableton. But there is a way to create a new Control Surface like any other Midi Controller and map thru a MIDI loop / virtual MIDI:
 
 WINDOWS / LoopMIDI
 
