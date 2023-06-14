@@ -17,18 +17,20 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 ![prototype](/pictures/IMG-0933-small.jpg) |
 ![prototype](/pictures/IMG-0934-small.jpg)
 
-### Comunication
+### Comunication setup
 
 There are two ways to use the glove.
 
 a) with the library and an ESP32: create sketches without worrying about the instance of communication and interpretation of the data. This is the alternative for all types of users including beginners. The library creates an abstraction for the data received from the Bionic Glove and implements several functionalities without the headache of complicated coding.
 
 All applications will read from any COM dinamically assigned to EP32. COM20 in this example:
+
 ![esp_cycle](/pictures/serial_esp_cycle.jpg) 
 
-b) without the library: the user will be responsible for receiving and interpreting the data received via Serial Bluetooth. You will need an Bluetooth compatible dongle on your computer. Inside BionicGlove.h you will find the description of the data pack sent by the glove. This is for advanced users.
+b) without the library: the user will be responsible for receiving and manage all the data received via Serial Bluetooth. You will need an Bluetooth compatible dongle on your computer. Inside BionicGlove.h you will find the description of the data pack sent by the glove. This is for advanced users.
 
 All applications will read from any COM dinamically assigned to BT Dongle. COM24 or COM25 or COM26 in this example:
+
 ![esp_cycle](/pictures/serial_dongle_cycle.jpg) 
 
 
