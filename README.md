@@ -170,7 +170,7 @@ A second component called BionicGlove Lite is in the way. It will be smaller tha
 
 ##### Max4Live <-> Ableton
 
-By default Max4Live does not map MIDI straight to Ableton. But there is a solution:
+By default Max4Live will not map controls directly to Ableton. But there is a way to create a new Control Surface like any other Midi Controller and map thru a MIDI loop:
 
 WINDOWS / LoopMIDI
 
@@ -182,7 +182,7 @@ In this situation the M4L component will send a MIDI message to LoopMIDI and Abl
 
 ![midiloop](/pictures/midiloop1.png)
 
-3. Now send the MAX4Live signal to M4L midiloop port
+3. Now send the MAX4Live signal to M4L midiloop port. After that, Ableton will be capable to listen any message sent by BionicGlove.
 
 ![midiloop](/pictures/midiloop2.png)
 
