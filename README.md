@@ -29,7 +29,7 @@ All applications will read from any COM dinamically assigned to EP32. COM20 in t
 
 b) without the library: the user will be responsible for receiving and manage all the data received via Serial Bluetooth. You will need an Bluetooth compatible dongle on your computer. Inside BionicGlove.h you will find the description of the data pack sent by the glove. This is for advanced users.
 
-All applications will read from any COM dinamically assigned to BT Dongle. COM24 or COM25 or COM26 in this example:
+All applications will read from any COM dinamically assigned to Bluetooth Dongle. COM24 or COM25 or COM26 in this example:
 
 ![esp_cycle](/pictures/serial_dongle_cycle.jpg) 
 
