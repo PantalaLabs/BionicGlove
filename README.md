@@ -177,7 +177,7 @@ Even the most difficult one is a very simple esketch with a few lines.
 5. now the Bionic Glove will try to connect to the ESP32 Receiver. At this moment the blue led at Bionic Glove may start blinking fast, indicating that the ESP32 Receiver should already be on and waiting to be paired. The blue led will stop blinking as soon as the two devices are paired;
 6. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
 
-#### Dongle Setup
+#### Dongle Receiver
 1. connect the Dongle to an USB port;
 2. turn on Bionic Glove with tactile switch 1 pressed (this will ignore pairing procedure)
 3. pay attention to the blue led. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer;
