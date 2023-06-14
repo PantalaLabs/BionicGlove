@@ -161,8 +161,16 @@ All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.
 .
 
+.
+
+.
+
+.
+
+.
+
 #### ESP + ESP Setup
-1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port (take a note of this number);
+1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port (take a note of this port number);
 2. disconnect UART port from ESP32 Receiver unit;
 3. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port. It is weak and can be damaged when Bluetooth is turned on;
 4. turn on Bionic Glove;
