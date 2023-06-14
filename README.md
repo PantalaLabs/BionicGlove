@@ -173,16 +173,26 @@ How to initialize the ESP + ESP setup.
 
 #### Putty
 
-PuTTY is an SSH and telnet client for the Windows platform. https://www.putty.org/ . 
+PuTTY is an SSH and telnet client for the Windows platform. https://www.putty.org/ .
+
 Download and install.
+
 Run it and check this configuration:
+
 ![putty1](/pictures/putty.png) 
-Serial line : the same you used to upload the sketch.
+
+Serial line : the same you used to upload the sketch (Setup ESP + ESP / step 1)
+
 Speed: 38400
+
 Connection type: Serial
+
 You can save tour configuration for later tests or just Open.
+
 Now, a black windows should appear with all data sent by the glove.
+
 ![putty2](/pictures/putty2.png)
+
 If the data do not appear, you must start a troubleshot routine to find the missing link.
 
 
