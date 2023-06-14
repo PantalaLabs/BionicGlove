@@ -28,13 +28,13 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 
 There are two ways to use the glove.
 
-a) with the library and an ESP32: create sketches without worrying about the instance of communication and interpretation of the data. This is the alternative for all types of users including beginners. The library creates an abstraction for the data received from the Bionic Glove and implements several functionalities without the headache of complicated coding.
+a) ESP32 Receiver (+library): create sketches without worrying about the instance of communication and interpretation of the data. This is the alternative for all types of users including beginners. The library creates an abstraction for the data received from the Bionic Glove and implements several functionalities without the headache of complicated coding.
 
 All applications will read from any COM dinamically assigned to EP32. COM20 in this example:
 
 ![esp_cycle](/pictures/serial_esp_cycle.jpg) 
 
-b) without the library: the user will be responsible for receiving and manage all the data received via Serial Bluetooth. You will need an Bluetooth compatible dongle on your computer. Inside BionicGlove.h you will find the description of the data pack sent by the glove. This is for advanced users.
+b) Bluetooth Dongle: the user will be responsible for receiving and manage all the data received via Serial Bluetooth. You will need an Bluetooth compatible dongle on your computer. Inside BionicGlove.h you will find the description of the data pack sent by the glove. This is for advanced users.
 
 All applications will read from any COM dinamically assigned to Bluetooth Dongle. COM24 or COM25 or COM26 in this example:
 
@@ -161,15 +161,22 @@ All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.
 .
 
-#### Setup ESP + ESP
-How to initialize the ESP + ESP setup.
-1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port;
+#### ESP + ESP Setup
+1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port (take a note of this number);
 2. disconnect UART port from ESP32 Receiver unit;
-3. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port. It is weak and can be damaged when Bluetooth is turned on.
-4. turn on Bionic Glove.
-5. pay attention to the blue led. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer.
-6. now the Bionic Glove will try to connect to the ESP32 Receiver. At this moment the blue led at Bionic Glove may start blinking fast, indicating that the ESP32 should already be on and waiting to be paired. The blue led will stop blinking as soon as the two devices are paired.
+3. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port. It is weak and can be damaged when Bluetooth is turned on;
+4. turn on Bionic Glove;
+5. pay attention to the blue led. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer;
+6. now the Bionic Glove will try to connect to the ESP32 Receiver. At this moment the blue led at Bionic Glove may start blinking fast, indicating that the ESP32 should already be on and waiting to be paired. The blue led will stop blinking as soon as the two devices are paired;
 7. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
+
+#### Dongle Setup
+1. connect the Dongle to an USB port;
+2. turn on Bionic Glove with tactile switch 1 pressed (this will ignore pairing procedure)
+3. pay attention to the blue led. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer;
+4. now the Bionic Glove will connect to the Dongle;
+5. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
+
 
 #### Putty
 
@@ -177,11 +184,11 @@ PuTTY is an SSH and telnet client for the Windows platform. https://www.putty.or
 
 Download and install.
 
-Run it and check this configuration:
+Run it and repeat this configuration:
 
 ![putty1](/pictures/putty.png) 
 
-Serial line : the same you used to upload the sketch (Setup ESP + ESP / step 1)
+Serial line : if you are using ESP + ESP Setup , go to step 1 and write the same port. If you are using Dongle Setup, choose one of the available com ports (in my case COM26). You have to try all 3 available. 
 
 Speed: 38400
 
@@ -189,7 +196,7 @@ Connection type: Serial
 
 You can save tour configuration for later tests or just Open.
 
-Now, a black windows should appear with all data sent by the glove.
+Now, a black window should appear with all data sent by the glove.
 
 ![putty2](/pictures/putty2.png)
 
