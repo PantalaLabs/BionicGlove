@@ -6,8 +6,8 @@
  * You are free to use it, change it or build on it. In case you like
  * it, it would be cool if you give it a star.
  *
- * If you find bugs, please open an Issue  https://github.com/PantalaLabs/BionicGlove
- * If you want new features , please open a Pull Request at https://github.com/PantalaLabs/BionicGlove
+* If you find bugs, please open an Issue  https://github.com/PantalaLabs/BionicGlove
+* If you want new features , please open a Issue with title Feature Request at https://github.com/PantalaLabs/BionicGlove
  *
  * Gibran Curtiss Salomão 2023
  * http://www.pantalalabs.com

@@ -1,6 +1,13 @@
 - # BionicGlove
 
-## This is an early version of the readme and constantly being updated. All content is still being organized.
+## This is an early version of the readme and constantly being updated.
+All content is still being organized.
+
+Please : 
+* If you find bugs, please open an Issue.
+* If you want new features , please open a Issue with title "Feature Request
+![prototype](/pictures/issue.png)
+
 
 Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove that can control microcontrolled or not, devices , robots, mobile apps, desktop programs (like Ableton), games, art, entertainment, etc through the interpretation of their behaviors and movements.
 
