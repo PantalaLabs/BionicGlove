@@ -5,7 +5,7 @@ All content is still being organized.
 
 Please : 
 * If you find bugs, please open an Issue.
-* If you want new feature in mind, please open a Issue with title "Feature Request
+* If you want new feature in mind, please open a Issue with title "Feature Request".
 ![prototype](/pictures/issue.png)
 
 
