@@ -160,10 +160,15 @@ Every method has one kind of parameter. Be careful not to mix the types of param
 All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.
 .
+
 .
+
 .
+
 .
+
 .
+
 
 #### Ableton
 There is a Max4Live component called BionicGlove freely available. It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
