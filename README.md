@@ -24,7 +24,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 ![prototype](/pictures/IMG-0933-small.jpg) |
 ![prototype](/pictures/IMG-0934-small.jpg)
 
-### Comunication hardware
+### Comunication modes
 
 There are two ways to use the glove.
 
@@ -159,6 +159,11 @@ Every method has one kind of parameter. Be careful not to mix the types of param
 #### Examples
 All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.
+.
+.
+.
+.
+.
 
 #### Ableton
 There is a Max4Live component called BionicGlove freely available. It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
