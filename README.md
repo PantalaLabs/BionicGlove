@@ -22,7 +22,7 @@ a) with the library and an ESP32: create sketches without worrying about the ins
 
 b) without the library: the user will be responsible for receiving and interpreting the data received via Serial Bluetooth. You will need an Bluetooth compatible dongle on your computer. Inside BionicGlove.h you will find the description of the data pack sent by the glove. This is for advanced users.
 
-![glove](/pictures/IMG-0911.jpg) --> ![bt](/pictures/btc.png) --> ![esp](/pictures/dongle.jpg) --> ![pc](/pictures/pca.jpg) --> ![processing](/pictures/Proc.png)
+![glove](/pictures/IMG-0911.jpg) --> ![bt](/pictures/btc.png) --> ![esp](/pictures/dongle.jpg) --> serial Bluetooth --> ![pc](/pictures/pca.jpg) --> ![processing](/pictures/Proc.png)
 
 
 #### Movement/position recognition:
