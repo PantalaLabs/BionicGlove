@@ -161,6 +161,33 @@ All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.
 .
 
+#### Setup ESP + ESP
+How to initialize the ESP + ESP setup.
+1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port;
+2. disconnect UART port from ESP32 Receiver unit;
+3. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port. It is weak and can be damaged when Bluetooth is turned on.
+4. turn on Bionic Glove.
+5. pay attention to the blue led. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer.
+6. now the Bionic Glove will try to connect to the ESP32 Receiver. At this moment the blue led at Bionic Glove may start blinking fast, indicating that the ESP32 should already be on and waiting to be paired. The blue led will stop blinking as soon as the two devices are paired.
+7. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
+
+#### Putty
+
+PuTTY is an SSH and telnet client for the Windows platform. https://www.putty.org/ . 
+Download and install.
+Run it and check this configuration:
+![putty1](/pictures/putty.png) 
+Serial line : the same you used to upload the sketch.
+Speed: 38400
+Connection type: Serial
+You can save tour configuration for later tests or just Open.
+Now, a black windows should appear with all data sent by the glove.
+![putty2](/pictures/putty2.png)
+If the data do not appear, you must start a troubleshot routine to find the missing link.
+
+
+
+
 .
 
 .
