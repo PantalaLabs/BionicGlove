@@ -867,13 +867,13 @@ void BionicGlove::setKnockThreshold(float val_verPos, float val_verNeg, float va
 {
   // discard out of range values
   if ((val_verPos > MINKNOCKTHRESHOLD) && (val_verPos < MINKNOCKTHRESHOLD))
-    knockVerticalPositiveThreshold = constrain(verPos, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
+    knockVerticalPositiveThreshold = constrain(val_verPos, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
   if ((val_verNeg > MINKNOCKTHRESHOLD) && (val_verNeg < MINKNOCKTHRESHOLD))
-    knockVerticalNegativeThreshold = constrain(verNeg, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
+    knockVerticalNegativeThreshold = constrain(val_verNeg, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
   if ((val_horPos > MINKNOCKTHRESHOLD) && (val_horPos < MINKNOCKTHRESHOLD))
-    knockHorizontalPositiveThreshold = constrain(horPos, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
+    knockHorizontalPositiveThreshold = constrain(val_horPos, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
   if ((val_horNeg > MINKNOCKTHRESHOLD) && (val_horNeg < MINKNOCKTHRESHOLD))
-    knockHorizontalNegativeThreshold = constrain(horNeg, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
+    knockHorizontalNegativeThreshold = constrain(val_horNeg, MINKNOCKTHRESHOLD, MAXKNOCKTHRESHOLD);
 }
 
 void BionicGlove::setFlickAllThreshold(float trs)

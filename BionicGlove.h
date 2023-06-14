@@ -277,8 +277,8 @@ private:
   {
     int16_t fingerRead = 0;              // raw finger read value
     int16_t expanded = 0;                // raw finger read value
-    int16_t closedMinValue = 100;        // stores maximum closed value
-    int16_t openedMaxValue = 1000;       // stores minimum opened value
+    int16_t closedMinValue = 1000;        // stores maximum closed value
+    int16_t openedMaxValue = 2000;       // stores minimum opened value
     uint8_t closedRedLinePercentage = 0; // percent value set by user to calculate internal closed critical area
     uint8_t openedRedLinePercentage = 0; // percent value set by user to calculate internal iopened critical area
     uint16_t closedRedLineIn = 0;        // internal closed critical value
