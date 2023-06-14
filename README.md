@@ -154,9 +154,30 @@ All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.
 
 #### Ableton
-There is a Live4Max component called BionicGlove freely available. It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
+There is a Max4Live component called BionicGlove freely available. It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
+A second component called BionicGlove Lite is in the way. It will be smaller than the the above, receive the datapack directly from Serial Bluetooth and cover only finger position and X/Y accelerometer angles.
+
 
 ![ableton](/pictures/bgableton.png)
 
-A second component called BionicGlove Lite is in the way. It will be smaller than the the above, receive the datapack directly from Serial Bluetooth and cover only finger position and X/Y accelerometer angles.
+
+##### Max4Live <-> Ableton
+
+By default Max4Live does not map MIDI straight to Ableton. But there is a solution:
+
+WINDOWS / LoopMIDI
+
+In this situation the M4L component will send a MIDI message to LoopMIDI and Ableton will receive thru MIDI From/All Ins.
+
+1. Download and install https://www.tobias-erichsen.de/software/loopmidi.html
+
+2. Configure a new LoopMIDI port name. Ex : M4L
+
+![midiloop](/pictures/midiloop1.png)
+
+3. Now send the MAX4Live signal to M4L midiloop port
+
+![midiloop](/pictures/midiloop2.png)
+
+
 
