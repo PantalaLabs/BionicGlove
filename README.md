@@ -17,7 +17,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 ![prototype](/pictures/IMG-0933-small.jpg) |
 ![prototype](/pictures/IMG-0934-small.jpg)
 
-### Comunication setup
+### Comunication hardware
 
 There are two ways to use the glove.
 
@@ -33,6 +33,7 @@ All applications will read from any COM dinamically assigned to BT Dongle. COM24
 
 ![esp_cycle](/pictures/serial_dongle_cycle.jpg) 
 
+REMEMBER : there is no delay in using ESP + Library instead of Serial Bluetooth. The processing time consumed by ESP + Library are much smaller than the interval between messages sent by the glove.
 
 ### Library
 
