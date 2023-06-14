@@ -7,12 +7,14 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 ### Prototype
 
 4th proto
-![prototype](/pictures/IMG-0911.jpg)
-![prototype](/pictures/IMG-0912.jpg)
+
+![prototype](/pictures/IMG-0911.jpg) |
+![prototype](/pictures/IMG-0912.jpg) |
 ![prototype](/pictures/IMG-0913.jpg)
 
 5th proto
-![prototype](/pictures/IMG-0933-small.jpg)
+
+![prototype](/pictures/IMG-0933-small.jpg) |
 ![prototype](/pictures/IMG-0934-small.jpg)
 
 ### Library
