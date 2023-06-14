@@ -179,6 +179,7 @@ In this situation the M4L component will send a MIDI message to LoopMIDI and Abl
 
 ![midiloop](/pictures/midiloop2.png)
 
-4. Right-click on the BionicGlove control you want to map, and choose the EDIT MIDI MAP option. Do the mappint o the slave control.
+4. Right-click on the BionicGlove control you want to map, and choose the EDIT MIDI MAP option. Do the mapping to the slave control.
 
+![midiloop](/pictures/midiloop3.png)
 
