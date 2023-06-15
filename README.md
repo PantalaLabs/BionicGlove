@@ -212,7 +212,7 @@ Now, a black window should appear with all data sent by the glove.
 
 ![putty2](/pictures/putty2.png)
 
-If the data does not appear, you must start a troubleshot routine to find the missing link.
+If the data do not appear, you must start a troubleshot routine to find the missing link.
 
 
 
