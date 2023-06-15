@@ -196,7 +196,7 @@ Follow the steps to wear it. Do the steps in reverse to unwear:
 
 ![wear](/pictures/wear-little.mp4) 
 
-![wear](/pictures/wear-.mov) 
+![wear](/pictures/wear.mov) 
 
 
 ### How to Connect
