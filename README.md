@@ -29,7 +29,7 @@ Electronic parts:
 ![prototype](/pictures/pcb.png)
 
 
-### Comunication modes
+### Choosing the best mode of communication for your needs 
 
 There are two ways to use the glove.
 
@@ -45,7 +45,9 @@ All applications will read from any COM dinamically assigned to Bluetooth Dongle
 
 ![esp_cycle](/pictures/serial_dongle_cycle.jpg) 
 
-REMEMBER : there is no delay in using ESP + Library instead of Serial Bluetooth. The processing time consumed by ESP + Library are much smaller than the interval between messages sent by the glove.
+note 1 - there is no delay in using ESP + Library instead of Serial Bluetooth. The processing time consumed by ESP + Library are much smaller than the interval between messages sent by the glove.
+note 2 - both modes will be covered ahead
+
 
 ### Library
 
