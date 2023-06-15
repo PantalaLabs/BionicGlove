@@ -228,7 +228,7 @@ Look how different is from Dongle
 ![putty3](/pictures/putty3.png)
 
 
-If the data do not appear, you must start a troubleshot routine to find the missing link.
+If the data do not appear, you must start a troubleshot routine to find where is the missing link.
 
 
 
