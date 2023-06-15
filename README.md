@@ -219,7 +219,14 @@ You can save tour configuration for later tests or just Open.
 
 Now, a black window should appear with all data sent by the glove.
 
+This is the datapack sent by ESP32 Receiver + Library
+
 ![putty2](/pictures/putty2.png)
+
+Look how different if from Dongle
+
+![putty3](/pictures/putty3.png)
+
 
 If the data do not appear, you must start a troubleshot routine to find the missing link.
 
