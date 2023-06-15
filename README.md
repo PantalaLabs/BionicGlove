@@ -223,7 +223,7 @@ This is the datapack sent by ESP32 Receiver + Library
 
 ![putty2](/pictures/putty2.png)
 
-Look how different if from Dongle
+Look how different is from Dongle
 
 ![putty3](/pictures/putty3.png)
 
