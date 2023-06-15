@@ -61,6 +61,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>description</td>
 <td>parameter</td>
 <td>response</td>
+<td>range</td>
 </tr>
 
 <tr>
@@ -68,6 +69,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>each of all 4 fingers absolute position. It tracks every position of the finger</td>
 <td>n/a</td>
 <td>4 - one value for each finger</td>
+<td>0-4095</td>
 </tr>
 
 <tr>
@@ -75,12 +77,15 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>regardless of the position of the fingers, when moving, it generates an acceleration. which increases when you start the movement and decreases as the finger returns to rest</td>
 <td>n/a</td>
 <td>4 - one value for each finger</td>
-
+<td>0.0 - 4.0</td>
 </tr>
+
+<tr>
 <td>finger flick</td>
 <td>everytime a high acceleration is reached when opening or closing a finger, like a flick, you can trigger a callback everytime a flick reaches a threshold</td>
 <td>value</td>
 <td>8 - one callback for each finger at opening or closing threshold</td>
+<td>true / false</td>
 </tr>
 
 <tr>
@@ -88,6 +93,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>everytime a finger reaches a position wide closed and/or opened, you can trigger a callback. the limits are configurable </td>
 <td>percentage</td>
 <td>8 - one callback for each finger at wide open or wide close</td>
+<td>true / false</td>
 </tr>
 <tr>
 
@@ -96,6 +102,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>x and y axes accelerometers</td>
 <td>n/a</td>
 <td>2 - one value for each axle</td>
+<td>0.0 to 3.0</td>
 </tr>
 
 <tr>
@@ -103,6 +110,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>x and y angles</td>
 <td>n/a</td>
 <td>2 - one value for each axle</td>
+<td>0 to 180 degrees</td>
 </tr>
 
 <tr>
@@ -110,6 +118,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>everytime you simulate a knock, like a door knock, you create a trigger inside the library. The knock can be in a horizontal or a vertical orientation and positive (up or right) and/or negative (down or left) way</td>
 <td>value</td>
 <td>4 - one callback for each vertical/horizontal , positive/negative </td>
+<td>true / false</td>
 </tr>
 
 </table>
