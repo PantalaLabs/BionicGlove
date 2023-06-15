@@ -8,9 +8,6 @@ Please :
 * If you have a new feature in mind, please open a Issue with title "Feature Request".
 ![prototype](/pictures/issue.png)
 
-https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af9a-d0ecc8897eee
-
-
 Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove that can control microcontrolled or not, devices , robots, mobile apps, desktop programs (Ableton, Processing, etc), games, art installations, entertainment, etc through the interpretation of their behaviors and movements.
 
 ### Prototypes
