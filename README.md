@@ -185,7 +185,14 @@ Even the most difficult one is a very simple esketch with a few lines.
 .
 
 .
-### How to use
+### How to Wear
+
+Follow the steps to wear it. Do the steps in reverse to unwear.
+
+![wear](/pictures/wear.MOV) 
+
+
+### How to Connect
 #### ESP Receiver
 1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port (take a note of this port number);
 2. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port alone. It is weak and can be damaged when Bluetooth is turned on;
