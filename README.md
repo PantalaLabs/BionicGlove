@@ -184,7 +184,7 @@ Even the most difficult one is a very simple esketch with a few lines.
 
 #### Dongle Receiver
 1. connect the Dongle to an USB port;
-2. turn on Bionic Glove with tactile switch 1 pressed (this will ignore pairing procedure)
+2. turn on Bionic Glove with tactile switch 1 pressed (this will ignore pin pairing procedure)
 3. pay attention to the blue led. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer. You can release the switch 1 anytime here;
 4. now the Bionic Glove will connect to the Dongle;
 5. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
@@ -212,7 +212,7 @@ Now, a black window should appear with all data sent by the glove.
 
 ![putty2](/pictures/putty2.png)
 
-If the data do not appear, you must start a troubleshot routine to find the missing link.
+If the data does not appear, you must start a troubleshot routine to find the missing link.
 
 
 
