@@ -194,6 +194,7 @@ Follow the steps to wear it. Do the steps in reverse to unwear:
 4. tight the velcros;
 5. adjust so that the notches joining got exactly perpendicular to the glove support plate.
 
+https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af9a-d0ecc8897eee
 
 
 ### How to Connect
