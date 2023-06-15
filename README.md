@@ -187,7 +187,12 @@ Even the most difficult one is a very simple esketch with a few lines.
 .
 ### How to Wear
 
-Follow the steps to wear it. Do the steps in reverse to unwear.
+Follow the steps to wear it. Do the steps in reverse to unwear:
+1. lay the glove on an upside down table;
+2. wear from the little finger towards the index finger;
+3. place hand and glove vertically;
+4. tight the velcros;
+5. adjust so that the notches joining got exactly perpendicular to the glove support plate.
 
 ![wear](/pictures/wear.mp4) 
 
