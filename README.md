@@ -199,7 +199,7 @@ https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af
 ### How to Connect
 #### ESP Receiver
 1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port (take a note of this port number);
-2. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port alone. It is weak and can be damaged when Bluetooth is turned on;
+2. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port alone. It is weak and can be damaged when Bluetooth is turned on or Bluetooth does not receive enough power to start;
 3. turn on Bionic Glove;
 4. pay attention to the blue led on Bionic Glove. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer;
 5. now the Bionic Glove will try to connect to the ESP32 Receiver. At this moment the blue led at Bionic Glove may start blinking fast, indicating that the ESP32 Receiver should already be on and waiting to be paired. The blue led will stop blinking as soon as the two devices are paired;
