@@ -25,6 +25,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 ![prototype](/pictures/IMG-0934-small.jpg)
 
 Electronic parts:
+
 ![prototype](/pictures/pcb.png)
 
 
