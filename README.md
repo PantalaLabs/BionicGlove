@@ -196,7 +196,6 @@ Follow the steps to wear it. Do the steps in reverse to unwear:
 
 ![wear](/pictures/wear.mov) 
 
-
 ### How to Connect
 #### ESP Receiver
 1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port (take a note of this port number);
