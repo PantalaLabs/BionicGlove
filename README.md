@@ -194,7 +194,7 @@ Follow the steps to wear it. Do the steps in reverse to unwear:
 4. tight the velcros;
 5. adjust so that the notches joining got exactly perpendicular to the glove support plate.
 
-![wear](/pictures/wear.mov) 
+![wear](/pictures/wear-little.mp4) 
 
 ### How to Connect
 #### ESP Receiver
