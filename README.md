@@ -195,6 +195,7 @@ Follow the steps to wear it. Do the steps in reverse to unwear:
 5. adjust so that the notches joining got exactly perpendicular to the glove support plate.
 
 ![wear](/pictures/wear.mp4) 
+![wear](/pictures/wear.gif) 
 
 
 ### How to Connect
