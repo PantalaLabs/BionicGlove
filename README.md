@@ -100,7 +100,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <tr>
 
 <tr>
-<td>accelerometers</td>
+<td>accelerometer</td>
 <td>x and y axes accelerometers</td>
 <td>n/a</td>
 <td>2 - one value for each axle</td>
