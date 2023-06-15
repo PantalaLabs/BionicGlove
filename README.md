@@ -191,7 +191,7 @@ Follow the steps to wear it. Do the steps in reverse to unwear:
 2. wear from the little finger towards the index finger;
 3. place hand and glove vertically;
 4. tight the velcros;
-5. adjust so that the notches joining got exactly perpendicular to the glove support plate.
+5. adjust so that the notches joining got exactly perpendicular to the glove support plate. The position of the main plate is very important for the correct functioning of the glove. Adjust it forwards or backwards until the fingers and the joints have free movement.
 
 https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af9a-d0ecc8897eee
 
