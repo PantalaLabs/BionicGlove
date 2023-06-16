@@ -198,6 +198,13 @@ https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af
 
 ### How to Connect
 #### ESP Receiver
+I provide the correct board to run your ESP Receiver experiments or final projects (contact us at www.pantalalalabs.com). However, you can implement your own receiver. You will need a source of 5 to 8 VDC @ 1A.
+make the connection as follows:
+
+![vin](/pictures/vin.png) 
+
+OBS: remember to never connect external DC power along with the USB cable used to upload the sketch.
+
 1. upload your sketch to your ESP32 Receiver unit via regular ESP32 UART port (take a note of this port number);
 2. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port alone. It is weak and can be damaged when Bluetooth is turned on or Bluetooth does not receive enough power to start;
 3. turn on Bionic Glove;
