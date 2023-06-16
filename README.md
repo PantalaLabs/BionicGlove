@@ -206,11 +206,13 @@ Remember to never connect external DC power along with the USB cable used to upl
 
 1. connect your ESP32 board to your computer via regular USB mini cable;
 2. upload your sketch to your ESP32;
-3. power ESP32 Receiver with a good 1A power supply. Attention : never use the computer's USB port alone. It is weak and can be damaged when Bluetooth is turned on or Bluetooth does not receive enough power to start;
-4. turn on Bionic Glove;
-5. pay attention to the blue led on Bionic Glove. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer;
-6. now the Bionic Glove will try to connect to the ESP32 Receiver. At this moment the blue led at Bionic Glove may start blinking fast, indicating that the ESP32 Receiver should already be on and waiting to be paired. The blue led will stop blinking as soon as the two devices are paired;
-7. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
+3. disconnect the USB cable from ESP32 board;
+4. power the ESP32 board with a good 1A power supply. Attention : never use the computer's USB port alone. It is weak and can be damaged when Bluetooth is turned on or Bluetooth does not receive enough power to start;
+5. turn on Bionic Glove;
+6. pay attention to the blue led on Bionic Glove. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer;
+7. after the Bionic Glove will try to connect to the ESP32 Receiver. At this moment the blue led at Bionic Glove may start blinking fast, indicating that the ESP32 Receiver should already be on and waiting to be paired. The blue led will stop blinking as soon as the two devices are paired;
+8. after paired, Bionic Glove will blink the blue led at every 3 seconds indicating that it is working and transmitting. 
+9. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
 
 #### Dongle Receiver
 1. connect the Dongle to an USB port;
