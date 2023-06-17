@@ -1,7 +1,6 @@
 - # BionicGlove
 
 ## This is an early version of the readme and constantly being updated.
-All content is still being organized.
 
 Please : 
 * If you find bugs, please open an Issue.
@@ -22,6 +21,11 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 
 ![prototype](/pictures/IMG-0933-small.jpg) |
 ![prototype](/pictures/IMG-0934-small.jpg)
+
+16/06/2023 Update
+![eva](/pictures/eva.jpg) | piece of EVA between the main board and the hand to add some comfort
+![cover](/pictures/cover.jpg) | cover to protect the components and make it look more minimalist
+
 
 Electronic parts:
 
@@ -198,10 +202,10 @@ https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af
 
 ### How to Connect
 #### ESP Receiver
-I provide the correct board to run your ESP Receiver experiments or final projects (contact us at www.pantalalalabs.com). However, you can implement your own receiver. You will need a clean source of 5VDC to 8VDC @ 1A.
-make the connection as follows:
+I provide the correct board to run your ESP Receiver experiments or final projects (contact us at www.pantalalalabs.com). However, you can implement your own receiver. You will need a clean source of 5VDC to 8VDC @ 1A and make the connection as follows:
 
 ![vin](/pictures/vin.png) 
+
 Remember to never connect external DC power along with the USB cable used to upload the sketch.
 
 1. connect your ESP32 board to your computer via regular USB mini cable;
@@ -238,7 +242,7 @@ Speed: 38400
 
 Connection type: Serial
 
-You can save tour configuration for later tests or just Open.
+You can save your configuration for later tests or just Open.
 
 Now, a black window should appear with all data sent by the glove.
 
