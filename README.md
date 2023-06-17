@@ -23,6 +23,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 ![prototype](/pictures/IMG-0934-small.jpg)
 
 16/06/2023 Update
+
 ![eva](/pictures/eva.jpg) | piece of EVA between the main board and the hand to add some comfort
 ![cover](/pictures/cover.jpg) | cover to protect the components and make it look more minimalist
 
