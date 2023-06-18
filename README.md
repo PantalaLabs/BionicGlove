@@ -1,4 +1,7 @@
 - # BionicGlove
+| ---:|
+|![prototype](/pictures/br.jpg)
+[Versão traduzida automaticamente para Português](https://github-com.translate.goog/PantalaLabs/BionicGlove?_x_tr_sl=pt&_x_tr_tl=en&_x_tr_hl=pt-BR&_x_tr_pto=wapp)|
 
 ## This is an early version of the readme and constantly being updated.
 
@@ -26,7 +29,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 * piece of EVA between the main board and the hand to add some comfort
 * cover to protect the components and make it look more minimalist
 
-![eva](/pictures/eva.jpg) | ![cover](/pictures/cover.jpg)
+![cover](/pictures/cover.jpg) | ![eva](/pictures/eva.jpg)
 
 
 Electronic parts:
@@ -273,7 +276,7 @@ If the data do not appear, you must start a troubleshot routine to find where is
 
 #### Ableton
 There is a Max4Live component called BionicGlove freely available. It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
-A second component called BionicGlove Lite is in the way. It will be smaller than the the above, receive the datapack directly from Serial Bluetooth and cover only finger position and X/Y accelerometer angles.
+A second component called BionicGlove Lite is in the way. It will be smaller than the the above, receive the datapack directly from Serial Bluetooth and cover only finger position and X/Y accelerometer angles. No release date yet.
 
 
 ![ableton](/pictures/bgableton.png)
