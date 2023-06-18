@@ -42,17 +42,17 @@ Electronic parts:
 
 Like any other Bluetooth device, Bionic Glove sends datapack and it MUST BE RECOGNIZED and TRANSLATED.
 
-There are two ways to use the glove.
+There are two ways to do this:
 
 a) ESP32 Receiver (+library): create sketches without worrying about the instance of communication and interpretation of the data. This is the alternative for all types of users including beginners. The library creates an abstraction for the data received from the Bionic Glove and implements several functionalities without the headache of complicated coding.
 
-All applications will read from any COM dinamically assigned to EP32. COM20 in this example:
+All applications will read from the COM port dinamically assigned to EP32. In my example, the Windows Device Manager shows COM20:
 
 ![esp_cycle](/pictures/serial_esp_cycle.jpg) 
 
 b) Bluetooth Dongle: the user will be responsible for receiving and manage all the data received via Serial Bluetooth. You will need an Bluetooth compatible dongle on your computer. Inside BionicGlove.h you will find the description of the data pack sent by the glove. This is for advanced users.
 
-All applications will read from any COM dinamically assigned to Bluetooth Dongle. COM24 or COM25 or COM26 in this example:
+All applications will read from any COM dinamically assigned to Bluetooth Dongle. In my example, the Windows Device Manager shows COM24, COM25 and COM26:
 
 ![esp_cycle](/pictures/serial_dongle_cycle.jpg) 
 
