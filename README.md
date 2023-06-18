@@ -42,9 +42,9 @@ Electronic parts:
 
 Like any other Bluetooth device, Bionic Glove sends datapack and it MUST BE RECOGNIZED and TRANSLATED.
 
-There is still no program or app developed for the automatic recognition of the glove. As Bionic Glove's goal is to be recognized in as many ways as possible, each solution must carry out its recognition and translation. Maybe in the future, someone may create an specific program/app.
+There is still no program or app developed for the automatic recognition of the Bionic Glove. Our goal is to be recognized in as many ways as possible, each solution must carry out its recognition and translation. Maybe in the future, someone may create an specific program/app.
 
-For while, there are two ways to communicate with the Bionic Glove:
+For while, these are two ways to communicate with the Bionic Glove:
 
 a) ESP32 Receiver (+library): create sketches without worrying about the instance of communication and interpretation of the data. This is the alternative for all types of users including beginners. The library creates an abstraction for the data received from the Bionic Glove and implements several functionalities without the headache of complicated coding.
 
