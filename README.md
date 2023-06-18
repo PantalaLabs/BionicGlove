@@ -27,7 +27,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 ![prototype](/pictures/IMG-0934-small.jpg)
 
 16/06/2023 Update
-* piece of EVA between the main board and the hand to add some comfort
+* piece of EVA between the main board and the hand to add some comfort for long time use
 * cover to protect the components and make it look more minimalist
 
 ![cover](/pictures/cover.jpg) | ![eva](/pictures/eva.jpg)
@@ -39,6 +39,8 @@ Electronic parts:
 
 
 ### Choosing the best mode of communication for your needs 
+
+Like any other Bluetooth device, Bionic Glove sends datapack and it MUST BE RECOGNIZED and TRANSLATED.
 
 There are two ways to use the glove.
 
