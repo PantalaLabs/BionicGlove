@@ -1,5 +1,5 @@
 - # BionicGlove
-| ---:|
+|--------------------------------------------------------------------------------------------------:|
 |![prototype](/pictures/br.jpg)
 [Versão traduzida automaticamente para Português](https://github-com.translate.goog/PantalaLabs/BionicGlove?_x_tr_sl=pt&_x_tr_tl=en&_x_tr_hl=pt-BR&_x_tr_pto=wapp)|
 
