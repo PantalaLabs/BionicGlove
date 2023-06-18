@@ -27,7 +27,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 ![prototype](/pictures/IMG-0934-small.jpg)
 
 16/06/2023 Update
-* piece of EVA between the main board and the hand to add some comfort for long time use
+* piece of EVA between the main board and the hand to add comfort for long time use
 * cover to protect the components and make it look more minimalist
 
 ![cover](/pictures/cover.jpg) | ![eva](/pictures/eva.jpg)
@@ -42,7 +42,9 @@ Electronic parts:
 
 Like any other Bluetooth device, Bionic Glove sends datapack and it MUST BE RECOGNIZED and TRANSLATED.
 
-There are two ways to do this:
+There is still no program or app developed for the automatic recognition of the glove. As Bionic Glove's goal is to be recognized in as many ways as possible, each solution must carry out its recognition and translation. Maybe in the future, someone may create an specific program/app.
+
+For while, there are two ways to communicate with the Bionic Glove:
 
 a) ESP32 Receiver (+library): create sketches without worrying about the instance of communication and interpretation of the data. This is the alternative for all types of users including beginners. The library creates an abstraction for the data received from the Bionic Glove and implements several functionalities without the headache of complicated coding.
 
@@ -203,7 +205,7 @@ Follow the steps to wear it. Do the steps in reverse to unwear:
 2. wear from the little finger towards the index finger;
 3. place hand and glove vertically;
 4. tight the velcros;
-5. adjust so that the notches joining got exactly perpendicular to the glove support plate at the fingers middle position. The position of the main plate is also very important for the correct functioning of the glove. Adjust it forwards or backwards until the fingers and the joints have free movement.
+5. adjust so that the notches joining got exactly perpendicular to the glove support plate at the fingers middle position. The position of the main plate is also very important for the correct functioning of the glove. Adjust it forwards or backwards until the fingers and the joints have full free movement.
 
 https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af9a-d0ecc8897eee
 
