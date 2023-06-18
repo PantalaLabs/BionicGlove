@@ -278,7 +278,8 @@ If the data do not appear, you must start a troubleshot routine to find where is
 
 
 #### Ableton
-There is a Max4Live component called BionicGlove freely available. It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
+There is a Max4Live component called BionicGlove freely available inside Ableton folder.
+It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
 A second component called BionicGlove Lite is in the way. It will be smaller than the the above, receive the datapack directly from Serial Bluetooth and cover only finger position and X/Y accelerometer angles. No release date yet.
 
 
