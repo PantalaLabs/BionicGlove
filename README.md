@@ -123,7 +123,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>n/a</td>
 <td>2 - one value for each axle</td>
 <td>0 to 180 degrees</td>
-</tr>
+</tr> 
 
 <tr>
 <td>hand knock</td>
