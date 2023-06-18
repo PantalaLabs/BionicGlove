@@ -293,7 +293,7 @@ By default Max4Live will not map controls directly to Ableton. But there is a wa
 
 WINDOWS / LoopMIDI
 
-In this situation the M4L component will send a MIDI message to LoopMIDI and Ableton will receive thru MIDI From/All Ins.
+In this situation the M4L component will send a MIDI message to LoopMIDI and Ableton will receive it from LoopMIDI thru MIDI From/All Ins.
 
 1. Download and install https://www.tobias-erichsen.de/software/loopmidi.html
 
