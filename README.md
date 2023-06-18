@@ -135,6 +135,8 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 
 </table>
 
+n/a - not available
+
 #### Dependencies:
 
 There are two mathematical calculations that are widely used in the library:
