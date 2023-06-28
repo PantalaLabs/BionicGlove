@@ -212,11 +212,13 @@ https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af
 
 ### How to Connect
 #### ESP Receiver
-I provide the correct board to run your ESP Receiver experiments or final projects (contact us at www.pantalalalabs.com). However, you can implement your own receiver. You will need a clean source of 5VDC to 8VDC @ 1A and make the connection as follows:
+I provide the correct board to run your ESP Receiver experiments or final projects (contact us at www.pantalalalabs.com). However, you can implement your own receiver. You will need a clean source of 5VDC to 8VDC @ 1A or a 12VDC @ 1A and make the connection as follows:
 
-![vin](/pictures/vin.png) 
+![vin](/pictures/goodpractice_esp.png) 
 
-Remember to never connect external DC power along with the USB cable used to upload the sketch.
+if your power source has
+
+**Remember to never connect external DC power along with the USB cable used to upload the sketch.**
 
 1. connect your ESP32 board to your computer via regular USB mini cable;
 2. upload your sketch to your ESP32;

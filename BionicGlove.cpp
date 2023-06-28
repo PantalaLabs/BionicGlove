@@ -6,8 +6,8 @@
  * You are free to use it, change it or build on it. In case you like
  * it, it would be cool if you give it a star.
  *
-* If you find bugs, please open an Issue  https://github.com/PantalaLabs/BionicGlove
-* If you want new features , please open a Issue with title Feature Request at https://github.com/PantalaLabs/BionicGlove
+ * If you find bugs, please open an Issue  https://github.com/PantalaLabs/BionicGlove
+ * If you want new features , please open a Issue with title Feature Request at https://github.com/PantalaLabs/BionicGlove
  *
  * Gibran Curtiss Salomão 2023
  * http://www.pantalalabs.com
@@ -56,6 +56,8 @@ BionicGlove::BionicGlove()
 
 void BionicGlove::start()
 {
+  uint32_t nextLed;
+  delay(2000);
   ledOnAsync();
   SerialBT.begin(device_name);
   SerialBT.setPin(pin);
@@ -67,7 +69,7 @@ uint32_t newprint;
 
 bool BionicGlove::read()
 {
-  //uint32_t now;
+  // uint32_t now;
 
   ledOffAsync();
   if (SerialBT.available()) //@ each 10ms - MASTER defined
@@ -857,7 +859,7 @@ void BionicGlove::isrDefaultUnused()
 {
 }
 
-void BionicGlove::setLedBuiltIn()
+void BionicGlove::setBuiltInLedOn()
 {
   ledBuiltInActive = true;
   pinMode(BULTINLED, OUTPUT);

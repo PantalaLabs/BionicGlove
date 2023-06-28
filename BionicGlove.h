@@ -124,7 +124,7 @@ public:
   bool read();                                                                    // read BT serial
   bool active();                                                                  // return if BT is active
   void freeze(uint32_t ms);                                                       // freeze any callback for n ms
-  void setLedBuiltIn();                                                           // use led built in to visual debug
+  void setBuiltInLedOn();                                                           // use led built in to visual debug
   String getSerialData();                                                         // return one line of serial data pack
   float getRaw(uint8_t raw);                                                      // get raw value from each one value at BT pack
   float getAGsmoothed(uint8_t axl);                                               // get smoothed accel G raw values
