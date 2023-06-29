@@ -15,9 +15,9 @@ void loop()
     if (bionic.read() && (millis() > nextRead))
     {
         nextRead = millis() + 30;
-        Serial.print((int)bionic.getRaw(RAW_A_X_DEG));
+        Serial.print((int)bionic.getRaw(DATA_A_X_DEG));
         Serial.print(",");
-        Serial.print((int)bionic.getRaw(RAW_A_Y_DEG));
+        Serial.print((int)bionic.getRaw(DATA_A_Y_DEG));
         // serial.print(","); // NUNCA USAR ÚLTIMA VIRGULA
         Serial.println("");
     }
