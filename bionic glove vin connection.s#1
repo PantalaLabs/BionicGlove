@@ -10847,8 +10847,7 @@ Source: http://products.nichicon.co.jp/en/pdf/XJA043/e-ud.pdf</description>
 <plain>
 <text x="-92.71" y="-39.37" size="1.778" layer="91">POWER ADAPTER
 5VDC to 8VDC / 1A</text>
-<text x="-88.9" y="-83.82" size="1.778" layer="91">POWER ADAPTER
-12VDC/ 1A</text>
+<text x="-88.9" y="-83.82" size="1.778" layer="91">12VDC/ 1A</text>
 <text x="-91.44" y="5.08" size="1.778" layer="91">USB mobile charger / power pack
 5VDC / 1A</text>
 </plain>
