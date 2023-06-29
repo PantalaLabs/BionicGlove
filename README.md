@@ -91,7 +91,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>regardless of the position of the fingers, when moving, it generates an acceleration. which increases when you start the movement and decreases as the finger returns to rest</td>
 <td>n/a</td>
 <td>4 - one value for each finger</td>
-<td>0.0 - 4.0</td>
+<td>-4.0 - +4.0</td>
 </tr>
 
 <tr>
@@ -116,7 +116,15 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>x and y axes accelerometers</td>
 <td>n/a</td>
 <td>2 - one value for each axle</td>
-<td>0.0 to 3.0</td>
+<td>-512.0 to 512.0</td>
+</tr>
+
+<tr>
+<td>g force</td>
+<td>x and y axes g force</td>
+<td>n/a</td>
+<td>2 - one value for each axle</td>
+<td>-2.0 to 2.0</td>
 </tr>
 
 <tr>
