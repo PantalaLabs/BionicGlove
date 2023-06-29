@@ -172,45 +172,45 @@ float BionicGlove::getUnit(uint8_t raw)
     switch (raw)
     {
     case 0:
-      return finger[1].fingerRead / 4095;
+      return (float)finger[0].fingerRead / 4095.0;
       break;
     case 1:
-      return finger[1].fingerRead / 4095;
+      return (float)finger[1].fingerRead / 4095.0;
       break;
     case 2:
-      return finger[2].fingerRead / 4095;
+      return (float)finger[2].fingerRead / 4095.0;
       break;
     case 3:
-      return finger[3].fingerRead / 4095;
+      return (float)finger[3].fingerRead / 4095.0;
       break;
     case 4:
-      return accel[AXL_X].raw;
+      return accel[AXL_X].raw / 1023.0;
       break;
     case 5:
-      return accel[AXL_X].g;
+      return accel[AXL_X].g / 2.0;
       break;
     case 6:
-      return accel[AXL_X].ang;
+      return accel[AXL_X].ang / 180.0;
       break;
     case 7:
-      return accel[AXL_Y].raw;
+      return accel[AXL_Y].raw / 1023.0;
       break;
     case 8:
-      return accel[AXL_Y].g;
+      return accel[AXL_Y].g / 2.0;
       break;
     case 9:
-      return accel[AXL_Y].ang;
+      return accel[AXL_Y].ang / 180.0;
       break;
     case 10:
-      return accel[AXL_Z].raw;
+      return accel[AXL_Z].raw / 1023.0;
       break;
     case 11:
-      return accel[AXL_Z].g;
+      return accel[AXL_Z].g / 2.0;
       break;
     case 12:
-      return accel[AXL_Z].ang;
+      return accel[AXL_Z].ang / 180.0;
       break;
-    case else:
+    default:
       return 0;
       break;
     }
@@ -263,7 +263,7 @@ void BionicGlove::logAGremoveOffset()
     {
       logAG[j][i] = logAG[j][i + 1];
     }
-    logAG[j][(MAXKNOCKLOG - 2)] = GETITEM(RAW_A_X_G);
+    logAG[j][(MAXKNOCKLOG - 2)] = GETITEM(DATA_A_X_G);
   }
 }
 
@@ -301,16 +301,16 @@ void BionicGlove::callbackFlickLr()
       {
         switch (f)
         {
-        case RAW_F_INDEX:
+        case DATA_F_INDEX:
           callFlickOpenedIndex();
           break;
-        case RAW_F_MIDDLE:
+        case DATA_F_MIDDLE:
           callFlickOpenedMiddle();
           break;
-        case RAW_F_RING:
+        case DATA_F_RING:
           callFlickOpenedRing();
           break;
-        case RAW_F_LITTLE:
+        case DATA_F_LITTLE:
           callFlickOpenedLittle();
           break;
         }
@@ -323,16 +323,16 @@ void BionicGlove::callbackFlickLr()
       {
         switch (f)
         {
-        case RAW_F_INDEX:
+        case DATA_F_INDEX:
           callFlickClosedIndex();
           break;
-        case RAW_F_MIDDLE:
+        case DATA_F_MIDDLE:
           callFlickClosedMiddle();
           break;
-        case RAW_F_RING:
+        case DATA_F_RING:
           callFlickClosedRing();
           break;
-        case RAW_F_LITTLE:
+        case DATA_F_LITTLE:
           callFlickClosedLittle();
           break;
         }
@@ -371,16 +371,16 @@ void BionicGlove::callbackFlick()
 
           switch (f)
           {
-          case RAW_F_INDEX:
+          case DATA_F_INDEX:
             callFlickOpenedIndex();
             break;
-          case RAW_F_MIDDLE:
+          case DATA_F_MIDDLE:
             callFlickOpenedMiddle();
             break;
-          case RAW_F_RING:
+          case DATA_F_RING:
             callFlickOpenedRing();
             break;
-          case RAW_F_LITTLE:
+          case DATA_F_LITTLE:
             callFlickOpenedLittle();
             break;
           }
@@ -402,16 +402,16 @@ void BionicGlove::callbackFlick()
 
           switch (f)
           {
-          case RAW_F_INDEX:
+          case DATA_F_INDEX:
             callFlickClosedIndex();
             break;
-          case RAW_F_MIDDLE:
+          case DATA_F_MIDDLE:
             callFlickClosedMiddle();
             break;
-          case RAW_F_RING:
+          case DATA_F_RING:
             callFlickClosedRing();
             break;
-          case RAW_F_LITTLE:
+          case DATA_F_LITTLE:
             callFlickClosedLittle();
             break;
           }
@@ -435,7 +435,7 @@ void BionicGlove::logAZGknock() // FILO
       logAZG[i] = logAZG[i + 1];
       logAZGsmoothed[i] = logAZGsmoothed[i + 1];
     }
-    logAZG[MAXKNOCKLOG - 1] = GETITEM(RAW_A_Z_G) + AZGOFFSET;
+    logAZG[MAXKNOCKLOG - 1] = GETITEM(DATA_A_Z_G) + AZGOFFSET;
     logAZGsmoothed[MAXKNOCKLOG - 1] = lastAGsmoothed[AXL_Z];
   }
 }
@@ -559,16 +559,16 @@ void BionicGlove::callbackClosedFinger()
       finger[f].closedFingerStatus = true;
       switch (f)
       {
-      case RAW_F_INDEX:
+      case DATA_F_INDEX:
         callClosedIndex();
         break;
-      case RAW_F_MIDDLE:
+      case DATA_F_MIDDLE:
         callClosedMiddle();
         break;
-      case RAW_F_RING:
+      case DATA_F_RING:
         callClosedRing();
         break;
-      case RAW_F_LITTLE:
+      case DATA_F_LITTLE:
         callClosedLittle();
         break;
       }
@@ -601,16 +601,16 @@ void BionicGlove::callbackOpenedFinger()
       finger[f].openedFingerStatus = true;
       switch (f)
       {
-      case RAW_F_INDEX:
+      case DATA_F_INDEX:
         callOpenedIndex();
         break;
-      case RAW_F_MIDDLE:
+      case DATA_F_MIDDLE:
         callOpenedMiddle();
         break;
-      case RAW_F_RING:
+      case DATA_F_RING:
         callOpenedRing();
         break;
-      case RAW_F_LITTLE:
+      case DATA_F_LITTLE:
         callOpenedLittle();
         break;
       }

@@ -11,7 +11,7 @@ void loop()
 {
     if (bionic.read())
     {
-        Serial.println(bionic.getRaw(RAW_F_LITTLE));
+        Serial.println(bionic.getRaw(DATA_F_LITTLE));
         delay(50);
     }
 }

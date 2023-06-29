@@ -52,20 +52,20 @@ Z
 
 #define MAXBTDATAPACK 14
 
-#define RAW_F_INDEX 0
-#define RAW_F_MIDDLE 1
-#define RAW_F_RING 2
-#define RAW_F_LITTLE 3
-#define RAW_A_X 4
-#define RAW_A_X_G 5
-#define RAW_A_X_DEG 6
-#define RAW_A_Y 7
-#define RAW_A_Y_G 8
-#define RAW_A_Y_DEG 9
-#define RAW_A_Z 10
-#define RAW_A_Z_G 11
-#define RAW_A_Z_DEG 12
-#define RAW_SMOOTHFACTOR 13
+#define DATA_F_INDEX 0
+#define DATA_F_MIDDLE 1
+#define DATA_F_RING 2
+#define DATA_F_LITTLE 3
+#define DATA_A_X 4
+#define DATA_A_X_G 5
+#define DATA_A_X_ANG 6
+#define DATA_A_Y 7
+#define DATA_A_Y_G 8
+#define DATA_A_Y_ANG 9
+#define DATA_A_Z 10
+#define DATA_A_Z_G 11
+#define DATA_A_Z_ANG 12
+#define DATA_SMOOTHFACTOR 13
 
 #define FINGER_INDEX 0
 #define FINGER_MIDDLE 1
