@@ -243,7 +243,7 @@ obs2: Pay attention to the 1000uf capacitor when use a linear regulator. This pr
 
 **Remember to never connect external DC power along with the USB cable used to upload the sketch.**
 
-1. connect your ESP32 board to your computer via regular USB mini cable;
+1. connect your ESP32 board to your computer via regular mini USB cable;
 2. upload your sketch to your ESP32;
 3. disconnect the USB cable from ESP32 board;
 4. power the ESP32 board with a good 1A power supply. Attention : never use the computer's USB port alone. It is weak and can be damaged when Bluetooth is turned on or Bluetooth does not receive enough power to start;
