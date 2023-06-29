@@ -235,7 +235,9 @@ You can use a 12VDC @ 1A power adapter too, but with extra components:
 
 ![vin](/pictures/goodpractice_esp.png) 
 
-Pay attention to the 1000uf capacitor when use a linear regulator. This prevents to ESP32 reset when Bluetooth starts.
+obs1: Never forget the 1n4004 diode
+
+obs2: Pay attention to the 1000uf capacitor when use a linear regulator. This prevents to ESP32 reset when Bluetooth starts.
 
 #### How to Connect ESP receiver
 
