@@ -150,7 +150,7 @@ There are two mathematical calculations that are widely used in the library:
 Every method has one kind of parameter. Be careful not to mix the types of parameters or unexpected results may happen.
 
 1. uint32_t ms - means millisseconds , you can use any unsigned long int number
-2. uint8_t raw - refers to any of the raw data received in the data packet. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "RAW_" :
+2. uint8_t raw - refers to any of the raw data received in the data packet. You can use any unsigned 8 bit number, or any of the DEFINES available that starts with "DATA_" :
 
 - #define DATA_F_INDEX 0
 - #define DATA_F_MIDDLE 1
