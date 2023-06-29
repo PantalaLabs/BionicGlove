@@ -68,6 +68,8 @@ Here you will find usage tips and an ESP32 library to the Bionic Glove.
 #### Movement/position recognition:
 
 These are all features coverd by glove. Many of them have parameters to ajust to your needs.
+
+##### Finger tracking:
 <table>
 
 <tr>
@@ -110,6 +112,11 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>true / false</td>
 </tr>
 <tr>
+
+</table>
+
+##### Accelerometer tracking:
+<table>
 
 <tr>
 <td>accelerometer</td>
