@@ -127,6 +127,7 @@ public:
   void setBuiltInLedOn();                                                           // use led built in to visual debug
   String getSerialData();                                                         // return one line of serial data pack
   float getRaw(uint8_t raw);                                                      // get raw value from each one value at BT pack
+  float getUnit(uint8_t raw);                                                      // get all values from -1 to 0 to +1 where signal is applicables
   float getAGsmoothed(uint8_t axl);                                               // get smoothed accel G raw values
   float getAAngsmoothed(uint8_t axl);                                             // get smoothed accel Angle values
   uint16_t getF(uint8_t f);                                                       // get expanded finger value

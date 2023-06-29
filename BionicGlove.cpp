@@ -165,6 +165,60 @@ float BionicGlove::getRaw(uint8_t raw)
     return 0;
 }
 
+float BionicGlove::getUnit(uint8_t raw)
+{
+  if ((raw >= 0) && (raw < MAXBTDATAPACK))
+  {
+    switch (raw)
+    {
+    case 0:
+      return finger[1].fingerRead / 4095;
+      break;
+    case 1:
+      return finger[1].fingerRead / 4095;
+      break;
+    case 2:
+      return finger[2].fingerRead / 4095;
+      break;
+    case 3:
+      return finger[3].fingerRead / 4095;
+      break;
+    case 4:
+      return accel[AXL_X].raw;
+      break;
+    case 5:
+      return accel[AXL_X].g;
+      break;
+    case 6:
+      return accel[AXL_X].ang;
+      break;
+    case 7:
+      return accel[AXL_Y].raw;
+      break;
+    case 8:
+      return accel[AXL_Y].g;
+      break;
+    case 9:
+      return accel[AXL_Y].ang;
+      break;
+    case 10:
+      return accel[AXL_Z].raw;
+      break;
+    case 11:
+      return accel[AXL_Z].g;
+      break;
+    case 12:
+      return accel[AXL_Z].ang;
+      break;
+    case else:
+      return 0;
+      break;
+    }
+  }
+  else
+    return 0;
+}
+
 String BionicGlove::getSerialData()
 {
   return serialData;
