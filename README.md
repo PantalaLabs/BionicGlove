@@ -1,7 +1,7 @@
 - # BionicGlove
 
 ![prototype](/pictures/br.jpg)
-[Versão traduzida automaticamente para Português](https://github-com.translate.goog/PantalaLabs/BionicGlove/blob/master/README.md?_x_tr_sl=en&_x_tr_tl=pt-BR)
+[Versão traduzida automaticamente para Português](https://github-com.translate.goog/PantalaLabs/BionicGlove?_x_tr_sl=pt&_x_tr_tl=en&_x_tr_hl=pt-BR&_x_tr_pto=wapp)
 
 
 ## This is an early version of the readme and constantly being updated.
