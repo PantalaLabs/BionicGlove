@@ -237,6 +237,9 @@ float BionicGlove::getUnit(uint8_t raw)
     case 12:
       return accel[AXL_Z].ang / 90.0;
       break;
+    case 13:
+      return smoothFactor;
+      break;
     default:
       return 0;
       break;

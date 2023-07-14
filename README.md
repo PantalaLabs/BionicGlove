@@ -231,15 +231,11 @@ https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af
 #### How to Power ESP receiver
 I provide the correct board to run your ESP Receiver experiments or final projects (contact us at www.pantalalalabs.com). However, you can build your own receiver. 
 
-You will need a clean source of 5VDC to 8VDC @ 1A from a power adapter or USB connection from mobile phone charger / power pack.
+You will need a clean source of 5VDC @ 1A from a power adapter or USB connection from mobile phone charger / power pack.
 
-You can use a 12VDC @ 1A power adapter too, but with extra components:
+You can use a 12VDC @ 1A power adapter too, but with extra linear regulator LM7805 between:
 
 ![vin](/pictures/goodpractice_esp.png) 
-
-obs1: Never forget the 1n4004 diode
-
-obs2: Pay attention to the 1000uf capacitor when use a linear regulator. This prevents to ESP32 reset when Bluetooth starts.
 
 #### How to Connect ESP receiver
 
