@@ -235,7 +235,7 @@ You will need a clean source of 5VDC @ 1A from a power adapter or USB connection
 
 You can use a 12VDC @ 1A power adapter too, but with extra linear regulator LM7805 between:
 
-![vin](/pictures/goodpractice_esp.png) 
+![vin](/pictures/goodpracticeesp.png) 
 
 #### How to Connect ESP receiver
 
