@@ -97,17 +97,19 @@ bool BionicGlove::receiveDataPack()
   // receive datapack
   int8_t thisSeparator = 0, nextSeparator = 0, separatorCounter = 0;
 
-  serialData = SerialBT.readStringUntil('*');
-  SerialBT.flush(); // discard any '/n' left after *
-  do
-  { // count message separators
+  serialData = SerialBT.readStringUntil('*');                                   // get all buffer chars up to *
+  SerialBT.flush();                                                             // flush extra chars
+  if ((serialData.indexOf('s', 0) == -1) || (serialData.indexOf('e', 0) == -1)) // if incomplete message
+    return false;                                                               // discard read
+  serialData = serialData.substring(1, serialData.length() - 1);                // trim edges
+  do                                                                            // count token separators
+  {
     nextSeparator = serialData.indexOf(',', thisSeparator);
     thisSeparator = nextSeparator + 1;
     separatorCounter++;
   } while (nextSeparator != -1);
-
-  // message with accepted number of tokens
-  if (separatorCounter == MAXBTDATAPACK)
+  
+  if (separatorCounter == MAXBTDATAPACK) // message with accepted number of tokens
   {
     thisSeparator = 0;
     nextSeparator = 0;
@@ -119,16 +121,24 @@ bool BionicGlove::receiveDataPack()
       switch (i)
       {
       case 0:
-        finger[0].fingerRead = btDataPack[i].toInt();
+        finger[0].fingerRead = constrain(btDataPack[i].toInt(), 0, 4095);
+        if ((finger[0].fingerRead < 0 || finger[0].fingerRead > 4095)) // helps to keep a reeliable data structure
+          return false;
         break;
       case 1:
-        finger[1].fingerRead = btDataPack[i].toInt();
+        finger[1].fingerRead = constrain(btDataPack[i].toInt(), 0, 4095);
+        if ((finger[1].fingerRead < 0 || finger[1].fingerRead > 4095)) // helps to keep a reeliable data structure
+          return false;
         break;
       case 2:
-        finger[2].fingerRead = btDataPack[i].toInt();
+        finger[2].fingerRead = constrain(btDataPack[i].toInt(), 0, 4095);
+        if ((finger[2].fingerRead < 0 || finger[2].fingerRead > 4095)) // helps to keep a reeliable data structure
+          return false;
         break;
       case 3:
-        finger[3].fingerRead = btDataPack[i].toInt();
+        finger[3].fingerRead = constrain(btDataPack[i].toInt(), 0, 4095);
+        if ((finger[3].fingerRead < 0 || finger[3].fingerRead > 4095)) // helps to keep a reeliable data structure
+          return false;
         break;
       case 4:
         accel[AXL_X].raw = btDataPack[i].toFloat();
@@ -168,10 +178,9 @@ bool BionicGlove::receiveDataPack()
         break;
       }
     }
-    SerialBT.flush();
+    // Serial.println(serialData);
     return true;
   }
-  SerialBT.flush();
   return false;
 }
 
@@ -190,43 +199,43 @@ float BionicGlove::getUnit(uint8_t raw)
     switch (raw)
     {
     case 0:
-      return (float)finger[0].fingerRead / 4095.0;
+      return ((float)finger[0].fingerRead - 2048.0) / 4095.0;
       break;
     case 1:
-      return (float)finger[1].fingerRead / 4095.0;
+      return ((float)finger[1].fingerRead - 2048.0) / 4095.0;
       break;
     case 2:
-      return (float)finger[2].fingerRead / 4095.0;
+      return ((float)finger[2].fingerRead - 2048.0) / 4095.0;
       break;
     case 3:
-      return (float)finger[3].fingerRead / 4095.0;
+      return ((float)finger[3].fingerRead - 2048.0) / 4095.0;
       break;
     case 4:
-      return accel[AXL_X].raw / 1023.0;
+      return accel[AXL_X].raw / 512.0;
       break;
     case 5:
-      return accel[AXL_X].g / 2.0;
+      return accel[AXL_X].g / 1.0;
       break;
     case 6:
-      return accel[AXL_X].ang / 180.0;
+      return accel[AXL_X].ang / 90.0;
       break;
     case 7:
-      return accel[AXL_Y].raw / 1023.0;
+      return accel[AXL_Y].raw / 512.0;
       break;
     case 8:
-      return accel[AXL_Y].g / 2.0;
+      return accel[AXL_Y].g / 1.0;
       break;
     case 9:
-      return accel[AXL_Y].ang / 180.0;
+      return accel[AXL_Y].ang / 90.0;
       break;
     case 10:
-      return accel[AXL_Z].raw / 1023.0;
+      return accel[AXL_Z].raw / 512.0;
       break;
     case 11:
-      return accel[AXL_Z].g / 2.0;
+      return accel[AXL_Z].g / 1.0;
       break;
     case 12:
-      return accel[AXL_Z].ang / 180.0;
+      return accel[AXL_Z].ang / 90.0;
       break;
     default:
       return 0;
