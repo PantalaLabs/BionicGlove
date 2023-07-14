@@ -241,8 +241,6 @@ obs2: Pay attention to the 1000uf capacitor when use a linear regulator. This pr
 
 #### How to Connect ESP receiver
 
-**Remember to never connect external DC power along with the USB cable used to upload the sketch.**
-
 1. connect your ESP32 board to your computer via regular mini USB cable;
 2. upload your sketch to your ESP32;
 3. disconnect the USB cable from ESP32 board;
@@ -259,6 +257,19 @@ obs2: Pay attention to the 1000uf capacitor when use a linear regulator. This pr
 3. pay attention to the blue led. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer. You can release the switch 1 anytime here;
 4. now the Bionic Glove will connect to the Dongle;
 5. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
+
+
+<em><strong>!!!! ATTENTION !!!!!</strong></em>
+
+**Remember to NEVER, NEVER connect external DC power along with the USB cable connected to USB comm port. This can burn permanentlly your ESP board.**
+
+With all cables disconnected, always follow these 5 steps: 
+
+1. connect USB comm cable
+2. upload your sketch
+3. disconnect USB comm cable
+4. connect external power
+5. and then, connec USB cable to communicate again with your PC/device
 
 
 #### Putty

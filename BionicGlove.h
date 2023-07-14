@@ -40,6 +40,10 @@ Z
 12-accel[2].ang
 
 13-smoothness
+
+
+Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
+
 **********************************************************************/
 
 // https://github.com/cubiwan/Regressino
@@ -198,7 +202,7 @@ private:
  
   LinearRegression lr = LinearRegression();
   double values[2];
-
+const float zerof = 0.0;
   uint32_t frozen = 0;
   uint32_t ts_frozen = 0;
   void ledOnAsync();
@@ -227,7 +231,7 @@ private:
   uint32_t ts_lastKnock = 0;                                 // millis() + knockInterval
   uint32_t flickDebounceInterval = DEFFLICKDEBOUNCEINTERVAL; // time in ms between to allowed knocks
   uint32_t ts_lastFlick = 0;                                 // millis() + knockInterval
-  void receiveDataPack();                                    // receive BT serial string and split
+  bool receiveDataPack();                                    // receive BT serial string and split
   void callbackClosedFinger();                               // check if any finger reached closed area and callback them
   void callbackOpenedFinger();                               // check if any finger reached opened area and callback them
   void logFremoveOffset();                                   // log all fingers

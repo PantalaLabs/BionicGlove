@@ -74,87 +74,105 @@ bool BionicGlove::read()
   ledOffAsync();
   if (SerialBT.available()) //@ each 10ms - MASTER defined
   {
-    receiveDataPack();
-    updateNewLimits();
-    // now = micros();
-    logFremoveOffset();
-    logAZGknock();
-    if (doneMs(ts_frozen, frozen))
+    if (receiveDataPack()) // valid and imported datapack
     {
-      callbackClosedFinger();
-      callbackOpenedFinger();
-      callbackFlickLr();
-      callbackKnockLr();
+      updateNewLimits();
+      logFremoveOffset();
+      logAZGknock();
+      if (doneMs(ts_frozen, frozen))
+      {
+        callbackClosedFinger();
+        callbackOpenedFinger();
+        callbackFlickLr();
+        callbackKnockLr();
+      }
+      return true;
     }
-    // Serial.println(micros() - now);
-
-    return true;
   }
   return false;
 }
 
-void BionicGlove::receiveDataPack()
+bool BionicGlove::receiveDataPack()
 {
   // receive datapack
-  serialData = SerialBT.readStringUntil('\n');
-  uint8_t thisSeparator = 0, nextSeparator = 0;
-  for (uint8_t i = 0; i < MAXBTDATAPACK; i++)
-  {
+  int8_t thisSeparator = 0, nextSeparator = 0, separatorCounter = 0;
+
+  serialData = SerialBT.readStringUntil('*');
+  SerialBT.flush(); // discard any '/n' left after *
+  do
+  { // count message separators
     nextSeparator = serialData.indexOf(',', thisSeparator);
-    btDataPack[i] = serialData.substring(thisSeparator, nextSeparator);
     thisSeparator = nextSeparator + 1;
-    switch (i)
+    separatorCounter++;
+  } while (nextSeparator != -1);
+
+  // message with accepted number of tokens
+  if (separatorCounter == MAXBTDATAPACK)
+  {
+    thisSeparator = 0;
+    nextSeparator = 0;
+    for (uint8_t i = 0; i < MAXBTDATAPACK; i++)
     {
-    case 0:
-      finger[0].fingerRead = btDataPack[0].toInt();
-      break;
-    case 1:
-      finger[1].fingerRead = btDataPack[i].toInt();
-      break;
-    case 2:
-      finger[2].fingerRead = btDataPack[i].toInt();
-      break;
-    case 3:
-      finger[3].fingerRead = btDataPack[i].toInt();
-      break;
-    case 4:
-      accel[AXL_X].raw = btDataPack[i].toFloat();
-      break;
-    case 5:
-      accel[AXL_X].g = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAGsmoothed[AXL_X], accel[AXL_X].g, fixedSmoothCoeffToKnock);
-      break;
-    case 6:
-      accel[AXL_X].ang = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAAngsmoothed[AXL_X], accel[AXL_X].ang, smoothFactor / 10);
-      break;
-    case 7:
-      accel[AXL_Y].raw = btDataPack[i].toFloat();
-      break;
-    case 8:
-      accel[AXL_Y].g = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAGsmoothed[AXL_Y], accel[AXL_Y].g, fixedSmoothCoeffToKnock);
-      break;
-    case 9:
-      accel[AXL_Y].ang = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAAngsmoothed[AXL_Y], accel[AXL_Y].ang, smoothFactor / 10);
-      break;
-    case 10:
-      accel[AXL_Z].raw = btDataPack[i].toFloat();
-      break;
-    case 11:
-      accel[AXL_Z].g = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAGsmoothed[AXL_Z], accel[AXL_Z].g, fixedSmoothCoeffToKnock);
-      break;
-    case 12:
-      accel[AXL_Z].ang = btDataPack[i].toFloat();
-      ALPHAFILTER(lastAAngsmoothed[AXL_Z], accel[AXL_Z].ang, smoothFactor / 10);
-      break;
-    case 13:
-      smoothFactor = btDataPack[i].toFloat();
-      break;
+      nextSeparator = serialData.indexOf(',', thisSeparator);
+      btDataPack[i] = serialData.substring(thisSeparator, nextSeparator);
+      thisSeparator = nextSeparator + 1;
+      switch (i)
+      {
+      case 0:
+        finger[0].fingerRead = btDataPack[i].toInt();
+        break;
+      case 1:
+        finger[1].fingerRead = btDataPack[i].toInt();
+        break;
+      case 2:
+        finger[2].fingerRead = btDataPack[i].toInt();
+        break;
+      case 3:
+        finger[3].fingerRead = btDataPack[i].toInt();
+        break;
+      case 4:
+        accel[AXL_X].raw = btDataPack[i].toFloat();
+        break;
+      case 5:
+        accel[AXL_X].g = btDataPack[i].toFloat();
+        ALPHAFILTER(lastAGsmoothed[AXL_X], accel[AXL_X].g, fixedSmoothCoeffToKnock);
+        break;
+      case 6:
+        accel[AXL_X].ang = btDataPack[i].toFloat();
+        ALPHAFILTER(lastAAngsmoothed[AXL_X], accel[AXL_X].ang, smoothFactor / 10.0);
+        break;
+      case 7:
+        accel[AXL_Y].raw = btDataPack[i].toFloat();
+        break;
+      case 8:
+        accel[AXL_Y].g = btDataPack[i].toFloat();
+        ALPHAFILTER(lastAGsmoothed[AXL_Y], accel[AXL_Y].g, fixedSmoothCoeffToKnock);
+        break;
+      case 9:
+        accel[AXL_Y].ang = btDataPack[i].toFloat();
+        ALPHAFILTER(lastAAngsmoothed[AXL_Y], accel[AXL_Y].ang, smoothFactor / 10.0);
+        break;
+      case 10:
+        accel[AXL_Z].raw = btDataPack[i].toFloat();
+        break;
+      case 11:
+        accel[AXL_Z].g = btDataPack[i].toFloat();
+        ALPHAFILTER(lastAGsmoothed[AXL_Z], accel[AXL_Z].g, fixedSmoothCoeffToKnock);
+        break;
+      case 12:
+        accel[AXL_Z].ang = btDataPack[i].toFloat();
+        ALPHAFILTER(lastAAngsmoothed[AXL_Z], accel[AXL_Z].ang, smoothFactor / 10.0);
+        break;
+      case 13:
+        smoothFactor = btDataPack[i].toFloat();
+        break;
+      }
     }
+    SerialBT.flush();
+    return true;
   }
+  SerialBT.flush();
+  return false;
 }
 
 float BionicGlove::getRaw(uint8_t raw)
