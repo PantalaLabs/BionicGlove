@@ -9,6 +9,7 @@
 Please : 
 * If you find bugs, please open an Issue.
 * If you have a new feature in mind, please open a Issue with title "Feature Request".
+* I will not respond to emails or messages sent personally regarding the Bionic Glove or the library.
 ![prototype](/pictures/issue.png)
 
 Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove that can control microcontrolled or not devices , robots, mobile apps, desktop programs (Ableton, Processing, etc), games, art installations, entertainment, etc through the interpretation of their behaviors and movements.
@@ -261,15 +262,16 @@ obs2: Pay attention to the 1000uf capacitor when use a linear regulator. This pr
 
 <em><strong>!!!! ATTENTION !!!!!</strong></em>
 
-**Remember to NEVER, NEVER connect external DC power along with the USB cable connected to USB comm port. This can burn permanentlly your ESP board.**
+**Remember to NEVER, NEVER connect external DC power along with the USB cable connected to USB comm port. This can burn permanentlly your ESP32 board.**
 
-With all cables disconnected, always follow these 5 steps: 
+With all cables disconnected, always follow these 6 steps: 
 
-1. connect USB comm cable
-2. upload your sketch
-3. disconnect USB comm cable
-4. connect external power
-5. and then, connec USB cable to communicate again with your PC/device
+1. connect USB cable to your PC;
+2. connect USB cable to ESP32 board;
+2. upload your sketch;
+3. alfer sketch was uploaded, disconnect USB cable from ESP board;
+4. connect external power to the ESP32 board;
+5. reconnect USB cable to ESP32 board again.
 
 
 #### Putty
