@@ -1451,7 +1451,7 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <sheet>
 <plain>
 <text x="-92.71" y="-39.37" size="1.778" layer="91">POWER ADAPTER
-5VDC to 8VDC / 1A</text>
+5VDC @ 1A</text>
 <text x="-88.9" y="-83.82" size="1.778" layer="91">POWER ADAPTER
 12VDC/ 1A</text>
 <text x="-91.44" y="5.08" size="1.778" layer="91">USB mobile charger / power pack
@@ -1466,8 +1466,8 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <instance part="GND5" gate="1" x="-68.58" y="-80.01"/>
 <instance part="J2" gate="G$1" x="-71.12" y="-80.01"/>
 <instance part="GND6" gate="1" x="24.13" y="-72.39" rot="MR0"/>
-<instance part="IC1" gate="A1" x="-55.88" y="-72.39"/>
-<instance part="GND7" gate="1" x="-55.88" y="-82.55"/>
+<instance part="IC1" gate="A1" x="-45.72" y="-72.39"/>
+<instance part="GND7" gate="1" x="-45.72" y="-82.55"/>
 <instance part="USB_B" gate="G$1" x="-69.85" y="-6.35" rot="MR0"/>
 <instance part="GND9" gate="1" x="-57.15" y="-11.43"/>
 </instances>
@@ -1511,7 +1511,7 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 </net>
 <net name="+5V_USB1" class="0">
 <segment>
-<wire x1="-19.05" y1="-72.39" x2="-45.72" y2="-72.39" width="0.1524" layer="91"/>
+<wire x1="-19.05" y1="-72.39" x2="-35.56" y2="-72.39" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="A1" pin="VO"/>
 <pinref part="ESP2" gate="G$1" pin="VIN"/>
 </segment>
@@ -1520,7 +1520,7 @@ http://www.fairchildsemi.com/ds/LM/LM7805.pdf</description>
 <segment>
 <pinref part="J2" gate="G$1" pin="PWR"/>
 <pinref part="IC1" gate="A1" pin="VI"/>
-<wire x1="-66.04" y1="-72.39" x2="-68.58" y2="-72.39" width="0.1524" layer="91"/>
+<wire x1="-55.88" y1="-72.39" x2="-68.58" y2="-72.39" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$9" class="0">
