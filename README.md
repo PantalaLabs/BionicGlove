@@ -30,7 +30,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 
 16/06/2023 Update
 * piece of EVA between the main board and the hand to add comfort for long time use
-* cover to protect the components and make it look more minimalist
+* cover to protect the components
 
 ![cover](/pictures/cover.jpg) | ![eva](/pictures/eva.jpg)
 
@@ -228,12 +228,9 @@ https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af
 
 
 ### Connections
-#### How to Power ESP receiver
-The rceiver will only work with a clean source of 5VDC @ 1A.
+#### ESP receiver
 
-#### How to Connect ESP receiver
-
-1. turn on the ESP32 receiver board with a good 1A power supply.
+1. turn on receiver;
 2. turn on Bionic Glove;
 3. pay attention to the blue led on Bionic Glove. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer;
 4. after the Bionic Glove will try to connect to the ESP32 Receiver. At this moment the blue led at Bionic Glove may start blinking fast, indicating that the ESP32 Receiver should already be on and waiting to be paired. The blue led will stop blinking as soon as the two devices are paired;
@@ -246,21 +243,6 @@ The rceiver will only work with a clean source of 5VDC @ 1A.
 3. pay attention to the blue led. It will remain turned on for 2 seconds. At this time keep your glove horizontal and at rest to calibrate the accelerometer. You can release the switch 1 anytime here;
 4. now the Bionic Glove will connect to the Dongle;
 5. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
-
-
-<em><strong>!!!! ATTENTION !!!!!</strong></em>
-
-**Remember to NEVER, NEVER connect external DC power along with the USB cable connected to USB comm port. This can burn permanentlly your ESP32 board.**
-
-With all cables disconnected, always follow these 6 steps: 
-
-1. connect USB cable to your PC;
-2. connect USB cable to ESP32 board;
-2. upload your sketch;
-3. alfer sketch was uploaded, disconnect USB cable from ESP board;
-4. connect external power to the ESP32 board;
-5. reconnect USB cable to ESP32 board again.
-
 
 #### Putty
 
