@@ -199,16 +199,10 @@ float BionicGlove::getUnit(uint8_t raw)
     switch (raw)
     {
     case 0:
-      return (((float)finger[0].fingerRead - 2048.0) / 2048.0);
-      break;
     case 1:
-      return (((float)finger[1].fingerRead - 2048.0) / 2048.0);
-      break;
     case 2:
-      return (((float)finger[2].fingerRead - 2048.0) / 2048.0);
-      break;
     case 3:
-      return (((float)finger[3].fingerRead - 2048.0) / 2048.0);
+      return ((getF(raw) - 2048.0) / 2048.0);
       break;
     case 4:
       return accel[AXL_X].raw / 512.0;
