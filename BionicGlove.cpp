@@ -108,7 +108,7 @@ bool BionicGlove::receiveDataPack()
     thisSeparator = nextSeparator + 1;
     separatorCounter++;
   } while (nextSeparator != -1);
-  
+
   if (separatorCounter == MAXBTDATAPACK) // message with accepted number of tokens
   {
     thisSeparator = 0;
@@ -199,22 +199,22 @@ float BionicGlove::getUnit(uint8_t raw)
     switch (raw)
     {
     case 0:
-      return ((float)finger[0].fingerRead - 2048.0) / 4095.0;
+      return (((float)finger[0].fingerRead - 2048.0) / 2048.0);
       break;
     case 1:
-      return ((float)finger[1].fingerRead - 2048.0) / 4095.0;
+      return (((float)finger[1].fingerRead - 2048.0) / 2048.0);
       break;
     case 2:
-      return ((float)finger[2].fingerRead - 2048.0) / 4095.0;
+      return (((float)finger[2].fingerRead - 2048.0) / 2048.0);
       break;
     case 3:
-      return ((float)finger[3].fingerRead - 2048.0) / 4095.0;
+      return (((float)finger[3].fingerRead - 2048.0) / 2048.0);
       break;
     case 4:
       return accel[AXL_X].raw / 512.0;
       break;
     case 5:
-      return accel[AXL_X].g / 1.0;
+      return accel[AXL_X].g / 2.0;
       break;
     case 6:
       return accel[AXL_X].ang / 90.0;
@@ -223,7 +223,7 @@ float BionicGlove::getUnit(uint8_t raw)
       return accel[AXL_Y].raw / 512.0;
       break;
     case 8:
-      return accel[AXL_Y].g / 1.0;
+      return accel[AXL_Y].g / 2.0;
       break;
     case 9:
       return accel[AXL_Y].ang / 90.0;
@@ -232,7 +232,7 @@ float BionicGlove::getUnit(uint8_t raw)
       return accel[AXL_Z].raw / 512.0;
       break;
     case 11:
-      return accel[AXL_Z].g / 1.0;
+      return accel[AXL_Z].g / 2.0;
       break;
     case 12:
       return accel[AXL_Z].ang / 90.0;
