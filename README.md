@@ -226,6 +226,14 @@ Follow the steps to wear it. Do the steps in reverse to unwear:
 
 https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af9a-d0ecc8897eee
 
+Every mobile equipment has power coupled to the body of the device and firmly attached. Sometimes even inside the device itself.
+
+For the Bionic Glove, there are two possibilities
+1. using batteries and packs that must be firmly attached to the users´s arm;
+2. USB power which is very convenient when you are close to the power supply. In this case, I strongly advise using a zip tie to hold the first turn of the wire, preventing it from creating slack in the USB connector with constant use.
+
+![ziptie](/pictures/ziptie.jpg) 
+
 
 ### Connections
 #### ESP Receiver
