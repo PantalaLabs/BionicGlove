@@ -63,28 +63,28 @@
             let readComplete = false; // flag to finish reading 
             try {
                 while (true) {
-                    //stores into 'value' all bytes available into buffer
-                    const { value, done } = await reader.read();
+                    //move all available buffer bytes to 'value'
+                    const { btBuffer, done } = await reader.read();
                     if (done) { //finish read buffer
                         readComplete = true;
                         break;
                     }
                     const decoder = new TextDecoder();
-                    const stringValue = decoder.decode(value); //char to string
-                    var receivedData = stringValue;
-                    var startIndex = receivedData.indexOf('s', startIndex);
-                    var endIndex = receivedData.indexOf('e', startIndex + 1);
-                    while (receivedData.includes('*') && (endIndex >= 0)) { //recognize ALL datapacks inside the buffer
-                    //if (receivedData.includes('*')) { //recognize only first datapack
-                        const trimmedData = receivedData.substring(startIndex + 1, endIndex);
+                    const stringValue = decoder.decode(btBuffer); //char to string
+                    var dataString = stringValue;
+                    var startIndex = dataString.indexOf('s', startIndex);
+                    var endIndex = dataString.indexOf('e', startIndex + 1);
+                    while (dataString.includes('*') && (endIndex >= 0)) { //recognize ALL datapacks inside the buffer
+                        //if (dataString.includes('*')) {                 //recognize only first datapack
+                        const trimmedData = dataString.substring(startIndex + 1, endIndex);
                         dataPack = trimmedData.split(',');
                         if (dataPack.length == 14) {
-                            //console.log(dataPack); // Array com os dados separados por vírgula
+                            //console.log(dataPack);
                             updateBars(trimmedData);
                         }
-                        receivedData = receivedData.substring(endIndex+2, receivedData.length);
-                        startIndex = receivedData.indexOf('s', startIndex);
-                        endIndex = receivedData.indexOf('e', startIndex + 1);
+                        dataString = dataString.substring(endIndex + 2, dataString.length); //shrink dataString
+                        startIndex = dataString.indexOf('s', startIndex);
+                        endIndex = dataString.indexOf('e', startIndex + 1);
                     }
                 }
             } catch (error) {
