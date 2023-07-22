@@ -38,9 +38,9 @@
         // Add a click event listener to the button
         requestPortButton.addEventListener("click", async () => {
             try {
-                callBionic();
+                callSerialBT();
             } catch (error) {
-                console.error("Error requesting serial port:", error);
+                alert("Error requesting serial port:", error);
             }
         });
 
@@ -55,17 +55,14 @@
             });
         }
 
-        async function callBionic() {
+        async function callSerialBT() {
             const port = await navigator.serial.requestPort();
             await port.open({ baudRate: 38400 });
-
             const reader = port.readable.getReader();
             let receivedData = ''; // stores revceived data
             let shortedData = ''; // stores revceived data minus processed datapack
             let dataPack = '';
             let readComplete = false; // flag to finish reading 
-
-
             try {
                 while (true) {
                     receivedData = '';
@@ -82,7 +79,6 @@
                     receivedData += stringValue;
                     while (receivedData.includes('*')) { //recognize ALL datapacks inside the buffer
                         //if (receivedData.includes('*')) { //recognize only first datapack
-                        // get first datapack
                         startIndex = receivedData.indexOf('s', startIndex);
                         endIndex = receivedData.indexOf('e', startIndex + 1);
                         const trimmedData = receivedData.substring(startIndex + 1, endIndex);
@@ -95,7 +91,7 @@
                     }
                 }
             } catch (error) {
-                console.error(error);
+                alert(error);
             } finally {
                 // Verifica se a leitura foi concluída antes de fechar a porta serial
                 if (readComplete) {
