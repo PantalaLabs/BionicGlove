@@ -59,35 +59,32 @@
             const port = await navigator.serial.requestPort();
             await port.open({ baudRate: 38400 });
             const reader = port.readable.getReader();
-            let receivedData = ''; // stores revceived data
             let dataPack = ''; //stores splitted buffer
             let readComplete = false; // flag to finish reading 
             try {
                 while (true) {
-                    var startIndex = 0;
-                    var endIndex = 0;
                     //stores into 'value' all bytes available into buffer
                     const { value, done } = await reader.read();
-                    if (done) { //se terminou de ler todo o buffer
+                    if (done) { //finish read buffer
                         readComplete = true;
                         break;
                     }
                     const decoder = new TextDecoder();
-                    const stringValue = decoder.decode(value);
-                    receivedData = stringValue;
-                    while (receivedData.includes('*')) { //recognize ALL datapacks inside the buffer
+                    const stringValue = decoder.decode(value); //char to string
+                    var receivedData = stringValue;
+                    var startIndex = receivedData.indexOf('s', startIndex);
+                    var endIndex = receivedData.indexOf('e', startIndex + 1);
+                    while (receivedData.includes('*') && (endIndex >= 0)) { //recognize ALL datapacks inside the buffer
                     //if (receivedData.includes('*')) { //recognize only first datapack
-                        startIndex = receivedData.indexOf('s', startIndex);
-                        endIndex = receivedData.indexOf('e', startIndex + 1);
-                        if (endIndex < 0)
-                            break;
                         const trimmedData = receivedData.substring(startIndex + 1, endIndex);
                         dataPack = trimmedData.split(',');
                         if (dataPack.length == 14) {
-                            console.log(dataPack); // Array com os dados separados por vírgula
+                            //console.log(dataPack); // Array com os dados separados por vírgula
                             updateBars(trimmedData);
                         }
-                        startIndex = endIndex;
+                        receivedData = receivedData.substring(endIndex+2, receivedData.length);
+                        startIndex = receivedData.indexOf('s', startIndex);
+                        endIndex = receivedData.indexOf('e', startIndex + 1);
                     }
                 }
             } catch (error) {
