@@ -48,7 +48,7 @@
             const bars = document.querySelectorAll('.bar');
             const dataPack = data.split(',');
             const values = dataPack.slice(0, 4); // get only first 4 tokens
-            const maxDataValue = 4095; //max token value
+            const maxDataValue = 511; //max token value
             values.forEach((value, index) => {
                 const height = (parseInt(value) / maxDataValue) * 100;
                 bars[index].style.height = height + '%';
@@ -65,9 +65,12 @@
             let dataPack = '';
             let readComplete = false; // flag to finish reading 
 
+
             try {
                 while (true) {
                     receivedData = '';
+                    var startIndex = 0;
+                    var endIndex = 0;
                     //stores into 'value' all bytes available into buffer
                     const { value, done } = await reader.read();
                     if (done) { //se terminou de ler todo o buffer
@@ -77,19 +80,18 @@
                     const decoder = new TextDecoder();
                     const stringValue = decoder.decode(value);
                     receivedData += stringValue;
-                    //while (receivedData.includes('*')) { //recognize ALL datapacks inside the buffer
-                    if (receivedData.includes('*')) { //recognize only first datapack
+                    while (receivedData.includes('*')) { //recognize ALL datapacks inside the buffer
+                        //if (receivedData.includes('*')) { //recognize only first datapack
                         // get first datapack
-                        const startIndex = receivedData.indexOf('s');
-                        const endIndex = receivedData.indexOf('e');
+                        startIndex = receivedData.indexOf('s', startIndex);
+                        endIndex = receivedData.indexOf('e', startIndex + 1);
                         const trimmedData = receivedData.substring(startIndex + 1, endIndex);
                         dataPack = trimmedData.split(',');
                         if (dataPack.length == 14) {
-                            console.log(dataPack); // Array com os dados separados por vírgula
+                            //console.log(dataPack); // Array com os dados separados por vírgula
                             updateBars(trimmedData);
                         }
-                        shortedData = receivedData.substring(endIndex + 2, receivedData.length);
-                        receivedData = shortedData;
+                        startIndex = endIndex;
                     }
                 }
             } catch (error) {
