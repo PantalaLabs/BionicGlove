@@ -77,8 +77,8 @@
                     const decoder = new TextDecoder();
                     const stringValue = decoder.decode(value);
                     receivedData += stringValue;
-                    //while receivedData still hold any data
-                    if (receivedData.includes('*')) {
+                    //while (receivedData.includes('*')) { //recognize ALL datapacks inside the buffer
+                    if (receivedData.includes('*')) { //recognize only first datapack
                         // get first datapack
                         const startIndex = receivedData.indexOf('s');
                         const endIndex = receivedData.indexOf('e');
@@ -88,9 +88,8 @@
                             console.log(dataPack); // Array com os dados separados por vírgula
                             updateBars(trimmedData);
                         }
-                        shortedData = receivedData.substring(endIndex, receivedData.length - 1);
+                        shortedData = receivedData.substring(endIndex + 2, receivedData.length);
                         receivedData = shortedData;
-                        //receivedData = '';
                     }
                 }
             } catch (error) {
