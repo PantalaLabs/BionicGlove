@@ -61,7 +61,7 @@
             const reader = port.readable.getReader();
             let receivedData = ''; // stores revceived data
             let shortedData = ''; // stores revceived data minus processed datapack
-            let dataPack = '';
+            let dataPack = ''; //stores splitted buffer
             let readComplete = false; // flag to finish reading 
             try {
                 while (true) {
