@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Receber Dados da Porta Serial</title>
+    <title>Bionic Glove JavaScript Receiver</title>
     <style>
         .bar-chart {
             display: flex;
@@ -40,7 +40,7 @@
             try {
                 callSerialBT();
             } catch (error) {
-                alert("Error requesting serial port:", error);
+                console.error("Error requesting serial port:", error);
             }
         });
 
@@ -60,12 +60,10 @@
             await port.open({ baudRate: 38400 });
             const reader = port.readable.getReader();
             let receivedData = ''; // stores revceived data
-            let shortedData = ''; // stores revceived data minus processed datapack
             let dataPack = ''; //stores splitted buffer
             let readComplete = false; // flag to finish reading 
             try {
                 while (true) {
-                    receivedData = '';
                     var startIndex = 0;
                     var endIndex = 0;
                     //stores into 'value' all bytes available into buffer
@@ -76,22 +74,24 @@
                     }
                     const decoder = new TextDecoder();
                     const stringValue = decoder.decode(value);
-                    receivedData += stringValue;
+                    receivedData = stringValue;
                     while (receivedData.includes('*')) { //recognize ALL datapacks inside the buffer
-                        //if (receivedData.includes('*')) { //recognize only first datapack
+                    //if (receivedData.includes('*')) { //recognize only first datapack
                         startIndex = receivedData.indexOf('s', startIndex);
                         endIndex = receivedData.indexOf('e', startIndex + 1);
+                        if (endIndex < 0)
+                            break;
                         const trimmedData = receivedData.substring(startIndex + 1, endIndex);
                         dataPack = trimmedData.split(',');
                         if (dataPack.length == 14) {
-                            //console.log(dataPack); // Array com os dados separados por vírgula
+                            console.log(dataPack); // Array com os dados separados por vírgula
                             updateBars(trimmedData);
                         }
                         startIndex = endIndex;
                     }
                 }
             } catch (error) {
-                alert(error);
+                console.error(error);
             } finally {
                 // Verifica se a leitura foi concluída antes de fechar a porta serial
                 if (readComplete) {
