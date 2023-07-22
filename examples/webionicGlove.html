@@ -88,9 +88,9 @@
                             console.log(dataPack); // Array com os dados separados por vírgula
                             updateBars(trimmedData);
                         }
-                        // shortedData = receivedData.substring(endIndex, receivedData.length - 1);
-                        // receivedData = shortedData;
-                        receivedData = '';
+                        shortedData = receivedData.substring(endIndex, receivedData.length - 1);
+                        receivedData = shortedData;
+                        //receivedData = '';
                     }
                 }
             } catch (error) {
