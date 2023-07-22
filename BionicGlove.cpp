@@ -121,23 +121,23 @@ bool BionicGlove::receiveDataPack()
       switch (i)
       {
       case 0:
-        finger[0].fingerRead = constrain(btDataPack[i].toInt(), 0, 4095);
-        if ((finger[0].fingerRead < 0 || finger[0].fingerRead > 4095)) // helps to keep a reeliable data structure
+        finger[0].fingerRead = constrain(btDataPack[i].toInt(), 0, MAXRES);
+        if ((finger[0].fingerRead < 0 || finger[0].fingerRead > MAXRES)) // helps to keep a reeliable data structure
           return false;
         break;
       case 1:
-        finger[1].fingerRead = constrain(btDataPack[i].toInt(), 0, 4095);
-        if ((finger[1].fingerRead < 0 || finger[1].fingerRead > 4095)) // helps to keep a reeliable data structure
+        finger[1].fingerRead = constrain(btDataPack[i].toInt(), 0, MAXRES);
+        if ((finger[1].fingerRead < 0 || finger[1].fingerRead > MAXRES)) // helps to keep a reeliable data structure
           return false;
         break;
       case 2:
-        finger[2].fingerRead = constrain(btDataPack[i].toInt(), 0, 4095);
-        if ((finger[2].fingerRead < 0 || finger[2].fingerRead > 4095)) // helps to keep a reeliable data structure
+        finger[2].fingerRead = constrain(btDataPack[i].toInt(), 0, MAXRES);
+        if ((finger[2].fingerRead < 0 || finger[2].fingerRead > MAXRES)) // helps to keep a reeliable data structure
           return false;
         break;
       case 3:
-        finger[3].fingerRead = constrain(btDataPack[i].toInt(), 0, 4095);
-        if ((finger[3].fingerRead < 0 || finger[3].fingerRead > 4095)) // helps to keep a reeliable data structure
+        finger[3].fingerRead = constrain(btDataPack[i].toInt(), 0, MAXRES);
+        if ((finger[3].fingerRead < 0 || finger[3].fingerRead > MAXRES)) // helps to keep a reeliable data structure
           return false;
         break;
       case 4:
@@ -535,8 +535,8 @@ void BionicGlove::updateNewLimits()
   //   firstReading = false;
   //   for (uint8_t i = 0; i < MAXFINGERCHANNELS; i++)
   //   {
-  //     finger[i].closedMinValue = constrain(finger[i].fingerRead + 1, 0, 4095);
-  //     finger[i].openedMaxValue = constrain(finger[i].fingerRead - 1, 0, 4095);
+  //     finger[i].closedMinValue = constrain(finger[i].fingerRead + 1, 0, MAXRES);
+  //     finger[i].openedMaxValue = constrain(finger[i].fingerRead - 1, 0, MAXRES);
   //     // Serial.print(finger[i].closedMinValue);
   //     // Serial.print(",");
   //     // Serial.println(finger[i].openedMaxValue);
@@ -557,7 +557,7 @@ void BionicGlove::updateNewLimits()
     }
     // expand
     croped = constrain(finger[f].fingerRead, finger[f].closedMinValue, finger[f].openedMaxValue);
-    finger[f].expanded = map(finger[f].fingerRead, finger[f].closedMinValue, finger[f].openedMaxValue, 0, 4095);
+    finger[f].expanded = map(finger[f].fingerRead, finger[f].closedMinValue, finger[f].openedMaxValue, 0, MAXRES);
   }
 }
 

@@ -87,7 +87,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>each of all 4 fingers absolute position. It tracks every position of the finger</td>
 <td>n/a</td>
 <td>4 - one value for each finger</td>
-<td>0-4095</td>
+<td>0-512</td>
 </tr>
 
 <tr>

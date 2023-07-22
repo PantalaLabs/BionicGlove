@@ -109,6 +109,8 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 #define CLOSED 0
 #define OPENED 1
 
+#define MAXRES 0b111111111
+
 #define SCHMITTTRIGGERPERCENTAGE 5
 
 #define ALPHAFILTER(tar, amt, alpha)                                            \
