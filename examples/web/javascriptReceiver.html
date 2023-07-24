@@ -34,6 +34,9 @@
     </div>
 
     <script>
+
+        let fingerVals = [0, 0, 0, 0];
+
         const requestPortButton = document.getElementById("requestPortButton");
         // Add a click event listener to the button
         requestPortButton.addEventListener("click", async () => {
@@ -44,16 +47,23 @@
             }
         });
 
-        function updateBars(data) {
+
+        function updateBars() {
             const bars = document.querySelectorAll('.bar');
-            const dataPack = data.split(',');
-            const values = dataPack.slice(0, 4); // get only first 4 tokens
+            //const dataPack = data.split(',');
+            //const values = dataPack.slice(0, 4); // get only first 4 tokens
             const maxDataValue = 511; //max token value
-            values.forEach((value, index) => {
-                const height = (parseInt(value) / maxDataValue) * 100;
-                bars[index].style.height = height + '%';
-            });
+            for (let i = 0; i < 4; i++) {
+                const height = (fingerVals[i] / maxDataValue) * 100;
+                bars[i].style.height = height + '%';
+            }
+            // values.forEach((value, index) => {
+            //     const height = (parseInt(value) / maxDataValue) * 100;
+            //     bars[index].style.height = height + '%';
+            // });
         }
+
+        setInterval(updateBars, 50);
 
         async function callSerialBT() {
             const port = await navigator.serial.requestPort();
@@ -74,13 +84,24 @@
                     var dataString = stringValue;                                   // needed ?? why not let stringValue?
                     var dataPackStart = dataString.indexOf('s', dataPackStart);     //find first 'start' and 'end' indexes
                     var dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
-                    while (dataString.includes('*') && (dataPackEnd >= 0)) {        //recognize ALL datapacks inside the buffer
-                        //if (dataString.includes('*')) {                           //recognize only first datapack
+                    
+                    //while (dataString.includes('*') && (dataPackEnd >= 0)) { //recognize ALL datapacks inside the buffer
+                        
+                    //"while" was disabled because of high lag in visual response to finger movement
+                    //this happens because the glove sends one message every 10ms
+                    //and the screen was updated with each buffer call creating a high unnecessary overhead
+                    //now , the screen update routine is called every 50ms, detached from buffer reading
+                    //so there is no need to read the entire pack from the buffer
+                    if (dataString.includes('*')) {                           //recognize only first datapack
                         const trimmedData = dataString.substring(dataPackStart + 1, dataPackEnd);
                         dataPack = trimmedData.split(',');
                         if (dataPack.length == 14) {
                             //console.log(dataPack);
-                            updateBars(trimmedData);
+                            const trimmed = dataPack.slice(0, 4); // get only first 4 tokens
+                            trimmed.forEach((trimmed, index) => {
+                                fingerVals[index] = parseInt(trimmed);
+                            });
+                            //updateBars(trimmedData);
                         }
                         dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
                         dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes

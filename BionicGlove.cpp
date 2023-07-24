@@ -202,7 +202,7 @@ float BionicGlove::getUnit(uint8_t raw)
     case 1:
     case 2:
     case 3:
-      return ((getF(raw) - 2048.0) / 2048.0);
+      return ((getF(raw) - 256.0) / 256.0);
       break;
     case 4:
       return accel[AXL_X].raw / 512.0;
