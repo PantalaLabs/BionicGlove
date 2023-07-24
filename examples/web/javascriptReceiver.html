@@ -50,17 +50,11 @@
 
         function updateBars() {
             const bars = document.querySelectorAll('.bar');
-            //const dataPack = data.split(',');
-            //const values = dataPack.slice(0, 4); // get only first 4 tokens
             const maxDataValue = 511; //max token value
             for (let i = 0; i < 4; i++) {
                 const height = (fingerVals[i] / maxDataValue) * 100;
                 bars[i].style.height = height + '%';
             }
-            // values.forEach((value, index) => {
-            //     const height = (parseInt(value) / maxDataValue) * 100;
-            //     bars[index].style.height = height + '%';
-            // });
         }
 
         setInterval(updateBars, 100);
@@ -101,7 +95,6 @@
                             trimmed.forEach((trimmed, index) => {
                                 fingerVals[index] = parseInt(trimmed);
                             });
-                            //updateBars(trimmedData);
                         }
                         dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
                         dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes

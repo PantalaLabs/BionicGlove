@@ -76,7 +76,7 @@ bool BionicGlove::read()
   {
     if (receiveDataPack()) // valid and imported datapack
     {
-      updateNewLimits();
+      //updateNewLimits();
       logFremoveOffset();
       logAZGknock();
       if (doneMs(ts_frozen, frozen))
@@ -526,38 +526,10 @@ void BionicGlove::callbackKnockLr()
 void BionicGlove::updateNewLimits()
 {
   int16_t croped;
-
-  // if (firstReading)
-  // {
-  //   // if first time library was called
-  //   // force some values to init properlly min and max
-  //   // with real analogread values and not arbitrary development values
-  //   firstReading = false;
-  //   for (uint8_t i = 0; i < MAXFINGERCHANNELS; i++)
-  //   {
-  //     finger[i].closedMinValue = constrain(finger[i].fingerRead + 1, 0, MAXRES);
-  //     finger[i].openedMaxValue = constrain(finger[i].fingerRead - 1, 0, MAXRES);
-  //     // Serial.print(finger[i].closedMinValue);
-  //     // Serial.print(",");
-  //     // Serial.println(finger[i].openedMaxValue);
-  //   }
-  // }
-
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
   {
-    if (finger[f].fingerRead < finger[f].closedMinValue) // if read smaller than smallest
-    {
-      finger[f].closedMinValue = finger[f].fingerRead; // set new smallest
-      updateClosedRedline(f);
-    }
-    else if (finger[f].fingerRead > finger[f].openedMaxValue) // if read bigger than biggest
-    {
-      finger[f].openedMaxValue = finger[f].fingerRead; // set new biggest
-      updateOpenedRedline(f);
-    }
-    // expand
-    croped = constrain(finger[f].fingerRead, finger[f].closedMinValue, finger[f].openedMaxValue);
-    finger[f].expanded = map(finger[f].fingerRead, finger[f].closedMinValue, finger[f].openedMaxValue, 0, MAXRES);
+    updateClosedRedline(f);
+    updateOpenedRedline(f);
   }
 }
 
@@ -692,9 +664,8 @@ in _ _ _ _ \       //
 */
 void BionicGlove::updateClosedRedline(uint8_t f) // smallest values on scale
 {
-  int16_t availab = (finger[f].openedMaxValue - finger[f].closedMinValue); // available  scale
-  finger[f].closedRedLineIn = finger[f].closedMinValue + ((abs(availab) * (finger[f].closedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
-  finger[f].closedRedLineOut = finger[f].closedMinValue + ((abs(availab) * (finger[f].closedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].closedRedLineIn = ((511 * (finger[f].closedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].closedRedLineOut = ((511 * (finger[f].closedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
 }
 
 /*
@@ -714,9 +685,8 @@ in _ _ _ _  //    \\
 */
 void BionicGlove::updateOpenedRedline(uint8_t f)
 {
-  int16_t availab = (finger[f].openedMaxValue - finger[f].closedMinValue); // available  scale
-  finger[f].openedRedLineIn = finger[f].openedMaxValue - ((abs(availab) * (finger[f].openedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
-  finger[f].openedRedLineOut = finger[f].openedMaxValue - ((abs(availab) * (finger[f].openedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].openedRedLineIn = 511 - ((511 * (finger[f].openedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].openedRedLineOut = 511 - ((511 * (finger[f].openedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
 }
 
 bool BionicGlove::getFclosedStatus(uint8_t f)
