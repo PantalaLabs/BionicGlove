@@ -11,14 +11,14 @@
             justify-content: space-between;
             align-items: flex-end;
             height: 200px;
-            width: 400px;
+            width: 200px;
             border: 1px solid #ccc;
             margin-top: 20px;
             padding: 5px;
         }
 
         .bar {
-            width: 25%;
+            width: 20%;
             background-color: #007bff;
         }
     </style>
@@ -63,7 +63,7 @@
             // });
         }
 
-        setInterval(updateBars, 40);
+        setInterval(updateBars, 100);
 
         async function callSerialBT() {
             const port = await navigator.serial.requestPort();
