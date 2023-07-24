@@ -664,8 +664,8 @@ in _ _ _ _ \       //
 */
 void BionicGlove::updateClosedRedline(uint8_t f) // smallest values on scale
 {
-  finger[f].closedRedLineIn = ((511 * (finger[f].closedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
-  finger[f].closedRedLineOut = ((511 * (finger[f].closedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].closedRedLineIn = ((MAXRES * (finger[f].closedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].closedRedLineOut = ((MAXRES * (finger[f].closedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
 }
 
 /*
@@ -685,8 +685,8 @@ in _ _ _ _  //    \\
 */
 void BionicGlove::updateOpenedRedline(uint8_t f)
 {
-  finger[f].openedRedLineIn = 511 - ((511 * (finger[f].openedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
-  finger[f].openedRedLineOut = 511 - ((511 * (finger[f].openedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].openedRedLineIn = MAXRES - ((MAXRES * (finger[f].openedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].openedRedLineOut = MAXRES - ((MAXRES * (finger[f].openedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
 }
 
 bool BionicGlove::getFclosedStatus(uint8_t f)
