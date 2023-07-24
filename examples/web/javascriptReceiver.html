@@ -63,7 +63,7 @@
             // });
         }
 
-        setInterval(updateBars, 50);
+        setInterval(updateBars, 40);
 
         async function callSerialBT() {
             const port = await navigator.serial.requestPort();
@@ -86,7 +86,7 @@
                     var dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
                     
                     //while (dataString.includes('*') && (dataPackEnd >= 0)) { //recognize ALL datapacks inside the buffer
-                        
+
                     //"while" was disabled because of high lag in visual response to finger movement
                     //this happens because the glove sends one message every 10ms
                     //and the screen was updated with each buffer call creating a high unnecessary overhead
