@@ -206,6 +206,7 @@ private:
   const float zerof = 0.0;
   uint32_t frozen = 0;
   uint32_t ts_frozen = 0;
+uint32_t ts_nextLed;
   void ledOnAsync();
   void ledOffAsync();
   bool ledBuiltInActive = false;

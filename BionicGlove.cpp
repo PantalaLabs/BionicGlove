@@ -56,7 +56,6 @@ BionicGlove::BionicGlove()
 
 void BionicGlove::start()
 {
-  uint32_t nextLed;
   delay(1000); // wait a little bit to start BT. avoid high inrush
   ledOnAsync();
   SerialBT.setPin(pin);
@@ -72,6 +71,11 @@ bool BionicGlove::read()
   ledOffAsync();
   if (SerialBT.available()) //@ each 10ms - MASTER defined
   {
+    if (doneMs(ts_nextLed, 3000))
+    {
+      ts_nextLed = millis();
+      ledOnAsync();
+    }
     if (receiveDataPack()) // valid and imported datapack
     {
       // updateNewLimits();
