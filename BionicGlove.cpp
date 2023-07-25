@@ -269,7 +269,7 @@ bool BionicGlove::active()
 
 uint16_t BionicGlove::getF(uint8_t f) // get expanded finger value
 {
-  return finger[f].expanded;
+  return finger[f].fingerRead;
 }
 
 float BionicGlove::getFaccel(uint8_t f)
