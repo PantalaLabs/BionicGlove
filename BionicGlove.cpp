@@ -57,15 +57,13 @@ BionicGlove::BionicGlove()
 void BionicGlove::start()
 {
   uint32_t nextLed;
-  delay(2000);
+  delay(1000); // wait a little bit to start BT. avoid high inrush
   ledOnAsync();
-  SerialBT.begin(device_name);
   SerialBT.setPin(pin);
+  SerialBT.begin(device_name);
   on = true;
   ledOffAsync();
 }
-uint32_t now;
-uint32_t newprint;
 
 bool BionicGlove::read()
 {
@@ -76,7 +74,7 @@ bool BionicGlove::read()
   {
     if (receiveDataPack()) // valid and imported datapack
     {
-      //updateNewLimits();
+      // updateNewLimits();
       logFremoveOffset();
       logAZGknock();
       if (doneMs(ts_frozen, frozen))
