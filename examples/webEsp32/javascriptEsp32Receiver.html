@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bionic Glove JavaScript Receiver</title>
+    <style>
+        .bar-chart {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 200px;
+            width: 200px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+            padding: 5px;
+        }
+
+        .bar {
+            width: 20%;
+            background-color: #007bff;
+        }
+    </style>
+</head>
+<button id="requestPortButton">Request Serial Port</button>
+
+<body>
+    <div class="bar-chart" id="chart">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
+    <script>
+
+        let fingerVals = [0, 0, 0, 0];
+
+        const requestPortButton = document.getElementById("requestPortButton");
+        // Add a click event listener to the button
+        requestPortButton.addEventListener("click", async () => {
+            try {
+                callSerialBT();
+            } catch (error) {
+                console.error("Error requesting serial port:", error);
+            }
+        });
+
+
+        function updateBars() {
+            const bars = document.querySelectorAll('.bar');
+            const maxDataValue = 511; //max token value
+            for (let i = 0; i < 4; i++) {
+                const height = (fingerVals[i] / maxDataValue) * 100;
+                bars[i].style.height = height + '%';
+            }
+        }
+
+        setInterval(updateBars, 100);
+
+        async function callSerialBT() {
+            const port = await navigator.serial.requestPort();
+            await port.open({ baudRate: 38400 });
+            const reader = port.readable.getReader();
+            let dataPack = '';          //stores splitted buffer
+            let readComplete = false;   // flag to finish reading 
+            try {
+                while (true) {
+                    //move all available buffer bytes to 'value'
+                    const { value, done } = await reader.read();
+                    if (done) { //finish read buffer
+                        readComplete = true;
+                        break;
+                    }
+                    const decoder = new TextDecoder();
+                    const stringValue = decoder.decode(value);                      //char to string
+                    var dataString = stringValue;                                   // needed ?? why not let stringValue?
+                    var dataPackStart = dataString.indexOf('s', dataPackStart);     //find first 'start' and 'end' indexes
+                    var dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
+                    
+                    //while (dataString.includes('*') && (dataPackEnd >= 0)) { //recognize ALL datapacks inside the buffer
+
+                    //"while" was disabled because of high lag in visual response to finger movement
+                    //this happens because the glove sends one message every 10ms
+                    //and the screen was updated with each buffer call creating a high unnecessary overhead
+                    //now , the screen update routine is called every 50ms, detached from buffer reading
+                    //so there is no need to read the entire pack from the buffer
+                    if (dataString.includes('*')) {                           //recognize only first datapack
+                        const trimmedData = dataString.substring(dataPackStart + 1, dataPackEnd);
+                        dataPack = trimmedData.split(',');
+                        if (dataPack.length == 14) {
+                            //console.log(dataPack);
+                            const trimmed = dataPack.slice(0, 4); // get only first 4 tokens
+                            trimmed.forEach((trimmed, index) => {
+                                fingerVals[index] = parseInt(trimmed);
+                            });
+                        }
+                        dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
+                        dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes
+                        dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                // Verifica se a leitura foi concluída antes de fechar a porta serial
+                if (readComplete) {
+                    reader.releaseLock(); // Libera o leitor antes de fechar a porta
+                    await port.close(); // Fecha a porta serial ao final do processamento
+                }
+
+            }
+
+        }
+    </script>
+
+</body>
+
+</html>
