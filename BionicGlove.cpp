@@ -100,7 +100,7 @@ bool BionicGlove::receiveDataPack()
   // receive datapack
   int8_t thisSeparator = 0, nextSeparator = 0, separatorCounter = 0;
 
-  serialData = SerialBT.readStringUntil('*');                                   // get all buffer chars up to *
+  serialData = SerialBT.readStringUntil('*');                                   // get all buffer chars up to first *
   SerialBT.flush();                                                             // flush extra chars
   if ((serialData.indexOf('s', 0) == -1) || (serialData.indexOf('e', 0) == -1)) // if incomplete message
     return false;                                                               // discard read

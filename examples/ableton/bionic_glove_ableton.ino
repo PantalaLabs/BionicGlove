@@ -4,7 +4,6 @@ BionicGlove bionic;
 String separator = " ";
 String dataPack = "";
 bool flick[8];
-bool knock[4];
 
 void setup()
 {
@@ -62,13 +61,6 @@ void loop()
         dataPack += map(bionic.getAAngsmoothed(AXL_X), -90, 90, 0, 180);
         dataPack += separator;
         dataPack += map(bionic.getAAngsmoothed(AXL_Y), -90, 90, 180, 0);
-
-        for (uint8_t i = 0; i < 4; i++)
-        {
-            dataPack += separator;
-            dataPack += knock[i];
-            knock[i] = false;
-        }
 
         Serial.println(dataPack);
     }
