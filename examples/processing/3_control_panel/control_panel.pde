@@ -86,7 +86,7 @@ void draw() {
   // Desenha as dataPack
   // for (int i = 0; i < dataPack.length; i++) {
   for (int i = 0; i < 4; i++) {
-    int altura = (int)map(dataPack[3-i], 0, 4095, 0, alturaMaxima);
+    int altura = (int)map(dataPack[3-i], 0, 512, 0, alturaMaxima);
     int x = (i+1) * larguraBarra;
     int y = height - altura - 100;
     fill(255);

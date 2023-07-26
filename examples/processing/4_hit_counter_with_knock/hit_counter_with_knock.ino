@@ -5,11 +5,11 @@ BionicGlove bionic;
 void setup()
 {
     Serial.begin(38400);
-    bionic.start();
     bionic.attachCallOnVerticalPositiveKnock(message1);
     bionic.attachCallOnVerticalNegativeKnock(message2);
     bionic.attachCallOnHorizontalPositiveKnock(message3);
     bionic.attachCallOnHorizontalNegativeKnock(message4);
+    bionic.start();
 }
 
 void loop()

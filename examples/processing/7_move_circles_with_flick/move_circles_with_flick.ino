@@ -10,7 +10,6 @@ void setup()
     bionic.attachCallOnHorizontalNegativeKnock(message3);
     bionic.setKnockThreshold(6.0);
     bionic.setKnockDebounceInterval(500);
-    bionic.setLedBuiltIn();
     bionic.start();
 }
 

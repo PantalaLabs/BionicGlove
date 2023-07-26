@@ -10,7 +10,6 @@ void setup()
 {
     Serial.begin(38400);
     bionic.setAllRedlinePercentage(25);
-
     bionic.attachCallOnFlickOpenedFingerIndex(message1);
     bionic.attachCallOnFlickClosedFingerIndex(message2);
     bionic.attachCallOnFlickOpenedFingerMiddle(message3);
@@ -19,13 +18,6 @@ void setup()
     bionic.attachCallOnFlickClosedFingerRing(message6);
     bionic.attachCallOnFlickOpenedFingerLittle(message7);
     bionic.attachCallOnFlickClosedFingerLittle(message8);
-
-    bionic.attachCallOnVerticalPositiveKnock(message9);
-    bionic.attachCallOnVerticalNegativeKnock(message10);
-    bionic.attachCallOnHorizontalPositiveKnock(message11);
-    bionic.attachCallOnHorizontalNegativeKnock(message12);
-
-    bionic.setBuiltInLedOn();
     bionic.start();
 }
 
@@ -113,21 +105,4 @@ void message7()
 void message8()
 {
     flick[7] = true;
-}
-
-void message9()
-{
-    knock[0] = true;
-}
-void message10()
-{
-    knock[1] = true;
-}
-void message11()
-{
-    knock[2] = true;
-}
-void message12()
-{
-    knock[3] = true;
 }

@@ -12,7 +12,6 @@ void setup()
     bionic.attachCallOnWideOpenedFingerIndex(message3);
     bionic.setAllRedlinePercentage(10); // wide open all fingers
     bionic.setClosedRedLinePercentage(FINGER_INDEX, 30); // index finger closes sooner
-    bionic.setLedBuiltIn();
     bionic.start();
 }
 

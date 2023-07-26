@@ -57,6 +57,7 @@ BionicGlove::BionicGlove()
 void BionicGlove::start()
 {
   delay(1000); // wait a little bit to start BT. avoid high inrush
+  setBuiltInLed(true);
   ledOnAsync();
   SerialBT.setPin(pin);
   SerialBT.begin(device_name);
@@ -909,10 +910,11 @@ void BionicGlove::isrDefaultUnused()
 {
 }
 
-void BionicGlove::setBuiltInLedOn()
+void BionicGlove::setBuiltInLed(bool status)
 {
-  ledBuiltInActive = true;
-  pinMode(BULTINLED, OUTPUT);
+  ledBuiltInActive = status;
+  if (status)
+    pinMode(BULTINLED, OUTPUT);
 }
 
 void BionicGlove::setKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg)
