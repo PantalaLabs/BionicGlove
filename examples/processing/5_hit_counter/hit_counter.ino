@@ -5,10 +5,10 @@ BionicGlove bionic;
 void setup()
 {
     Serial.begin(38400);
-    bionic.start();
     bionic.attachCallOnPosVerKnock(printMessageA);
     bionic.attachCallOnNegVerKnock(printMessageB);
     bionic.setAllRedlinePercentage(20);
+    bionic.start();
 }
 
 void loop()
