@@ -71,16 +71,15 @@
                                 trimmed.forEach((trimmed, index) => {
                                     newAxl[index] = parseFloat(trimmed);
                                 });
-
                                 newAxl[0] = newAxl[0];
                                 newAxl[1] = newAxl[1] + 90;
                                 if (newAxl[1] > 90) {
-                                    eixos[0] = newAxl[0];
-                                    eixos[1] = newAxl[1];
+                                    eixos[0] = Math.floor(newAxl[0]);
+                                    eixos[1] = Math.floor(newAxl[1]);
                                 }
                                 else {
-                                    eixos[0] = -newAxl[0] + 180;
-                                    eixos[1] = newAxl[1] + 180;
+                                    eixos[0] = Math.floor(-newAxl[0] + 180);
+                                    eixos[1] = Math.floor(newAxl[1] + 180);
                                 }
 
                                 // eixos[0] = eixos[0];

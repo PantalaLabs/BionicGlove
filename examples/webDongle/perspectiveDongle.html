@@ -19,13 +19,13 @@
 
         let trimmedDatapack = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         let ang = [0, 0];
+        let read = [0, 0];
 
         // Iniciar a animação após o carregamento da página
         document.getElementById("requestPortButton").addEventListener("click", iniciarAnimacao);
 
         async function iniciarAnimacao() {
             // Renderizar o plano inicial com os valores iniciais dos ângulos (0, 0)
-            for (let i = 0; i < 1000; i++) { }
             desenharPlanoInclinado(ang[0], ang[1]);
             const port = await obterPortaSerial();
             lerDadosSerial(port); // Não é necessário verificar novamente se a porta é válida aqui, pois isso já é feito dentro da função lerDadosSerial
@@ -68,24 +68,26 @@
                         dataPack = trimmedData.split(',');
                         if (dataPack.length == 14) {
                             {
-                                const trimmed = dataPack.slice(0, 14); // get only first 4 tokens
-                                var newAxl = [0, 0];
+                                const trimmed = dataPack.slice(0, 14);  //split datapck
+                                const alphaFactor = 0.3;                //smoothness coefficient , the lower the smoother
                                 trimmed.forEach((trimmed, index) => {
                                     trimmedDatapack[index] = parseFloat(trimmed);
                                 });
-                                newAxl[0] = trimmedDatapack[6];
-                                newAxl[1] = trimmedDatapack[9] + 90;
+                                read[0] = alphaFilter(read[0], trimmedDatapack[6], alphaFactor); //alphafilter x.ang to slows down screen update
+                                read[1] = alphaFilter(read[1], trimmedDatapack[9] + 90, alphaFactor); //alphafilter y.ang to slows down screen update
+                                var newAxl = [0, 0]; //transform angles 
+                                newAxl[0] = read[0];
+                                newAxl[1] = read[1];
                                 if (newAxl[1] > 90) {
-                                    ang[0] = newAxl[0];
-                                    ang[1] = newAxl[1];
+                                    newAxl[0] = newAxl[0];
+                                    newAxl[1] = newAxl[1];
                                 }
                                 else {
-                                    ang[0] = -newAxl[0] + 180;
-                                    ang[1] = newAxl[1] + 180;
+                                    newAxl[0] = -newAxl[0] + 180;
+                                    newAxl[1] = newAxl[1] + 180;
                                 }
-                                dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
-                                dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes
-                                dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
+                                ang[0] = Math.floor(newAxl[0]);
+                                ang[1] = Math.floor(newAxl[1]);
                                 document.getElementById("valorEixoX").textContent = ang[0];
                                 document.getElementById("valorEixoY").textContent = ang[1];
                             }
@@ -102,6 +104,10 @@
                     iniciarAnimacao();
                 }
             }
+        }
+
+        function alphaFilter(tar, amt, alpha) {
+            return ((alpha * amt) + (1 - alpha) * tar);
         }
 
         function desenharPlanoInclinado(anguloX, anguloY) {
