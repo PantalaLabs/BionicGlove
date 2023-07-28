@@ -7,12 +7,12 @@
 
 <body>
     <button id="requestPortButton">Request Serial Port</button>
-    <div>
+    <!-- <div>
         Valor do eixo X: <span id="valorEixoX">0</span>
     </div>
     <div>
         Valor do eixo Y: <span id="valorEixoY">0</span>
-    </div>
+    </div> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script>
@@ -88,8 +88,8 @@
                                 }
                                 ang[0] = Math.floor(newAxl[0]);
                                 ang[1] = Math.floor(newAxl[1]);
-                                document.getElementById("valorEixoX").textContent = ang[0];
-                                document.getElementById("valorEixoY").textContent = ang[1];
+                                // document.getElementById("valorEixoX").textContent = ang[0];
+                                // document.getElementById("valorEixoY").textContent = ang[1]-90;
                             }
                         }
                     }

@@ -7,12 +7,12 @@
 
 <body>
     <button id="requestPortButton">Request Serial Port</button>
-    <div>
+    <!-- <div>
         Valor do eixo X: <span id="valorEixoX">0</span>
     </div>
     <div>
         Valor do eixo Y: <span id="valorEixoY">0</span>
-    </div>
+    </div> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script>
@@ -81,31 +81,11 @@
                                     eixos[0] = Math.floor(-newAxl[0] + 180);
                                     eixos[1] = Math.floor(newAxl[1] + 180);
                                 }
-
-                                // eixos[0] = eixos[0];
-                                // eixos[1] = -eixos[1] + 90;
-                                // if (eixos[1] > 90)
-                                // {
-                                //     eixos[0] = -eixos[0];
-                                //     eixos[1] = eixos[1];
-                                // }
-                                // else
-                                // {
-                                //     eixos[0] = -eixos[0];
-                                //     eixos[1] = eixos[1];
-                                // }
-
-                                // if (eixos[1] < 0)
-                                //     eixos[1] = (eixos[1] - 90);
-                                // else
-                                //     eixos[1] = (eixos[1] - 270);
-                                //eixos[1] = 180 - eixos[1];
-
                                 dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
                                 dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes
                                 dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
-                                document.getElementById("valorEixoX").textContent = eixos[0];
-                                document.getElementById("valorEixoY").textContent = eixos[1];
+                                // document.getElementById("valorEixoX").textContent = eixos[0];
+                                // document.getElementById("valorEixoY").textContent = eixos[1]-90;
                             }
                         }
                     }
