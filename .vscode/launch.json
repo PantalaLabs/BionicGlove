@@ -7,8 +7,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open javascriptReceiver.html",
-            "file": "c:\\Users\\admin\\Documents\\Arduino\\libraries\\BionicGlove\\examples\\web\\javascriptReceiver.html"
+            "name": "Open planoInclinado.html",
+            "file": "c:\\Users\\admin\\Documents\\Arduino\\libraries\\BionicGlove\\examples\\webDongle\\perspectiveDongle.html"
         }
     ]
 }

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Plano Inclinado em Perspectiva</title>
+</head>
+
+<body>
+    <button id="requestPortButton">Request Serial Port</button>
+    <div>
+        Valor do eixo X: <span id="valorEixoX">0</span>
+    </div>
+    <div>
+        Valor do eixo Y: <span id="valorEixoY">0</span>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script>
+
+        let eixos = [0, 0];
+        // Iniciar a animação após o carregamento da página
+        document.getElementById("requestPortButton").addEventListener("click", iniciarAnimacao);
+
+        async function iniciarAnimacao() {
+            // Renderizar o plano inicial com os valores iniciais dos ângulos (0, 0)
+            desenharPlanoInclinado(eixos[0], eixos[1]);
+
+            const port = await obterPortaSerial();
+            lerDadosSerial(port); // Não é necessário verificar novamente se a porta é válida aqui, pois isso já é feito dentro da função lerDadosSerial
+        }
+
+        async function obterPortaSerial() {
+            try {
+                const port = await navigator.serial.requestPort();
+                return port;
+            } catch (error) {
+                console.error('Erro ao obter a porta serial:', error);
+                return null;
+            }
+        }
+
+        async function lerDadosSerial(port) {
+            if (!port) {
+                console.error('Porta serial não disponível.');
+                return;
+            }
+            await port.open({ baudRate: 38400 });
+            const reader = port.readable.getReader();
+            let dataPack = '';          //stores splitted buffer
+            let readComplete = false;   // flag to finish reading 
+            try {
+                while (true) {
+                    //move all available buffer bytes to 'value'
+                    const { value, done } = await reader.read();
+                    if (done) { //finish read buffer
+                        readComplete = true;
+                        break;
+                    }
+                    const decoder = new TextDecoder();
+                    const stringValue = decoder.decode(value);                      //char to string
+                    var dataString = stringValue;                                   // needed ?? why not let stringValue?
+                    var dataPackStart = dataString.indexOf('s', dataPackStart);     //find first 'start' and 'end' indexes
+                    var dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
+                    if (dataString.includes('*') && dataString.includes('s') && dataString.includes('e')) {                           //recognize only first datapack
+                        const trimmedData = dataString.substring(dataPackStart + 1, dataPackEnd);
+                        dataPack = trimmedData.split(',');
+                        if (dataPack.length == 2) {
+                            {
+                                const trimmed = dataPack.slice(0, 2); // get only first 4 tokens
+                                var newAxl = [0,0];
+                                trimmed.forEach((trimmed, index) => {
+                                    newAxl[index] = parseFloat(trimmed);
+                                });
+
+                                newAxl[0] = newAxl[0];
+                                newAxl[1] = newAxl[1] + 90;
+                                if (newAxl[1] > 90) {
+                                    eixos[0] = newAxl[0];
+                                    eixos[1] = newAxl[1];
+                                }
+                                else {
+                                    eixos[0] = -newAxl[0] + 180;
+                                    eixos[1] = newAxl[1] + 180;
+                                }
+
+                                // eixos[0] = eixos[0];
+                                // eixos[1] = -eixos[1] + 90;
+                                // if (eixos[1] > 90)
+                                // {
+                                //     eixos[0] = -eixos[0];
+                                //     eixos[1] = eixos[1];
+                                // }
+                                // else
+                                // {
+                                //     eixos[0] = -eixos[0];
+                                //     eixos[1] = eixos[1];
+                                // }
+
+                                // if (eixos[1] < 0)
+                                //     eixos[1] = (eixos[1] - 90);
+                                // else
+                                //     eixos[1] = (eixos[1] - 270);
+                                //eixos[1] = 180 - eixos[1];
+
+                                dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
+                                dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes
+                                dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
+                                document.getElementById("valorEixoX").textContent = eixos[0];
+                                document.getElementById("valorEixoY").textContent = eixos[1];
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                // Verifica se a leitura foi concluída antes de fechar a porta serial
+                if (readComplete) {
+                    reader.releaseLock(); // Libera o leitor antes de fechar a porta
+                    await port.close(); // Fecha a porta serial ao final do processamento
+                    iniciarAnimacao();
+                }
+            }
+        }
+
+        function desenharPlanoInclinado(anguloX, anguloY) {
+            // Resto do código para desenhar o plano 3D...
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Criar um plano 3D
+            const geometry = new THREE.PlaneGeometry(5, 5);
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+            const plano = new THREE.Mesh(geometry, material);
+            scene.add(plano);
+
+            // Posicionar a câmera e ajustar sua posição de acordo com os ângulos fornecidos
+            const distanciaCameraPlano = 10;
+            const radianosX = anguloX * (Math.PI / 180);
+            const radianosY = anguloY * (Math.PI / 180);
+            const cameraX = distanciaCameraPlano * Math.cos(radianosY) * Math.sin(radianosX);
+            const cameraY = distanciaCameraPlano * Math.sin(radianosY);
+            const cameraZ = distanciaCameraPlano * Math.cos(radianosY) * Math.cos(radianosX);
+            camera.position.set(cameraX, cameraY, cameraZ);
+
+            // Apontar a câmera para o centro do plano
+            camera.lookAt(scene.position);
+
+            // Função para atualizar a cena e renderizar
+            function renderizar() {
+                renderer.render(scene, camera);
+            }
+
+            // Função para animar o plano inclinado com base nos valores dos eixos
+            function animarPlanoInclinado() {
+                requestAnimationFrame(animarPlanoInclinado);
+
+                // Ler os valores dos eixos x e y da variável 'eixos'
+                const anguloX = eixos[0];
+                const anguloY = eixos[1];
+
+                // Atualizar a posição ou rotação do plano com base nos valores dos eixos
+                const radianosX = anguloX * (Math.PI / 180);
+                const radianosY = anguloY * (Math.PI / 180);
+                const cameraX = distanciaCameraPlano * Math.cos(radianosY) * Math.sin(radianosX);
+                const cameraY = distanciaCameraPlano * Math.sin(radianosY);
+                const cameraZ = distanciaCameraPlano * Math.cos(radianosY) * Math.cos(radianosX);
+                camera.position.set(cameraX, cameraY, cameraZ);
+
+                // Atualizar a direção da câmera para o centro do plano
+                camera.lookAt(scene.position);
+
+                // Renderizar a cena
+                renderizar();
+            }
+
+            // Exemplo: desenhar o plano inclinado em perspectiva com ângulos de 45 graus em relação aos eixos x e y
+            animarPlanoInclinado();
+        }
+    </script>
+</body>

@@ -78,7 +78,7 @@
                     var dataString = stringValue;                                   // needed ?? why not let stringValue?
                     var dataPackStart = dataString.indexOf('s', dataPackStart);     //find first 'start' and 'end' indexes
                     var dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
-                    
+
                     //while (dataString.includes('*') && (dataPackEnd >= 0)) { //recognize ALL datapacks inside the buffer
 
                     //"while" was disabled because of high lag in visual response to finger movement
@@ -89,7 +89,7 @@
                     if (dataString.includes('*')) {                           //recognize only first datapack
                         const trimmedData = dataString.substring(dataPackStart + 1, dataPackEnd);
                         dataPack = trimmedData.split(',');
-                        if (dataPack.length == 14) {
+                        if (dataPack.length == 4) {
                             //console.log(dataPack);
                             const trimmed = dataPack.slice(0, 4); // get only first 4 tokens
                             trimmed.forEach((trimmed, index) => {

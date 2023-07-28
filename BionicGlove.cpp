@@ -56,9 +56,9 @@ BionicGlove::BionicGlove()
 
 void BionicGlove::start()
 {
-  delay(1000); // wait a little bit to start BT. avoid high inrush
   setBuiltInLed(true);
   ledOnAsync();
+  delay(1000); // wait a little bit to start BT. avoid high inrush
   SerialBT.setPin(pin);
   SerialBT.begin(device_name);
   on = true;
