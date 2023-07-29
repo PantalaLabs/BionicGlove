@@ -296,13 +296,21 @@ If the data do not appear, you must start a troubleshot routine to find where is
 
 
 #### Ableton
-There is a Max4Live component called BionicGlove freely available inside Ableton folder.
+There is a Max4Live component called BionicGlove freely available inside examples/ableton folder.
 
-It abstracts almost total glove behavior. This component needs an ESP32 receiver attached to tour Windows/Mac.
+It abstracts main Bionic Glove behavior. This component reads directly from Bluetooth serial port.
 
 ![ableton](/pictures/bgableton.png)
 
-A second component called BionicGlove Lite is in the way. It will be smaller than the the above, receive the datapack directly from Serial Bluetooth and cover only finger position and X/Y accelerometer angles. No release date yet.
+There is an important additional configuration. Bluetooth port speed.
+
+On Windows , open Device Manager. Double click on desired Bluetooth port:
+
+![ableton](/pictures/bt port speed 1.png)
+
+Click on 2nd tab "Port Configuration" and change Bits per second to 115200:
+
+![ableton](/pictures/bt port speed 2.png)
 
 
 ##### Max4Live <-> Ableton
