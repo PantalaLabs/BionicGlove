@@ -64,7 +64,7 @@
         }
 
         setInterval(updateBars, 50);
-        // datatpack : "> 54 257 183 26 0.99 <"
+        // datapack : "> 54 257 183 26 0.99 <"
         async function callSerialBT() {
             const port = await navigator.serial.requestPort();
             await port.open({ baudRate: 38400 });
