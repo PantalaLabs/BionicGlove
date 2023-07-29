@@ -17,7 +17,6 @@ void loop()
         Serial.print(",");
         Serial.print(bionic.getF(FINGER_RING));
         Serial.print(",");
-        // serial.print(","); // NUNCA USAR ÚLTIMA VIRGULA
         Serial.println(bionic.getF(FINGER_LITTLE));
     }
 }
