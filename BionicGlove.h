@@ -295,9 +295,6 @@ private:
   } record_finger;
   record_finger finger[MAXFINGERCHANNELS];
   
-  char packStart = '>';
-  char packEnd = '<';
-  char packSeparator = ' ';
   typedef struct
   {
     float raw = 0; // raw accel value

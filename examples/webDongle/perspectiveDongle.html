@@ -10,6 +10,14 @@
         <button style="height:150px;width:250px;font-size : 40px;" id="requestPortButton">Request Serial
             Port</button>
     </div>
+
+    <!-- <div>
+        Valor do eixo X: <span id="valorEixoX">0</span>
+    </div>
+    <div>
+        Valor do eixo Y: <span id="valorEixoY">0</span>
+    </div> -->
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script>
 
@@ -45,7 +53,7 @@
                 console.error('Porta serial não disponível.');
                 return;
             }
-            await port.open({ baudRate: 38400 });
+            await port.open({ baudRate: 115200 });
             const reader = port.readable.getReader();
             let dataPack = '';          //stores splitted buffer
             let readComplete = false;   // flag to finish reading 
@@ -60,23 +68,23 @@
                     const decoder = new TextDecoder();
                     const stringValue = decoder.decode(value);                      //char to string
                     var dataString = stringValue;                                   // needed ?? why not let stringValue?
-                    var dataPackStart = dataString.indexOf('s', dataPackStart);     //find first 'start' and 'end' indexes
-                    var dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
-                    if (dataString.includes('*') && dataString.includes('s') && dataString.includes('e')) {                           //recognize only first datapack
+                    var dataPackStart = dataString.indexOf('>', dataPackStart);     //find first 'start' and 'end' indexes
+                    var dataPackEnd = dataString.indexOf('<', dataPackStart + 1);
+                    if (dataString.includes('>') && dataString.includes('<')) {                           //recognize only first datapack
                         const trimmedData = dataString.substring(dataPackStart + 1, dataPackEnd);
-                        dataPack = trimmedData.split(',');
-                        if (dataPack.length == 14) {
+                        dataPack = trimmedData.split(' ');
+                        if (dataPack.length == 16) {
                             {
-                                const trimmed = dataPack.slice(0, 14);  //split datapck
-                                const alphaFactor = 0.3;                //smoothness coefficient , the lower the smoother
+                                const trimmed = dataPack.slice(0, 16);  //split datapck
                                 trimmed.forEach((trimmed, index) => {
                                     trimmedDatapack[index] = parseFloat(trimmed);
                                 });
-                                read[0] = alphaFilter(read[0], trimmedDatapack[6], alphaFactor); //alphafilter x.ang to slows down screen update
-                                read[1] = alphaFilter(read[1], trimmedDatapack[9] + 90, alphaFactor); //alphafilter y.ang to slows down screen update
+                                var alphaFactor = trimmedDatapack[14];
+                                read[0] = alphaFilter(read[0], trimmedDatapack[7], alphaFactor); //alphafilter x.ang to slows down screen update
+                                read[1] = alphaFilter(read[1], trimmedDatapack[10], alphaFactor); //alphafilter y.ang to slows down screen update
                                 var newAxl = [0, 0]; //transform angles 
-                                newAxl[0] = read[0];
-                                newAxl[1] = read[1];
+                                newAxl[0] = read[0] + 90;
+                                newAxl[1] = 180 -   read[1];
                                 if (newAxl[1] > 90) {
                                     newAxl[0] = newAxl[0];
                                     newAxl[1] = newAxl[1];
@@ -87,8 +95,9 @@
                                 }
                                 ang[0] = Math.floor(newAxl[0]);
                                 ang[1] = Math.floor(newAxl[1]);
+
                                 // document.getElementById("valorEixoX").textContent = ang[0];
-                                // document.getElementById("valorEixoY").textContent = ang[1]-90;
+                                // document.getElementById("valorEixoY").textContent = ang[1];
                             }
                         }
                     }
