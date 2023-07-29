@@ -19,7 +19,8 @@ void loop()
                    String(bionic.getF(DATA_F_INDEX)) + "," +
                    String(bionic.getF(DATA_F_MIDDLE)) + "," +
                    String(bionic.getF(DATA_F_RING)) + "," +
-                   String(bionic.getF(DATA_F_LITTLE)) + endString;
+                   String(bionic.getF(DATA_F_LITTLE)) + "," +
+                   String(bionic.getF(DATA_SMOOTHFACTOR)) + endString;
         Serial.println(dataPack);
     }
 }

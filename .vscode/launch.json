@@ -7,8 +7,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open planoInclinado.html",
-            "file": "c:\\Users\\admin\\Documents\\Arduino\\libraries\\BionicGlove\\examples\\webDongle\\perspectiveDongle.html"
+            "name": "Open fingerValuesDongle.html",
+            "file": "c:\\Users\\admin\\Documents\\Arduino\\libraries\\BionicGlove\\examples\\webDongle\\fingerValuesDongle.html"
         }
     ]
 }
