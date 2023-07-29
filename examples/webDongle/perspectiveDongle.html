@@ -68,7 +68,7 @@
                     const decoder = new TextDecoder();
                     const stringValue = decoder.decode(value);                      //char to string
                     var dataString = stringValue;                                   // needed ?? why not let stringValue?
-                    var dataPackStart = dataString.indexOf('>', dataPackStart);     //find first 'start' and 'end' indexes
+                    var dataPackStart = dataString.indexOf('>', 0);     //find first 'start' and 'end' indexes
                     var dataPackEnd = dataString.indexOf('<', dataPackStart + 1);
                     if (dataString.includes('>') && dataString.includes('<')) {                           //recognize only first datapack
                         const trimmedData = dataString.substring(dataPackStart + 1, dataPackEnd);
@@ -85,11 +85,7 @@
                                 var newAxl = [0, 0]; //transform angles 
                                 newAxl[0] = read[0] + 90;
                                 newAxl[1] = 180 -   read[1];
-                                if (newAxl[1] > 90) {
-                                    newAxl[0] = newAxl[0];
-                                    newAxl[1] = newAxl[1];
-                                }
-                                else {
+                                if (newAxl[1] <= 90) {
                                     newAxl[0] = -newAxl[0] + 180;
                                     newAxl[1] = newAxl[1] + 180;
                                 }

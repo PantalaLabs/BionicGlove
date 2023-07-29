@@ -7,8 +7,8 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open fingerValuesEsp.html",
-            "file": "c:\\Users\\admin\\Documents\\Arduino\\libraries\\BionicGlove\\examples\\webEsp\\fingerValues\\fingerValuesEsp.html"
+            "name": "Open perspectiveEsp32.html",
+            "file": "c:\\Users\\admin\\Documents\\Arduino\\libraries\\BionicGlove\\examples\\webEsp\\perspective\\perspectiveEsp32.html"
         }
     ]
 }
