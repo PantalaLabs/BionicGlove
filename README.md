@@ -339,7 +339,7 @@ There is a Max4Live component called BionicGlove freely available inside example
 
 It abstracts main Bionic Glove behavior. This component reads directly from Bluetooth serial port.
 
-![ableton](/pictures/bgableton.png)
+![ableton](/pictures/bgableton1.png)
 
 There is an important additional configuration that you must make sure to use the Bionic Glove correctly: Bluetooth port speed.
 
