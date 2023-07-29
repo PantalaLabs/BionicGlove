@@ -302,7 +302,7 @@ It abstracts main Bionic Glove behavior. This component reads directly from Blue
 
 ![ableton](/pictures/bgableton.png)
 
-There is an important additional configuration. Bluetooth port speed.
+There is an important additional configuration that you must make sure to use the Bionic Glove correctly: Bluetooth port speed.
 
 On Windows , open Device Manager. Double click on desired Bluetooth port:
 
