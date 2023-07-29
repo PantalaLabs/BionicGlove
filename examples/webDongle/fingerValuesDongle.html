@@ -11,7 +11,7 @@
             justify-content: space-between;
             align-items: flex-end;
             height: 200px;
-            width: 200px;
+            width: 240px;
             border: 1px solid #ccc;
             margin-top: 20px;
             padding: 5px;
@@ -23,9 +23,11 @@
         }
     </style>
 </head>
-<button id="requestPortButton">Request Serial Port</button>
-
 <body>
+    <div id="req">
+            <button style="height:150px;width:250px;font-size : 40px;" id="requestPortButton">Request Serial
+                Port</button>
+    </div>
     <div class="bar-chart" id="chart">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -41,6 +43,7 @@
         // Add a click event listener to the button
         requestPortButton.addEventListener("click", async () => {
             try {
+                document.getElementById("req").style.display="none";
                 callSerialBT();
             } catch (error) {
                 console.error("Error requesting serial port:", error);
@@ -79,13 +82,12 @@
                     var dataPackStart = dataString.indexOf('s', dataPackStart);     //find first 'start' and 'end' indexes
                     var dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
 
-                    //while (dataString.includes('*') && (dataPackEnd >= 0)) { //recognize ALL datapacks inside the buffer
-
                     //"while" was disabled because of high lag in visual response to finger movement
                     //this happens because the glove sends one message every 10ms
                     //and the screen was updated with each buffer call creating a high unnecessary overhead
                     //now , the screen update routine is called every 50ms, detached from buffer reading
                     //so there is no need to read the entire pack from the buffer
+                    //while (dataString.includes('*') && (dataPackEnd >= 0)) { //recognize ALL datapacks inside the buffer
                     if (dataString.includes('*')) {                           //recognize only first datapack
                         const trimmedData = dataString.substring(dataPackStart + 1, dataPackEnd);
                         dataPack = trimmedData.split(',');
@@ -96,9 +98,10 @@
                                 fingerVals[index] = parseInt(trimmed);
                             });
                         }
-                        dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
-                        dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes
-                        dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
+                        //shrink dataPack only in WHILE loop
+                        // dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
+                        // dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes
+                        // dataPackEnd = dataString.indexOf('e', dataPackStart + 1);
                     }
                 }
             } catch (error) {

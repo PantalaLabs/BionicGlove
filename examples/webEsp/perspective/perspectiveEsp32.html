@@ -16,16 +16,17 @@
     <script>
 
         let eixos = [0, 0];
-        // Iniciar a animação após o carregamento da página
-        document.getElementById("requestPortButton").addEventListener("click", iniciarAnimacao);
+        document.getElementById("requestPortButton").addEventListener("click", hideAndSeek);
+
+        function hideAndSeek() {
+            document.getElementById("req").style.display = "none";
+            iniciarAnimacao();
+        }
 
         async function iniciarAnimacao() {
-            document.getElementById("req").style.display="none";
-            // Renderizar o plano inicial com os valores iniciais dos ângulos (0, 0)
-            desenharPlanoInclinado(eixos[0], eixos[1]);
-
+            drawPlane(eixos[0], eixos[1]);
             const port = await obterPortaSerial();
-            lerDadosSerial(port); // Não é necessário verificar novamente se a porta é válida aqui, pois isso já é feito dentro da função lerDadosSerial
+            lerDadosSerial(port);
         }
 
         async function obterPortaSerial() {
@@ -92,17 +93,15 @@
             } catch (error) {
                 console.error(error);
             } finally {
-                // Verifica se a leitura foi concluída antes de fechar a porta serial
-                if (readComplete) {
-                    reader.releaseLock(); // Libera o leitor antes de fechar a porta
-                    await port.close(); // Fecha a porta serial ao final do processamento
+                if (readComplete) { //if all buffer was read 
+                    reader.releaseLock(); // release blocking
+                    await port.close(); // close port
                     iniciarAnimacao();
                 }
             }
         }
 
-        function desenharPlanoInclinado(anguloX, anguloY) {
-            // Resto do código para desenhar o plano 3D...
+        function drawPlane(anguloX, anguloY) {
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer();
@@ -115,7 +114,6 @@
             const plano = new THREE.Mesh(geometry, material);
             scene.add(plano);
 
-            // Posicionar a câmera e ajustar sua posição de acordo com os ângulos fornecidos
             const distanciaCameraPlano = 10;
             const radianosX = anguloX * (Math.PI / 180);
             const radianosY = anguloY * (Math.PI / 180);
@@ -124,39 +122,26 @@
             const cameraZ = distanciaCameraPlano * Math.cos(radianosY) * Math.cos(radianosX);
             camera.position.set(cameraX, cameraY, cameraZ);
 
-            // Apontar a câmera para o centro do plano
             camera.lookAt(scene.position);
 
-            // Função para atualizar a cena e renderizar
             function renderizar() {
                 renderer.render(scene, camera);
             }
 
-            // Função para animar o plano inclinado com base nos valores dos eixos
-            function animarPlanoInclinado() {
-                requestAnimationFrame(animarPlanoInclinado);
-
-                // Ler os valores dos eixos x e y da variável 'eixos'
+            function animatePlane() {
+                requestAnimationFrame(animatePlane);
                 const anguloX = eixos[0];
                 const anguloY = eixos[1];
-
-                // Atualizar a posição ou rotação do plano com base nos valores dos eixos
                 const radianosX = anguloX * (Math.PI / 180);
                 const radianosY = anguloY * (Math.PI / 180);
                 const cameraX = distanciaCameraPlano * Math.cos(radianosY) * Math.sin(radianosX);
                 const cameraY = distanciaCameraPlano * Math.sin(radianosY);
                 const cameraZ = distanciaCameraPlano * Math.cos(radianosY) * Math.cos(radianosX);
                 camera.position.set(cameraX, cameraY, cameraZ);
-
-                // Atualizar a direção da câmera para o centro do plano
                 camera.lookAt(scene.position);
-
-                // Renderizar a cena
                 renderizar();
             }
-
-            // Exemplo: desenhar o plano inclinado em perspectiva com ângulos de 45 graus em relação aos eixos x e y
-            animarPlanoInclinado();
+            animatePlane();
         }
     </script>
 </body>
