@@ -130,7 +130,7 @@ public:
   bool read();                                                                                    // read BT serial
   bool active();                                                                                  // return if BT is active
   void freeze(uint32_t ms);                                                                       // freeze any callback for n ms
-  void setBuiltInLed(bool status);                                                                         // use led built in to visual debug
+  void setBuiltInLed(bool status);                                                                // use led built in to visual debug
   String getSerialData();                                                                         // return one line of serial data pack
   float getRaw(uint8_t raw);                                                                      // get raw value from each one value at BT pack
   float getUnit(uint8_t raw);                                                                     // get all values from -1 to 0 to +1 where signal is applicables
@@ -206,7 +206,7 @@ private:
   const float zerof = 0.0;
   uint32_t frozen = 0;
   uint32_t ts_frozen = 0;
-uint32_t ts_nextLed;
+  uint32_t ts_nextLed;
   void ledOnAsync();
   void ledOffAsync();
   bool ledBuiltInActive = false;
@@ -294,7 +294,10 @@ uint32_t ts_nextLed;
     float accel = 0;
   } record_finger;
   record_finger finger[MAXFINGERCHANNELS];
-
+  
+  char packStart = '>';
+  char packEnd = '<';
+  char packSeparator = ' ';
   typedef struct
   {
     float raw = 0; // raw accel value

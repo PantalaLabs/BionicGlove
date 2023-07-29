@@ -102,12 +102,12 @@ bool BionicGlove::receiveDataPack()
 
   serialData = SerialBT.readStringUntil('*');                                   // get all buffer chars up to first *
   SerialBT.flush();                                                             // flush extra chars
-  if ((serialData.indexOf('s', 0) == -1) || (serialData.indexOf('e', 0) == -1)) // if incomplete message
+  if ((serialData.indexOf(packStart, 0) == -1) || (serialData.indexOf(packEnd, 0) == -1)) // if incomplete message
     return false;                                                               // discard read
   serialData = serialData.substring(1, serialData.length() - 1);                // trim edges
   do                                                                            // count token separators
   {
-    nextSeparator = serialData.indexOf(',', thisSeparator);
+    nextSeparator = serialData.indexOf(packSeparator, thisSeparator);
     thisSeparator = nextSeparator + 1;
     separatorCounter++;
   } while (nextSeparator != -1);
@@ -118,7 +118,7 @@ bool BionicGlove::receiveDataPack()
     nextSeparator = 0;
     for (uint8_t i = 0; i < MAXBTDATAPACK; i++)
     {
-      nextSeparator = serialData.indexOf(',', thisSeparator);
+      nextSeparator = serialData.indexOf(packSeparator, thisSeparator);
       btDataPack[i] = serialData.substring(thisSeparator, nextSeparator);
       thisSeparator = nextSeparator + 1;
       switch (i)
