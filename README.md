@@ -203,6 +203,30 @@ Every method has one kind of parameter. Be careful not to mix the types of param
 
 7. float trs - refers to threshold parameters. You can use any value inside the allowed range. Must read all library.
 
+#### Data pack
+
+This is how all data are transmitted. A String of 16 tokens with space separator: 
+
+"> 88 76 89 26 7.00 0.03 90.23 38.00 0.17 87.91 244.00 1.12 0.00 0.99 <"
+
+>  pack start
+88 DATA_F_INDEX
+76 DATA_F_MIDDLE
+89 DATA_F_RING
+26 DATA_F_LITTLE
+7.00 DATA_A_X
+0.03 DATA_A_X_G
+90.23 DATA_A_X_DEG
+38.00 DATA_A_Y
+0.17 DATA_A_Y_G
+87.91 DATA_A_Y_DEG
+244.00 DATA_A_Z
+1.12 DATA_A_Z_G
+0.00 DATA_A_Z_DEG
+0.99 DATA_SMOOTHFACTOR
+< pack end
+
+
 #### Examples
 All  examples are sorted by difficulty.
 Even the most difficult one is a very simple esketch with a few lines.

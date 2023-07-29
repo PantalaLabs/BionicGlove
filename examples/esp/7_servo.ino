@@ -14,7 +14,7 @@ void loop()
 {
     if (bionic.read())
     {
-        servoAngle = map(bionic.getAAngsmoothed(AXL_X), -90, 90, 0, 180);
+        servoAngle = bionic.getAAngsmoothed(AXL_X);
         myServo.write(servoAngle);
         delay(15);
     }
