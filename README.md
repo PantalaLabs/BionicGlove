@@ -315,7 +315,7 @@ This is the datapack sent by ESP32 Receiver + Library
 
 ![putty2](/pictures/putty2.png)
 
-Look how very different it is from Dongle
+And from Dongle
 
 ![putty3](/pictures/putty3.png)
 
