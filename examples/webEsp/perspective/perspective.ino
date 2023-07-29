@@ -2,10 +2,6 @@
 
 BionicGlove bionic;
 
-String dataPack = "";
-String initString = "s";
-String endString = "e*";
-
 void setup()
 {
     Serial.begin(38400);
@@ -16,8 +12,8 @@ void loop()
 {
     if (bionic.read())
     {
-        dataPack = initString + String(bionic.getAAngsmoothed(AXL_X)) + "," +
-                   String(bionic.getAAngsmoothed(AXL_Y)) + endString;
+        String dataPack = "s" + String(bionic.getAAngsmoothed(AXL_X)) + "," +
+                          String(bionic.getAAngsmoothed(AXL_Y)) + "e*";
         Serial.println(dataPack);
     }
 }

@@ -6,14 +6,12 @@
 </head>
 
 <body>
-    <button id="requestPortButton">Request Serial Port</button>
-    <!-- <div>
-        Valor do eixo X: <span id="valorEixoX">0</span>
+    <div id="req">
+        <center> <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <button style="height:150px;width:250px;font-size : 40px;" id="requestPortButton">Request Serial
+                Port</button>
+        </center>
     </div>
-    <div>
-        Valor do eixo Y: <span id="valorEixoY">0</span>
-    </div> -->
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
     <script>
 
@@ -22,6 +20,7 @@
         document.getElementById("requestPortButton").addEventListener("click", iniciarAnimacao);
 
         async function iniciarAnimacao() {
+            document.getElementById("req").style.display="none";
             // Renderizar o plano inicial com os valores iniciais dos ângulos (0, 0)
             desenharPlanoInclinado(eixos[0], eixos[1]);
 
@@ -67,7 +66,7 @@
                         if (dataPack.length == 2) {
                             {
                                 const trimmed = dataPack.slice(0, 2); // get only first 4 tokens
-                                var newAxl = [0,0];
+                                var newAxl = [0, 0];
                                 trimmed.forEach((trimmed, index) => {
                                     newAxl[index] = parseFloat(trimmed);
                                 });

@@ -3,20 +3,11 @@
 BionicGlove bionic;
 String separator = " ";
 String dataPack = "";
-bool flick[8];
 
 void setup()
 {
     Serial.begin(38400);
-    bionic.setAllRedlinePercentage(25);
-    bionic.attachCallOnFlickOpenedFingerIndex(message1);
-    bionic.attachCallOnFlickClosedFingerIndex(message2);
-    bionic.attachCallOnFlickOpenedFingerMiddle(message3);
-    bionic.attachCallOnFlickClosedFingerMiddle(message4);
-    bionic.attachCallOnFlickOpenedFingerRing(message5);
-    bionic.attachCallOnFlickClosedFingerRing(message6);
-    bionic.attachCallOnFlickOpenedFingerLittle(message7);
-    bionic.attachCallOnFlickClosedFingerLittle(message8);
+    bionic.setAllRedlinePercentage(15);
     bionic.start();
 }
 
@@ -51,50 +42,11 @@ void loop()
         dataPack += separator;
         dataPack += bionic.getFclosedStatus(FINGER_LITTLE);
 
-        for (uint8_t i = 0; i < 8; i++)
-        {
-            dataPack += separator;
-            dataPack += flick[i];
-            flick[i] = false;
-        }
         dataPack += separator;
-        dataPack += map(bionic.getAAngsmoothed(AXL_X), -90, 90, 0, 180);
+        dataPack += constrain(map(bionic.getAAngsmoothed(AXL_X), -90, 90, 0, 180), 0, 180);
         dataPack += separator;
-        dataPack += map(bionic.getAAngsmoothed(AXL_Y), -90, 90, 180, 0);
+        dataPack += constrain(map(bionic.getAAngsmoothed(AXL_Y), -90, 90, 180, 0), 0, 180);
 
         Serial.println(dataPack);
     }
-}
-
-void message1()
-{
-    flick[0] = true;
-}
-void message2()
-{
-    flick[1] = true;
-}
-void message3()
-{
-    flick[2] = true;
-}
-void message4()
-{
-    flick[3] = true;
-}
-void message5()
-{
-    flick[4] = true;
-}
-void message6()
-{
-    flick[5] = true;
-}
-void message7()
-{
-    flick[6] = true;
-}
-void message8()
-{
-    flick[7] = true;
 }
