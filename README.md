@@ -306,11 +306,11 @@ There is an important additional configuration. Bluetooth port speed.
 
 On Windows , open Device Manager. Double click on desired Bluetooth port:
 
-![ableton](/pictures/bt port speed 1.png)
+![portspeed](/pictures/btportspeed1.png)
 
 Click on 2nd tab "Port Configuration" and change Bits per second to 115200:
 
-![ableton](/pictures/bt port speed 2.png)
+![portspeed](/pictures/btportspeed2.png)
 
 
 ##### Max4Live <-> Ableton
