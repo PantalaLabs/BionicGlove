@@ -19,27 +19,31 @@ TODO :
 
 
 DATAPACK
-0-finger[0].fingerRead
-1-finger[1].fingerRead
-2-finger[2].fingerRead
-3-finger[3].fingerRead
+0->
+
+1-finger[0].fingerRead
+2-finger[1].fingerRead
+3-finger[2].fingerRead
+4-finger[3].fingerRead
 
 X
-4-accel[0].raw
-5-accel[0].g
-6-accel[0].ang
+5-accel[0].raw
+6-accel[0].g
+7-accel[0].ang
 
 Y
-7-accel[1].raw
-8-accel[1].g
-9-accel[1].ang
+8-accel[1].raw
+9-accel[1].g
+10-accel[1].ang
 
 Z
-10-accel[2].raw
-11-accel[2].g
-12-accel[2].ang
+11-accel[2].raw
+12-accel[2].g
+13-accel[2].ang
 
-13-smoothness
+14-smoothness
+
+15-<*
 
 
 Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
