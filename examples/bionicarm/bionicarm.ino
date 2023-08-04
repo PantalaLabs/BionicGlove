@@ -80,6 +80,7 @@ void loop()
 {
   if (bionic.read())
   {
+
     // crop Bionic Glove reading to create more responsiveness = less hand movement -> more arm movement
     cropped[0] = constrain(bionic.getRaw(DATA_A_X_ANG), BASE_READ_MIN, BASE_READ_MAX);
     cropped[1] = constrain(bionic.getRaw(DATA_A_Y_ANG), ALCANCE_READ_MIN, ALCANCE_READ_MAX);
@@ -87,10 +88,10 @@ void loop()
     cropped[3] = constrain(bionic.getRaw(DATA_F_INDEX), ALTURA_READ_MIN, ALTURA_READ_MAX);
 
     smoothness = bionic.getRaw(DATA_SMOOTHFACTOR);
-    ALPHAFILTER(smoothedRead[0], map(cropped[0], BASE_READ_MIN, BASE_READ_MAX, BASE_ANGLE_MAX, BASE_ANGLE_MIN), 0.6 * smoothness);         // base
-    ALPHAFILTER(smoothedRead[1], map(cropped[1], ALCANCE_READ_MAX, ALCANCE_READ_MIN, ALCANCE_ANGLE_MIN, ALCANCE_ANGLE_MAX), 0.8* smoothness);   // altura
-    ALPHAFILTER(smoothedRead[2], map(cropped[2], GARRA_READ_MAX, GARRA_READ_MIN, GARRA_ANGLE_MIN, GARRA_ANGLE_MAX), smoothness);           // garra
-    ALPHAFILTER(smoothedRead[3], map(cropped[3], ALTURA_READ_MIN, ALTURA_READ_MAX, ALTURA_ANGLE_MIN, ALTURA_ANGLE_MAX), 0.6 * smoothness); // alcance
+    ALPHAFILTER(smoothedRead[0], map(cropped[0], BASE_READ_MIN, BASE_READ_MAX, BASE_ANGLE_MAX, BASE_ANGLE_MIN), 0.6 * smoothness);             // base
+    ALPHAFILTER(smoothedRead[1], map(cropped[1], ALCANCE_READ_MAX, ALCANCE_READ_MIN, ALCANCE_ANGLE_MIN, ALCANCE_ANGLE_MAX), 0.8 * smoothness); // altura
+    ALPHAFILTER(smoothedRead[2], map(cropped[2], GARRA_READ_MAX, GARRA_READ_MIN, GARRA_ANGLE_MIN, GARRA_ANGLE_MAX), smoothness);               // garra
+    ALPHAFILTER(smoothedRead[3], map(cropped[3], ALTURA_READ_MIN, ALTURA_READ_MAX, ALTURA_ANGLE_MIN, ALTURA_ANGLE_MAX), 0.6 * smoothness);     // alcance
 
     if (millis() > nextWrite) // nunca use delay() !!!!!
     {
@@ -99,12 +100,13 @@ void loop()
       {
         servos[i]->write(smoothedRead[i]);
       }
-      Serial.print(String(bionic.getRaw(DATA_A_X_ANG)) + " " + smoothedRead[0] + "\t | ");
-      Serial.print(String(bionic.getRaw(DATA_A_Y_ANG)) + " " + smoothedRead[1] + "\t | ");
-      Serial.print(String(bionic.getRaw(DATA_F_INDEX)) + " " + smoothedRead[2] + "\t | ");
-      Serial.print(String(bionic.getRaw(DATA_F_LITTLE)) + " " + smoothedRead[3] + "\t | ");
-      Serial.print(String(bionic.getRaw(DATA_SMOOTHFACTOR)) + "\t | ");
-      Serial.println("");
+    }
+
+    if (millis() > nextWrite) // nunca use delay() !!!!!
+    {
+      nextWrite = millis() + DELAYPADRAO;
+      for (uint8_t i = 0; i < MAXSERVOS; i++)
+        servos[i]->write(smoothedRead[i]);
     }
   }
 }
