@@ -286,7 +286,7 @@ For the Bionic Glove, there are two possibilities
 
 REMEMBER: NEVER, NEVER connect your ESP32 to the external power source (VIN) together with the USB cable! 
 This will damage your microcontroller.
-There is an specific USB cable without +5v wire to do the task.
+There is an specific USB cable to do this task.
 
 #### Dongle Receiver
 1. connect the Dongle to an USB port;
