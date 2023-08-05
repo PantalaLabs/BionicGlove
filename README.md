@@ -145,6 +145,14 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 </tr> 
 
 <tr>
+<td>angle limits</td>
+<td>everytime a hand twist and reaches a threshold angle min or max, you can trigger a callback. the limits are configurable </td>
+<td>angle</td>
+<td>4 - one callback for X and Y axels at min or max position</td>
+<td>true / false</td>
+</tr>
+
+<tr>
 <td>hand knock</td>
 <td>everytime you simulate a knock, like a door knock, you create a trigger inside the library. The knock can be in a horizontal or a vertical orientation and positive (up or right) and/or negative (down or left) way</td>
 <td>value</td>
