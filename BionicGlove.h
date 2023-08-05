@@ -162,12 +162,11 @@ public:
   void setFlickClosedThreshold(uint8_t f, float trs);                                             // set new  finger negative flick treshold
   void setFlickDebounceInterval(uint32_t val);                                                    // set new flick  debounce interval
   float getAZGlastKnock();                                                                        // return last knock treshold
-
-  void setAxleAllThresholdAngle(uint8_t ang);
-  void setAxleMinThresholdAngle(uint8_t axl, uint8_t ang);
-  void setAxleMaxThresholdAngle(uint8_t axl, uint8_t ang);
-  bool getAxleMinStatus(uint8_t axl);
-  bool getAxleMaxStatus(uint8_t axl);
+  void setAllAxleThresholdAngle(uint8_t ang);                                                     // set all axels threshold angles
+  void setAxleMinThresholdAngle(uint8_t axl, uint8_t ang);                                        // set axel min threshold angle
+  void setAxleMaxThresholdAngle(uint8_t axl, uint8_t ang);                                        // set axel min threshold angle
+  bool getAxleMinStatus(uint8_t axl);                                                             // get axel min status
+  bool getAxleMaxStatus(uint8_t axl);                                                             // get axel max status
 
   // attach and detach
   void attachCallOnWideClosedFingerLittle(void (*onRise)(void));
@@ -315,32 +314,32 @@ private:
 
   typedef struct
   {
-    int16_t fingerRead = 0;                // raw finger read value
-    uint8_t closedThresholdPercentage = 0; // percent value set by user to calculate internal closed critical area
-    uint8_t openedThresholdPercentage = 0; // percent value set by user to calculate internal iopened critical area
-    uint16_t closedThresholdIn = 0;        // finger closed critical zone
-    uint16_t closedThresholdOut = 0;       // finger closed critical zone
-    uint16_t openedThresholdIn = 0;        // finger opened critical zone
-    uint16_t openedThresholdOut = 0;       // finger opened critical zone
-    bool closedFingerStatus = false;       // status flagging that you are inside critical area
-    bool openedFingerStatus = false;       // status flagging that you are inside critical area
+    int16_t fingerRead = 0;                                     // raw finger read value
+    uint8_t closedThresholdPercentage = DEFTHRESHOLDPERCENTAGE; // percent value set by user to calculate internal closed critical area
+    uint8_t openedThresholdPercentage = DEFTHRESHOLDPERCENTAGE; // percent value set by user to calculate internal iopened critical area
+    uint16_t closedThresholdIn = 0;                             // finger closed critical zone in
+    uint16_t closedThresholdOut = 0;                            // finger closed critical zone out
+    uint16_t openedThresholdIn = 0;                             // finger opened critical zone in
+    uint16_t openedThresholdOut = 0;                            // finger opened critical zone out
+    bool closedFingerStatus = false;                            // status flagging that you are inside critical area
+    bool openedFingerStatus = false;                            // status flagging that you are inside critical area
     float accel = 0;
   } record_finger;
   record_finger finger[MAXFINGERCHANNELS];
 
   typedef struct
   {
-    float raw = 0;                   // raw accel value
-    float g = 0;                     // g accel value
-    float ang = 0;                   // corrected angle accel value
-    uint8_t minThresholdAngle = 0;   // x axle critical zone
-    uint8_t minThresholdIn = 0;      // x axle critical zone
-    uint8_t minThresholdOut = 0;     // x axle critical zone
-    bool minThresholdStatus = false; // status flagging that you are inside critical area
-    uint8_t maxThresholdAngle = 0;   // x axle critical zone
-    uint8_t maxThresholdIn = 0;      // x axle critical zone
-    uint8_t maxThresholdOut = 0;     // x axle critical zone
-    bool maxThresholdStatus = false; // status flagging that you are inside critical area
+    float raw = 0;                                 // raw accel value
+    float g = 0;                                   // g accel value
+    float ang = 0;                                 // corrected angle accel value
+    uint8_t minThresholdAngle = DEFTHRESHOLDANGLE; // x axle critical zone point
+    uint8_t minThresholdIn = 0;                    // x axle critical zone in
+    uint8_t minThresholdOut = 0;                   // x axle critical zone out
+    bool minThresholdStatus = false;               // status flagging that you are inside critical area
+    uint8_t maxThresholdAngle = DEFTHRESHOLDANGLE; // x axle critical zone point
+    uint8_t maxThresholdIn = 0;                    // x axle critical zone in
+    uint8_t maxThresholdOut = 0;                   // x axle critical zone out
+    bool maxThresholdStatus = false;               // status flagging that you are inside critical area
   } record_accel;
   record_accel accel[MAXACCELCHANNELS];
   bool firstReading = true;
