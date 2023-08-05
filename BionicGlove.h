@@ -148,13 +148,13 @@ public:
   float getAAngsmoothed(uint8_t axl);                                                             // get smoothed accel Angle values
   uint16_t getF(uint8_t f);                                                                       // get expanded finger value
   float getFaccel(uint8_t f);                                                                     // return acceleration based on linear regression coeff
-  void setAllThresholdPercentage(uint8_t pct);                                                    // set all closed and opened bounds
-  void setAllClosedThresholdPercentage(uint8_t pct);                                              // set all closed Percentage for all fingers
-  void setAllOpenedThresholdPercentage(uint8_t pct);                                              // set all opened Percentage for all fingers
-  void setClosedThresholdPercentage(uint8_t f, uint8_t pct);                                      // set closed Percentage for individual finger
-  void setOpenedThresholdPercentage(uint8_t f, uint8_t pct);                                      // set opened Percentage for individual finger
-  bool getFclosedStatus(uint8_t f);                                                               // return if the finger is still inside closed area
-  bool getFopenedStatus(uint8_t f);                                                               // return if the finger is still inside opened area
+  void setAllFingersThresholdPercentage(uint8_t pct);                                             // set all closed and opened bounds
+  void setAllClosedFingersThresholdPercentage(uint8_t pct);                                       // set all closed Percentage for all fingers
+  void setAllOpenedFingersThresholdPercentage(uint8_t pct);                                       // set all opened Percentage for all fingers
+  void setClosedFingerThresholdPercentage(uint8_t f, uint8_t pct);                                // set closed Percentage for individual finger
+  void setOpenedFingerThresholdPercentage(uint8_t f, uint8_t pct);                                // set opened Percentage for individual finger
+  bool getFingerClosedStatus(uint8_t f);                                                          // return if the finger is still inside closed area
+  bool getFingerOpenedStatus(uint8_t f);                                                          // return if the finger is still inside opened area
   void setKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg); // set new knock treshold
   void setKnockDebounceInterval(uint32_t val);                                                    // set new knock debounce interval
   void setFlickAllThreshold(float trs);                                                           // set all new flick treshold
@@ -166,8 +166,6 @@ public:
   void setAxleAllThresholdAngle(uint8_t ang);
   void setAxleMinThresholdAngle(uint8_t axl, uint8_t ang);
   void setAxleMaxThresholdAngle(uint8_t axl, uint8_t ang);
-  void updateAxleMinThreshold(uint8_t axl);
-  void updateAxleMaxThreshold(uint8_t axl);
   bool getAxleMinStatus(uint8_t axl);
   bool getAxleMaxStatus(uint8_t axl);
 
@@ -190,14 +188,14 @@ public:
   void attachCallOnWideOpenedFingerIndex(void (*onRise)(void));
   void detachCallOnWideOpenedFingerIndex();
 
-  void attachCallOnCrossMinXangle(void (*onRise)());
-  void detachCallOnCrossMinXangle();
-  void attachCallOnCrossMaxXangle(void (*onRise)());
-  void detachCallOnCrossMaxXangle();
-  void attachCallOnCrossMinYangle(void (*onRise)());
-  void detachCallOnCrossMinYangle();
-  void attachCallOnCrossMaxYangle(void (*onRise)());
-  void detachCallOnCrossMaxYangle();
+  void attachCallOnMinXangle(void (*onRise)());
+  void detachCallOnMinXangle();
+  void attachCallOnMaxXangle(void (*onRise)());
+  void detachCallOnMaxXangle();
+  void attachCallOnMinYangle(void (*onRise)());
+  void detachCallOnMinYangle();
+  void attachCallOnMaxYangle(void (*onRise)());
+  void detachCallOnMaxYangle();
 
   void attachCallOnFlickClosedFingerLittle(void (*onRise)(void));
   void detachCallOnFlickClosedFingerLittle();
@@ -274,6 +272,8 @@ private:
   void callbackKnockLr();                                                       // integrate ZG signal to find knock condition
   void updateClosedThreshold(uint8_t f);                                        // update individual closed finger area and recalculate all limits
   void updateOpenedThreshold(uint8_t f);                                        // update individual opened finger area and recalculate all limits
+  void updateAxleMinThreshold(uint8_t axl);
+  void updateAxleMaxThreshold(uint8_t axl);
   void logAZGclear();
   void logFclear(uint8_t f); // clear all last finger readings
   bool doneMs(uint32_t t0, uint32_t dt);
