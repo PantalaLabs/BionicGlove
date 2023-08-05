@@ -146,7 +146,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 
 <tr>
 <td>angle limits</td>
-<td>everytime a hand twist and reaches a threshold angle min or max, you can trigger a callback. the limits are configurable </td>
+<td>everytime a hand twist and reaches a threshold angle min or max, you can trigger a callback. the limits are configurable. it works like a joystick </td>
 <td>angle</td>
 <td>4 - one callback for X and Y axels at min or max position</td>
 <td>true / false</td>
