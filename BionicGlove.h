@@ -92,6 +92,10 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 #define MINPERCENTAGE 10        // closed fingers
 #define MAXPERCENTAGE 90        // opened fingers
 #define DEFREDLINEPERCENTAGE 15 // defaul for all fingers
+#define DEFREDLINEANGLE 30      // defaul for all fingers
+
+#define MINANGLE 10
+#define MAXANGLE 170
 
 #define MAXKNOCKLOG 10                           // 10 samples @ 10ms master Sample Rate = 100ms to take a picture of the mountain ** preciselly adjusted , do not touch
 #define MINKNOCKTHRESHOLD 2                      // min value expected out of LR calcs
@@ -116,6 +120,7 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 #define MAXRES 0b111111111
 
 #define SCHMITTTRIGGERPERCENTAGE 5
+#define SCHMITTTRIGGERANGLE 5
 
 #define ALPHAFILTER(tar, amt, alpha)                                            \
   {                                                                             \
@@ -135,6 +140,7 @@ public:
   bool active();                                                                                  // return if BT is active
   void freeze(uint32_t ms);                                                                       // freeze any callback for n ms
   void setBuiltInLed(bool status);                                                                // use led built in to visual debug
+  void detachAll();                                                                               // detach all callbacks
   String getSerialData();                                                                         // return one line of serial data pack
   float getRaw(uint8_t raw);                                                                      // get raw value from each one value at BT pack
   float getUnit(uint8_t raw);                                                                     // get all values from -1 to 0 to +1 where signal is applicables
@@ -157,6 +163,14 @@ public:
   void setFlickDebounceInterval(uint32_t val);                                                    // set new flick  debounce interval
   float getAZGlastKnock();                                                                        // return last knock treshold
 
+  void setAxleAllRedLineAngle(uint8_t ang);
+  void setAxleMinRedLineAngle(uint8_t axl, uint8_t ang);
+  void setAxleMaxRedLineAngle(uint8_t axl, uint8_t ang);
+  void updateAxleMinRedline(uint8_t axl);
+  void updateAxleMaxRedline(uint8_t axl);
+  bool getAxleMinStatus(uint8_t axl);
+  bool getAxleMaxStatus(uint8_t axl);
+
   // attach and detach
   void attachCallOnWideClosedFingerLittle(void (*onRise)(void));
   void detachCallOnWideClosedFingerLittle();
@@ -175,6 +189,15 @@ public:
   void detachCallOnWideOpenedFingerMiddle();
   void attachCallOnWideOpenedFingerIndex(void (*onRise)(void));
   void detachCallOnWideOpenedFingerIndex();
+
+  void attachCallOnCrossMinXangle(void (*onRise)());
+  void detachCallOnCrossMinXangle();
+  void attachCallOnCrossMaxXangle(void (*onRise)());
+  void detachCallOnCrossMaxXangle();
+  void attachCallOnCrossMinYangle(void (*onRise)());
+  void detachCallOnCrossMinYangle();
+  void attachCallOnCrossMaxYangle(void (*onRise)());
+  void detachCallOnCrossMaxYangle();
 
   void attachCallOnFlickClosedFingerLittle(void (*onRise)(void));
   void detachCallOnFlickClosedFingerLittle();
@@ -243,6 +266,7 @@ private:
   void logFremoveOffset();                                                      // log all fingers
   void callbackFlick();                                                         // remove offset accumullating the difference btween x - (x-1)
   void callbackFlickLr();                                                       // apply linear regression to 4 readings
+  void callbackAxles();                                                         // check if any finger reached closed area and callback them
   void updateNewLimits();                                                       // compare if new readings are outside preset area and update to new ones
   void logAGremoveOffset();                                                     // stores last MAXLOGs values of 3 G accell axle to eventually remove its offsets
   void logAZGknock();                                                           // put new finger read into knock array
@@ -267,6 +291,11 @@ private:
   void (*callOpenedMiddle)(void);
   void (*callOpenedIndex)(void);
 
+  void (*callMinX)(void);
+  void (*callMaxX)(void);
+  void (*callMinY)(void);
+  void (*callMaxY)(void);
+
   void (*callFlickClosedLittle)(void);
   void (*callFlickClosedRing)(void);
   void (*callFlickClosedMiddle)(void);
@@ -289,21 +318,29 @@ private:
     int16_t fingerRead = 0;              // raw finger read value
     uint8_t closedRedLinePercentage = 0; // percent value set by user to calculate internal closed critical area
     uint8_t openedRedLinePercentage = 0; // percent value set by user to calculate internal iopened critical area
-    uint16_t closedRedLineIn = 0;        // internal closed critical value
-    uint16_t closedRedLineOut = 0;       // internal closed critical value
-    uint16_t openedRedLineIn = 0;        // internal opened critical value
-    uint16_t openedRedLineOut = 0;       // internal opened critical value
+    uint16_t closedRedLineIn = 0;        // finger closed critical zone
+    uint16_t closedRedLineOut = 0;       // finger closed critical zone
+    uint16_t openedRedLineIn = 0;        // finger opened critical zone
+    uint16_t openedRedLineOut = 0;       // finger opened critical zone
     bool closedFingerStatus = false;     // status flagging that you are inside critical area
     bool openedFingerStatus = false;     // status flagging that you are inside critical area
     float accel = 0;
   } record_finger;
   record_finger finger[MAXFINGERCHANNELS];
-  
+
   typedef struct
   {
-    float raw = 0; // raw accel value
-    float g = 0;   // g accel value
-    float ang = 0; // corrected angle accel value
+    float raw = 0;                 // raw accel value
+    float g = 0;                   // g accel value
+    float ang = 0;                 // corrected angle accel value
+    uint8_t minRedLineAngle = 0;   // x axle critical zone
+    uint8_t minRedLineIn = 0;      // x axle critical zone
+    uint8_t minRedLineOut = 0;     // x axle critical zone
+    bool minRedLineStatus = false; // status flagging that you are inside critical area
+    uint8_t maxRedLineAngle = 0;   // x axle critical zone
+    uint8_t maxRedLineIn = 0;      // x axle critical zone
+    uint8_t maxRedLineOut = 0;     // x axle critical zone
+    bool maxRedLineStatus = false; // status flagging that you are inside critical area
   } record_accel;
   record_accel accel[MAXACCELCHANNELS];
   bool firstReading = true;

@@ -25,27 +25,9 @@ BluetoothSerial SerialBT;
 
 BionicGlove::BionicGlove()
 {
-  detachCallOnWideClosedFingerLittle(); // detach all
-  detachCallOnWideClosedFingerIndex();
-  detachCallOnWideClosedFingerMiddle();
-  detachCallOnWideClosedFingerRing();
-  detachCallOnWideOpenedFingerIndex();
-  detachCallOnWideOpenedFingerMiddle();
-  detachCallOnWideOpenedFingerRing();
-  detachCallOnWideOpenedFingerLittle();
-  detachCallOnFlickClosedFingerLittle();
-  detachCallOnFlickClosedFingerIndex();
-  detachCallOnFlickClosedFingerMiddle();
-  detachCallOnFlickClosedFingerRing();
-  detachCallOnFlickOpenedFingerIndex();
-  detachCallOnFlickOpenedFingerMiddle();
-  detachCallOnFlickOpenedFingerRing();
-  detachCallOnFlickOpenedFingerLittle();
-  detachCallOnVerticalPositiveKnock();
-  detachCallOnVerticalNegativeKnock();
-  detachCallOnHorizontalPositiveKnock();
-  detachCallOnHorizontalNegativeKnock();
+  detachAll();
   setAllRedlinePercentage(DEFREDLINEPERCENTAGE); // set all critical area to 20%
+  setAxleAllRedLineAngle(DEFREDLINEANGLE);       // set all critical area to 30 degrees
   updateNewLimits();
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
   {
@@ -58,7 +40,7 @@ void BionicGlove::start()
 {
   setBuiltInLed(true);
   ledOnAsync();
-  delay(1000); // wait a little bit to start BT. avoid high inrush
+  delay(500); // wait a little bit to start BT. avoid high inrush
   SerialBT.setPin(pin);
   SerialBT.begin(device_name);
   on = true;
@@ -88,6 +70,7 @@ bool BionicGlove::read()
         callbackOpenedFinger();
         callbackFlickLr();
         callbackKnockLr();
+        callbackAxles();
       }
       return true;
     }
@@ -648,7 +631,6 @@ void BionicGlove::setOpenedRedLinePercentage(uint8_t f, uint8_t pct)
   finger[f].openedRedLinePercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
   updateOpenedRedline(f);
 }
-
 /*
 this is called when:
 a-user sets by glove new finger limits
@@ -700,6 +682,127 @@ bool BionicGlove::getFopenedStatus(uint8_t f)
 {
   return finger[f].openedFingerStatus;
 }
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//
+//                                                                  ACCEL
+//
+//------------------------------------------------------------------------------------------------------------------------------------
+
+void BionicGlove::callbackAxles()
+{
+  for (uint8_t a = 0; a < (MAXACCELCHANNELS - 1); a++)
+  {
+    // top angles
+    if (!accel[a].maxRedLineStatus && (accel[a].ang > accel[a].maxRedLineIn))
+    {
+      accel[a].maxRedLineStatus = true;
+      switch (a)
+      {
+      case AXL_X:
+        callMaxX();
+        break;
+      case AXL_Y:
+        callMaxY();
+        break;
+      }
+      ledOnAsync();
+    }
+    else if (accel[a].maxRedLineStatus && (accel[a].ang < accel[a].maxRedLineOut))
+    {
+      accel[a].maxRedLineStatus = false;
+    }
+    // lower angles
+    if (!accel[a].minRedLineStatus && (accel[a].ang < accel[a].minRedLineIn))
+    {
+      accel[a].minRedLineStatus = true;
+      switch (a)
+      {
+      case AXL_X:
+        callMinX();
+        break;
+      case AXL_Y:
+        callMinY();
+        break;
+      }
+      ledOnAsync();
+    }
+    else if (accel[a].minRedLineStatus && (accel[a].ang > accel[a].minRedLineOut))
+    {
+      accel[a].minRedLineStatus = false;
+    }
+  }
+}
+
+void BionicGlove::setAxleAllRedLineAngle(uint8_t ang)
+{
+  setAxleMinRedLineAngle(AXL_X, ang);
+  setAxleMaxRedLineAngle(AXL_X, ang);
+  setAxleMinRedLineAngle(AXL_Y, ang);
+  setAxleMaxRedLineAngle(AXL_Y, ang);
+}
+
+void BionicGlove::setAxleMinRedLineAngle(uint8_t axl, uint8_t ang)
+{
+  accel[axl].minRedLineAngle = constrain(ang, MINANGLE, MAXANGLE);
+  updateAxleMinRedline(axl);
+}
+
+void BionicGlove::setAxleMaxRedLineAngle(uint8_t axl, uint8_t ang)
+{
+  accel[axl].maxRedLineAngle = constrain(180 - ang, MINANGLE, MAXANGLE);
+  updateAxleMaxRedline(axl);
+}
+
+/*
+this is called when user sets by code new axle critical area
+smallest angles
+       \                /
+        \              /
+         \            /
+          \          / _ _ _ _ out
+in _ _ _ _ \       //
+            \\    //
+             =====
+*/
+void BionicGlove::updateAxleMinRedline(uint8_t axl)
+{
+  accel[axl].minRedLineIn = constrain(accel[axl].minRedLineAngle - ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
+  accel[axl].minRedLineOut = constrain(accel[axl].minRedLineAngle + ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
+}
+
+/*
+this is called when user sets by code new axle critical area
+biggest angles
+             =====
+in _ _ _ _  //    \\
+           /       \\ _ _ _ _ out
+          /          \
+         /            \
+        /              \
+       /                \
+*/
+void BionicGlove::updateAxleMaxRedline(uint8_t axl)
+{
+  accel[axl].maxRedLineIn = constrain(accel[axl].maxRedLineAngle + ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
+  accel[axl].maxRedLineOut = constrain(accel[axl].maxRedLineAngle - ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
+}
+
+bool BionicGlove::getAxleMinStatus(uint8_t axl)
+{
+  return accel[axl].minRedLineStatus;
+}
+
+bool BionicGlove::getAxleMaxStatus(uint8_t axl)
+{
+  return accel[axl].maxRedLineStatus;
+}
+
+//------------------------------------------------------------------------------------------------------------------------------------
+//
+//                                                                  LED MONITOR
+//
+//------------------------------------------------------------------------------------------------------------------------------------
 
 void BionicGlove::ledOnAsync()
 {
@@ -787,6 +890,43 @@ void BionicGlove::attachCallOnWideOpenedFingerIndex(void (*onRise)())
 void BionicGlove::detachCallOnWideOpenedFingerIndex()
 {
   attachCallOnWideOpenedFingerIndex(isrDefaultUnused);
+}
+
+// accel -----------------------------------------------------------
+void BionicGlove::attachCallOnCrossMinXangle(void (*onRise)())
+{
+  callMinX = onRise;
+}
+void BionicGlove::detachCallOnCrossMinXangle()
+{
+  attachCallOnCrossMinXangle(isrDefaultUnused);
+}
+
+void BionicGlove::attachCallOnCrossMaxXangle(void (*onRise)())
+{
+  callMaxX = onRise;
+}
+void BionicGlove::detachCallOnCrossMaxXangle()
+{
+  attachCallOnCrossMaxXangle(isrDefaultUnused);
+}
+
+void BionicGlove::attachCallOnCrossMinYangle(void (*onRise)())
+{
+  callMinY = onRise;
+}
+void BionicGlove::detachCallOnCrossMinYangle()
+{
+  attachCallOnCrossMinYangle(isrDefaultUnused);
+}
+
+void BionicGlove::attachCallOnCrossMaxYangle(void (*onRise)())
+{
+  callMaxY = onRise;
+}
+void BionicGlove::detachCallOnCrossMaxYangle()
+{
+  attachCallOnCrossMaxYangle(isrDefaultUnused);
 }
 
 // flick -----------------------------------------------------------
@@ -889,6 +1029,34 @@ void BionicGlove::attachCallOnHorizontalNegativeKnock(void (*onRise)(void))
 void BionicGlove::detachCallOnHorizontalNegativeKnock()
 {
   attachCallOnHorizontalNegativeKnock(isrDefaultUnused);
+}
+
+void BionicGlove::detachAll()
+{
+  detachCallOnWideClosedFingerLittle(); // detach all
+  detachCallOnWideClosedFingerIndex();
+  detachCallOnWideClosedFingerMiddle();
+  detachCallOnWideClosedFingerRing();
+  detachCallOnWideOpenedFingerIndex();
+  detachCallOnWideOpenedFingerMiddle();
+  detachCallOnWideOpenedFingerRing();
+  detachCallOnWideOpenedFingerLittle();
+  detachCallOnFlickClosedFingerLittle();
+  detachCallOnFlickClosedFingerIndex();
+  detachCallOnFlickClosedFingerMiddle();
+  detachCallOnFlickClosedFingerRing();
+  detachCallOnFlickOpenedFingerIndex();
+  detachCallOnFlickOpenedFingerMiddle();
+  detachCallOnFlickOpenedFingerRing();
+  detachCallOnFlickOpenedFingerLittle();
+  detachCallOnVerticalPositiveKnock();
+  detachCallOnVerticalNegativeKnock();
+  detachCallOnHorizontalPositiveKnock();
+  detachCallOnHorizontalNegativeKnock();
+  detachCallOnCrossMaxXangle();
+  detachCallOnCrossMaxYangle();
+  detachCallOnCrossMinXangle();
+  detachCallOnCrossMinYangle();
 }
 
 void BionicGlove::logFclear(uint8_t f)

@@ -71,7 +71,6 @@ void setup()
     delay(DELAYPADRAO);
   }
 #endif
-
   bionic.start();
   Serial.println("end setup");
 }
