@@ -8,7 +8,7 @@ void setup()
     bionic.start();
     bionic.attachCallOnVerticalPositiveKnock(printMessageA);
     bionic.attachCallOnVerticalNegativeKnock(printMessageB);
-    bionic.setAllRedlinePercentage(20);
+    bionic.setAllThresholdPercentage(20);
 }
 
 void loop()

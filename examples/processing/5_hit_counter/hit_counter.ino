@@ -7,7 +7,7 @@ void setup()
     Serial.begin(38400);
     bionic.attachCallOnPosVerKnock(printMessageA);
     bionic.attachCallOnNegVerKnock(printMessageB);
-    bionic.setAllRedlinePercentage(20);
+    bionic.setAllThresholdPercentage(20);
     bionic.start();
 }
 

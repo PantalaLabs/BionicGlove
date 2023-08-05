@@ -49,11 +49,11 @@ void setup()
   servoAltura.write(alturaAng);
   delay(DELAYPADRAO);
 
-  bionic.setAxleMinRedLineAngle(AXL_X, 50); // aumenta a sensibilidade
-  bionic.setAxleMaxRedLineAngle(AXL_X, 50);
-  bionic.setAxleMinRedLineAngle(AXL_Y, 50); // aumenta a sensibilidade
-  bionic.setAxleMaxRedLineAngle(AXL_Y, 50);
-  bionic.setAllRedlinePercentage(15); // diminui a sensibilidade
+  bionic.setAxleMinThresholdAngle(AXL_X, 50); // aumenta a sensibilidade
+  bionic.setAxleMaxThresholdAngle(AXL_X, 50);
+  bionic.setAxleMinThresholdAngle(AXL_Y, 50); // aumenta a sensibilidade
+  bionic.setAxleMaxThresholdAngle(AXL_Y, 50);
+  bionic.setAllThresholdPercentage(15); // diminui a sensibilidade
 
   bionic.start();
   Serial.println("end setup");

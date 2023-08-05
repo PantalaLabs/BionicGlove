@@ -89,10 +89,10 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 #define MAXFINGERCHANNELS 4
 #define MAXACCELCHANNELS 3
 
-#define MINPERCENTAGE 10        // closed fingers
-#define MAXPERCENTAGE 90        // opened fingers
-#define DEFREDLINEPERCENTAGE 15 // defaul for all fingers
-#define DEFREDLINEANGLE 30      // defaul for all fingers
+#define MINPERCENTAGE 10          // closed fingers
+#define MAXPERCENTAGE 90          // opened fingers
+#define DEFTHRESHOLDPERCENTAGE 15 // default for all fingers
+#define DEFTHRESHOLDANGLE 30      // default for all axles
 
 #define MINANGLE 10
 #define MAXANGLE 170
@@ -148,11 +148,11 @@ public:
   float getAAngsmoothed(uint8_t axl);                                                             // get smoothed accel Angle values
   uint16_t getF(uint8_t f);                                                                       // get expanded finger value
   float getFaccel(uint8_t f);                                                                     // return acceleration based on linear regression coeff
-  void setAllRedlinePercentage(uint8_t pct);                                                      // set all closed and opened bounds
-  void setAllClosedRedLinePercentage(uint8_t pct);                                                // set all closed Percentage for all fingers
-  void setAllOpenedRedLinePercentage(uint8_t pct);                                                // set all opened Percentage for all fingers
-  void setClosedRedLinePercentage(uint8_t f, uint8_t pct);                                        // set closed Percentage for individual finger
-  void setOpenedRedLinePercentage(uint8_t f, uint8_t pct);                                        // set opened Percentage for individual finger
+  void setAllThresholdPercentage(uint8_t pct);                                                    // set all closed and opened bounds
+  void setAllClosedThresholdPercentage(uint8_t pct);                                              // set all closed Percentage for all fingers
+  void setAllOpenedThresholdPercentage(uint8_t pct);                                              // set all opened Percentage for all fingers
+  void setClosedThresholdPercentage(uint8_t f, uint8_t pct);                                      // set closed Percentage for individual finger
+  void setOpenedThresholdPercentage(uint8_t f, uint8_t pct);                                      // set opened Percentage for individual finger
   bool getFclosedStatus(uint8_t f);                                                               // return if the finger is still inside closed area
   bool getFopenedStatus(uint8_t f);                                                               // return if the finger is still inside opened area
   void setKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg); // set new knock treshold
@@ -163,11 +163,11 @@ public:
   void setFlickDebounceInterval(uint32_t val);                                                    // set new flick  debounce interval
   float getAZGlastKnock();                                                                        // return last knock treshold
 
-  void setAxleAllRedLineAngle(uint8_t ang);
-  void setAxleMinRedLineAngle(uint8_t axl, uint8_t ang);
-  void setAxleMaxRedLineAngle(uint8_t axl, uint8_t ang);
-  void updateAxleMinRedline(uint8_t axl);
-  void updateAxleMaxRedline(uint8_t axl);
+  void setAxleAllThresholdAngle(uint8_t ang);
+  void setAxleMinThresholdAngle(uint8_t axl, uint8_t ang);
+  void setAxleMaxThresholdAngle(uint8_t axl, uint8_t ang);
+  void updateAxleMinThreshold(uint8_t axl);
+  void updateAxleMaxThreshold(uint8_t axl);
   bool getAxleMinStatus(uint8_t axl);
   bool getAxleMaxStatus(uint8_t axl);
 
@@ -272,8 +272,8 @@ private:
   void logAZGknock();                                                           // put new finger read into knock array
   void callbackKnock();                                                         // integrate ZG signal to find knock condition
   void callbackKnockLr();                                                       // integrate ZG signal to find knock condition
-  void updateClosedRedline(uint8_t f);                                          // update individual closed finger area and recalculate all limits
-  void updateOpenedRedline(uint8_t f);                                          // update individual opened finger area and recalculate all limits
+  void updateClosedThreshold(uint8_t f);                                        // update individual closed finger area and recalculate all limits
+  void updateOpenedThreshold(uint8_t f);                                        // update individual opened finger area and recalculate all limits
   void logAZGclear();
   void logFclear(uint8_t f); // clear all last finger readings
   bool doneMs(uint32_t t0, uint32_t dt);
@@ -315,32 +315,32 @@ private:
 
   typedef struct
   {
-    int16_t fingerRead = 0;              // raw finger read value
-    uint8_t closedRedLinePercentage = 0; // percent value set by user to calculate internal closed critical area
-    uint8_t openedRedLinePercentage = 0; // percent value set by user to calculate internal iopened critical area
-    uint16_t closedRedLineIn = 0;        // finger closed critical zone
-    uint16_t closedRedLineOut = 0;       // finger closed critical zone
-    uint16_t openedRedLineIn = 0;        // finger opened critical zone
-    uint16_t openedRedLineOut = 0;       // finger opened critical zone
-    bool closedFingerStatus = false;     // status flagging that you are inside critical area
-    bool openedFingerStatus = false;     // status flagging that you are inside critical area
+    int16_t fingerRead = 0;                // raw finger read value
+    uint8_t closedThresholdPercentage = 0; // percent value set by user to calculate internal closed critical area
+    uint8_t openedThresholdPercentage = 0; // percent value set by user to calculate internal iopened critical area
+    uint16_t closedThresholdIn = 0;        // finger closed critical zone
+    uint16_t closedThresholdOut = 0;       // finger closed critical zone
+    uint16_t openedThresholdIn = 0;        // finger opened critical zone
+    uint16_t openedThresholdOut = 0;       // finger opened critical zone
+    bool closedFingerStatus = false;       // status flagging that you are inside critical area
+    bool openedFingerStatus = false;       // status flagging that you are inside critical area
     float accel = 0;
   } record_finger;
   record_finger finger[MAXFINGERCHANNELS];
 
   typedef struct
   {
-    float raw = 0;                 // raw accel value
-    float g = 0;                   // g accel value
-    float ang = 0;                 // corrected angle accel value
-    uint8_t minRedLineAngle = 0;   // x axle critical zone
-    uint8_t minRedLineIn = 0;      // x axle critical zone
-    uint8_t minRedLineOut = 0;     // x axle critical zone
-    bool minRedLineStatus = false; // status flagging that you are inside critical area
-    uint8_t maxRedLineAngle = 0;   // x axle critical zone
-    uint8_t maxRedLineIn = 0;      // x axle critical zone
-    uint8_t maxRedLineOut = 0;     // x axle critical zone
-    bool maxRedLineStatus = false; // status flagging that you are inside critical area
+    float raw = 0;                   // raw accel value
+    float g = 0;                     // g accel value
+    float ang = 0;                   // corrected angle accel value
+    uint8_t minThresholdAngle = 0;   // x axle critical zone
+    uint8_t minThresholdIn = 0;      // x axle critical zone
+    uint8_t minThresholdOut = 0;     // x axle critical zone
+    bool minThresholdStatus = false; // status flagging that you are inside critical area
+    uint8_t maxThresholdAngle = 0;   // x axle critical zone
+    uint8_t maxThresholdIn = 0;      // x axle critical zone
+    uint8_t maxThresholdOut = 0;     // x axle critical zone
+    bool maxThresholdStatus = false; // status flagging that you are inside critical area
   } record_accel;
   record_accel accel[MAXACCELCHANNELS];
   bool firstReading = true;

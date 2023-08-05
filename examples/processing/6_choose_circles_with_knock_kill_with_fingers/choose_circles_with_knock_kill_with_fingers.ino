@@ -10,8 +10,8 @@ void setup()
     bionic.attachCallOnHorizontalNegativeKnock(message2);
     bionic.attachCallOnWideClosedFingerIndex(message3);
     bionic.attachCallOnWideOpenedFingerIndex(message3);
-    bionic.setAllRedlinePercentage(10); // wide open all fingers
-    bionic.setClosedRedLinePercentage(FINGER_INDEX, 30); // index finger closes sooner
+    bionic.setAllThresholdPercentage(10); // wide open all fingers
+    bionic.setClosedThresholdPercentage(FINGER_INDEX, 30); // index finger closes sooner
     bionic.start();
 }
 

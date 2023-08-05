@@ -26,8 +26,8 @@ BluetoothSerial SerialBT;
 BionicGlove::BionicGlove()
 {
   detachAll();
-  setAllRedlinePercentage(DEFREDLINEPERCENTAGE); // set all critical area to 20%
-  setAxleAllRedLineAngle(DEFREDLINEANGLE);       // set all critical area to 30 degrees
+  setAllThresholdPercentage(DEFThresholdPERCENTAGE); // set all critical area to 20%
+  setAxleAllThresholdAngle(DEFThresholdANGLE);       // set all critical area to 30 degrees
   updateNewLimits();
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
   {
@@ -513,8 +513,8 @@ void BionicGlove::updateNewLimits()
   int16_t croped;
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
   {
-    updateClosedRedline(f);
-    updateOpenedRedline(f);
+    updateClosedThreshold(f);
+    updateOpenedThreshold(f);
   }
 }
 
@@ -535,7 +535,7 @@ void BionicGlove::callbackClosedFinger()
   // closed pinch ------------------------------------------------------
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
   {
-    if (!finger[f].closedFingerStatus && (finger[f].fingerRead < finger[f].closedRedLineIn))
+    if (!finger[f].closedFingerStatus && (finger[f].fingerRead < finger[f].closedThresholdIn))
     {
       finger[f].closedFingerStatus = true;
       switch (f)
@@ -555,7 +555,7 @@ void BionicGlove::callbackClosedFinger()
       }
       ledOnAsync();
     }
-    else if (finger[f].closedFingerStatus && (finger[f].fingerRead > finger[f].closedRedLineOut))
+    else if (finger[f].closedFingerStatus && (finger[f].fingerRead > finger[f].closedThresholdOut))
     {
       finger[f].closedFingerStatus = false;
     }
@@ -577,7 +577,7 @@ void BionicGlove::callbackOpenedFinger()
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
   {
-    if (!finger[f].openedFingerStatus && (finger[f].fingerRead > finger[f].openedRedLineIn))
+    if (!finger[f].openedFingerStatus && (finger[f].fingerRead > finger[f].openedThresholdIn))
     {
       finger[f].openedFingerStatus = true;
       switch (f)
@@ -597,39 +597,39 @@ void BionicGlove::callbackOpenedFinger()
       }
       ledOnAsync();
     }
-    else if (finger[f].openedFingerStatus && (finger[f].fingerRead < finger[f].openedRedLineOut))
+    else if (finger[f].openedFingerStatus && (finger[f].fingerRead < finger[f].openedThresholdOut))
     {
       finger[f].openedFingerStatus = false;
     }
   }
 }
 
-void BionicGlove::setAllRedlinePercentage(uint8_t pct)
+void BionicGlove::setAllThresholdPercentage(uint8_t pct)
 {
-  setAllClosedRedLinePercentage(pct);
-  setAllOpenedRedLinePercentage(pct);
+  setAllClosedThresholdPercentage(pct);
+  setAllOpenedThresholdPercentage(pct);
 }
 
-void BionicGlove::setAllClosedRedLinePercentage(uint8_t pct)
+void BionicGlove::setAllClosedThresholdPercentage(uint8_t pct)
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
-    setClosedRedLinePercentage(f, pct);
+    setClosedThresholdPercentage(f, pct);
 }
-void BionicGlove::setClosedRedLinePercentage(uint8_t f, uint8_t pct)
+void BionicGlove::setClosedThresholdPercentage(uint8_t f, uint8_t pct)
 {
-  finger[f].closedRedLinePercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
-  updateClosedRedline(f);
+  finger[f].closedThresholdPercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
+  updateClosedThreshold(f);
 }
 
-void BionicGlove::setAllOpenedRedLinePercentage(uint8_t pct)
+void BionicGlove::setAllOpenedThresholdPercentage(uint8_t pct)
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
-    setOpenedRedLinePercentage(f, pct);
+    setOpenedThresholdPercentage(f, pct);
 }
-void BionicGlove::setOpenedRedLinePercentage(uint8_t f, uint8_t pct)
+void BionicGlove::setOpenedThresholdPercentage(uint8_t f, uint8_t pct)
 {
-  finger[f].openedRedLinePercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
-  updateOpenedRedline(f);
+  finger[f].openedThresholdPercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
+  updateOpenedThreshold(f);
 }
 /*
 this is called when:
@@ -646,10 +646,10 @@ in _ _ _ _ \       //
             \\    //
              =====
 */
-void BionicGlove::updateClosedRedline(uint8_t f) // smallest values on scale
+void BionicGlove::updateClosedThreshold(uint8_t f) // smallest values on scale
 {
-  finger[f].closedRedLineIn = ((MAXRES * (finger[f].closedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
-  finger[f].closedRedLineOut = ((MAXRES * (finger[f].closedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].closedThresholdIn = ((MAXRES * (finger[f].closedThresholdPercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].closedThresholdOut = ((MAXRES * (finger[f].closedThresholdPercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
 }
 
 /*
@@ -667,10 +667,10 @@ in _ _ _ _  //    \\
   fingerRead
 
 */
-void BionicGlove::updateOpenedRedline(uint8_t f)
+void BionicGlove::updateOpenedThreshold(uint8_t f)
 {
-  finger[f].openedRedLineIn = MAXRES - ((MAXRES * (finger[f].openedRedLinePercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
-  finger[f].openedRedLineOut = MAXRES - ((MAXRES * (finger[f].openedRedLinePercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].openedThresholdIn = MAXRES - ((MAXRES * (finger[f].openedThresholdPercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
+  finger[f].openedThresholdOut = MAXRES - ((MAXRES * (finger[f].openedThresholdPercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
 }
 
 bool BionicGlove::getFclosedStatus(uint8_t f)
@@ -694,9 +694,9 @@ void BionicGlove::callbackAxles()
   for (uint8_t a = 0; a < (MAXACCELCHANNELS - 1); a++)
   {
     // top angles
-    if (!accel[a].maxRedLineStatus && (accel[a].ang > accel[a].maxRedLineIn))
+    if (!accel[a].maxThresholdStatus && (accel[a].ang > accel[a].maxThresholdIn))
     {
-      accel[a].maxRedLineStatus = true;
+      accel[a].maxThresholdStatus = true;
       switch (a)
       {
       case AXL_X:
@@ -708,14 +708,14 @@ void BionicGlove::callbackAxles()
       }
       ledOnAsync();
     }
-    else if (accel[a].maxRedLineStatus && (accel[a].ang < accel[a].maxRedLineOut))
+    else if (accel[a].maxThresholdStatus && (accel[a].ang < accel[a].maxThresholdOut))
     {
-      accel[a].maxRedLineStatus = false;
+      accel[a].maxThresholdStatus = false;
     }
     // lower angles
-    if (!accel[a].minRedLineStatus && (accel[a].ang < accel[a].minRedLineIn))
+    if (!accel[a].minThresholdStatus && (accel[a].ang < accel[a].minThresholdIn))
     {
-      accel[a].minRedLineStatus = true;
+      accel[a].minThresholdStatus = true;
       switch (a)
       {
       case AXL_X:
@@ -727,31 +727,31 @@ void BionicGlove::callbackAxles()
       }
       ledOnAsync();
     }
-    else if (accel[a].minRedLineStatus && (accel[a].ang > accel[a].minRedLineOut))
+    else if (accel[a].minThresholdStatus && (accel[a].ang > accel[a].minThresholdOut))
     {
-      accel[a].minRedLineStatus = false;
+      accel[a].minThresholdStatus = false;
     }
   }
 }
 
-void BionicGlove::setAxleAllRedLineAngle(uint8_t ang)
+void BionicGlove::setAxleAllThresholdAngle(uint8_t ang)
 {
-  setAxleMinRedLineAngle(AXL_X, ang);
-  setAxleMaxRedLineAngle(AXL_X, ang);
-  setAxleMinRedLineAngle(AXL_Y, ang);
-  setAxleMaxRedLineAngle(AXL_Y, ang);
+  setAxleMinThresholdAngle(AXL_X, ang);
+  setAxleMaxThresholdAngle(AXL_X, ang);
+  setAxleMinThresholdAngle(AXL_Y, ang);
+  setAxleMaxThresholdAngle(AXL_Y, ang);
 }
 
-void BionicGlove::setAxleMinRedLineAngle(uint8_t axl, uint8_t ang)
+void BionicGlove::setAxleMinThresholdAngle(uint8_t axl, uint8_t ang)
 {
-  accel[axl].minRedLineAngle = constrain(ang, MINANGLE, MAXANGLE);
-  updateAxleMinRedline(axl);
+  accel[axl].minThresholdAngle = constrain(ang, MINANGLE, MAXANGLE);
+  updateAxleMinThreshold(axl);
 }
 
-void BionicGlove::setAxleMaxRedLineAngle(uint8_t axl, uint8_t ang)
+void BionicGlove::setAxleMaxThresholdAngle(uint8_t axl, uint8_t ang)
 {
-  accel[axl].maxRedLineAngle = constrain(180 - ang, MINANGLE, MAXANGLE);
-  updateAxleMaxRedline(axl);
+  accel[axl].maxThresholdAngle = constrain(180 - ang, MINANGLE, MAXANGLE);
+  updateAxleMaxThreshold(axl);
 }
 
 /*
@@ -765,10 +765,10 @@ in _ _ _ _ \       //
             \\    //
              =====
 */
-void BionicGlove::updateAxleMinRedline(uint8_t axl)
+void BionicGlove::updateAxleMinThreshold(uint8_t axl)
 {
-  accel[axl].minRedLineIn = constrain(accel[axl].minRedLineAngle - ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
-  accel[axl].minRedLineOut = constrain(accel[axl].minRedLineAngle + ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
+  accel[axl].minThresholdIn = constrain(accel[axl].minThresholdAngle - ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
+  accel[axl].minThresholdOut = constrain(accel[axl].minThresholdAngle + ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
 }
 
 /*
@@ -782,20 +782,20 @@ in _ _ _ _  //    \\
         /              \
        /                \
 */
-void BionicGlove::updateAxleMaxRedline(uint8_t axl)
+void BionicGlove::updateAxleMaxThreshold(uint8_t axl)
 {
-  accel[axl].maxRedLineIn = constrain(accel[axl].maxRedLineAngle + ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
-  accel[axl].maxRedLineOut = constrain(accel[axl].maxRedLineAngle - ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
+  accel[axl].maxThresholdIn = constrain(accel[axl].maxThresholdAngle + ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
+  accel[axl].maxThresholdOut = constrain(accel[axl].maxThresholdAngle - ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
 }
 
 bool BionicGlove::getAxleMinStatus(uint8_t axl)
 {
-  return accel[axl].minRedLineStatus;
+  return accel[axl].minThresholdStatus;
 }
 
 bool BionicGlove::getAxleMaxStatus(uint8_t axl)
 {
-  return accel[axl].maxRedLineStatus;
+  return accel[axl].maxThresholdStatus;
 }
 
 //------------------------------------------------------------------------------------------------------------------------------------
