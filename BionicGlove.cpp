@@ -26,8 +26,8 @@ BluetoothSerial SerialBT;
 BionicGlove::BionicGlove()
 {
   detachAll();
-  setAllFingersThresholdPercentage(DEFThresholdPERCENTAGE); // set all critical area to 20%
-  setAxleAllThresholdAngle(DEFThresholdANGLE);       // set all critical area to 30 degrees
+  setAllFingersThresholdPercentage(DEFTHRESHOLDPERCENTAGE); // set all critical area to 20%
+  setAllAxleThresholdAngle(DEFTHRESHOLDANGLE);       // set all critical area to 30 degrees
   updateNewLimits();
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
   {
@@ -734,7 +734,7 @@ void BionicGlove::callbackAxles()
   }
 }
 
-void BionicGlove::setAxleAllThresholdAngle(uint8_t ang)
+void BionicGlove::setAllAxleThresholdAngle(uint8_t ang)
 {
   setAxleMinThresholdAngle(AXL_X, ang);
   setAxleMaxThresholdAngle(AXL_X, ang);
