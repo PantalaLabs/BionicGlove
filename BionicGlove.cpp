@@ -26,7 +26,7 @@ BluetoothSerial SerialBT;
 BionicGlove::BionicGlove()
 {
   detachAll();
-  setAllThresholdPercentage(DEFThresholdPERCENTAGE); // set all critical area to 20%
+  setAllFingersThresholdPercentage(DEFThresholdPERCENTAGE); // set all critical area to 20%
   setAxleAllThresholdAngle(DEFThresholdANGLE);       // set all critical area to 30 degrees
   updateNewLimits();
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
@@ -604,29 +604,29 @@ void BionicGlove::callbackOpenedFinger()
   }
 }
 
-void BionicGlove::setAllThresholdPercentage(uint8_t pct)
+void BionicGlove::setAllFingersThresholdPercentage(uint8_t pct)
 {
-  setAllClosedThresholdPercentage(pct);
-  setAllOpenedThresholdPercentage(pct);
+  setAllClosedFingersThresholdPercentage(pct);
+  setAllOpenedFingersThresholdPercentage(pct);
 }
 
-void BionicGlove::setAllClosedThresholdPercentage(uint8_t pct)
+void BionicGlove::setAllClosedFingersThresholdPercentage(uint8_t pct)
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
-    setClosedThresholdPercentage(f, pct);
+    setClosedFingerThresholdPercentage(f, pct);
 }
-void BionicGlove::setClosedThresholdPercentage(uint8_t f, uint8_t pct)
+void BionicGlove::setClosedFingerThresholdPercentage(uint8_t f, uint8_t pct)
 {
   finger[f].closedThresholdPercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
   updateClosedThreshold(f);
 }
 
-void BionicGlove::setAllOpenedThresholdPercentage(uint8_t pct)
+void BionicGlove::setAllOpenedFingersThresholdPercentage(uint8_t pct)
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
-    setOpenedThresholdPercentage(f, pct);
+    setOpenedFingerThresholdPercentage(f, pct);
 }
-void BionicGlove::setOpenedThresholdPercentage(uint8_t f, uint8_t pct)
+void BionicGlove::setOpenedFingerThresholdPercentage(uint8_t f, uint8_t pct)
 {
   finger[f].openedThresholdPercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
   updateOpenedThreshold(f);
@@ -673,12 +673,12 @@ void BionicGlove::updateOpenedThreshold(uint8_t f)
   finger[f].openedThresholdOut = MAXRES - ((MAXRES * (finger[f].openedThresholdPercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
 }
 
-bool BionicGlove::getFclosedStatus(uint8_t f)
+bool BionicGlove::getFingerClosedStatus(uint8_t f)
 {
   return finger[f].closedFingerStatus;
 }
 
-bool BionicGlove::getFopenedStatus(uint8_t f)
+bool BionicGlove::getFingerOpenedStatus(uint8_t f)
 {
   return finger[f].openedFingerStatus;
 }
@@ -893,40 +893,40 @@ void BionicGlove::detachCallOnWideOpenedFingerIndex()
 }
 
 // accel -----------------------------------------------------------
-void BionicGlove::attachCallOnCrossMinXangle(void (*onRise)())
+void BionicGlove::attachCallOnMinXangle(void (*onRise)())
 {
   callMinX = onRise;
 }
-void BionicGlove::detachCallOnCrossMinXangle()
+void BionicGlove::detachCallOnMinXangle()
 {
-  attachCallOnCrossMinXangle(isrDefaultUnused);
+  attachCallOnMinXangle(isrDefaultUnused);
 }
 
-void BionicGlove::attachCallOnCrossMaxXangle(void (*onRise)())
+void BionicGlove::attachCallOnMaxXangle(void (*onRise)())
 {
   callMaxX = onRise;
 }
-void BionicGlove::detachCallOnCrossMaxXangle()
+void BionicGlove::detachCallOnMaxXangle()
 {
-  attachCallOnCrossMaxXangle(isrDefaultUnused);
+  attachCallOnMaxXangle(isrDefaultUnused);
 }
 
-void BionicGlove::attachCallOnCrossMinYangle(void (*onRise)())
+void BionicGlove::attachCallOnMinYangle(void (*onRise)())
 {
   callMinY = onRise;
 }
-void BionicGlove::detachCallOnCrossMinYangle()
+void BionicGlove::detachCallOnMinYangle()
 {
-  attachCallOnCrossMinYangle(isrDefaultUnused);
+  attachCallOnMinYangle(isrDefaultUnused);
 }
 
-void BionicGlove::attachCallOnCrossMaxYangle(void (*onRise)())
+void BionicGlove::attachCallOnMaxYangle(void (*onRise)())
 {
   callMaxY = onRise;
 }
-void BionicGlove::detachCallOnCrossMaxYangle()
+void BionicGlove::detachCallOnMaxYangle()
 {
-  attachCallOnCrossMaxYangle(isrDefaultUnused);
+  attachCallOnMaxYangle(isrDefaultUnused);
 }
 
 // flick -----------------------------------------------------------
@@ -1053,10 +1053,10 @@ void BionicGlove::detachAll()
   detachCallOnVerticalNegativeKnock();
   detachCallOnHorizontalPositiveKnock();
   detachCallOnHorizontalNegativeKnock();
-  detachCallOnCrossMaxXangle();
-  detachCallOnCrossMaxYangle();
-  detachCallOnCrossMinXangle();
-  detachCallOnCrossMinYangle();
+  detachCallOnMaxXangle();
+  detachCallOnMaxYangle();
+  detachCallOnMinXangle();
+  detachCallOnMinYangle();
 }
 
 void BionicGlove::logFclear(uint8_t f)
