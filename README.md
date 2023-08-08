@@ -164,12 +164,6 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 
 n/a - not available
 
-#### Dependencies:
-
-There are two mathematical calculations that are widely used in the library:
-1. EMA (https://en.wikipedia.org/wiki/Moving_average) : this one is implemented by a macro called ALPHAFILTER in the BionicGlove.h
-2. Linear Regression (https://en.wikipedia.org/wiki/Linear_regression) : this is a library LinearRegression.h by https://github.com/cubiwan/Regressino . You will need to download and install it too.
-
 #### Conventions:
 
 Every method has one kind of parameter. Be careful not to mix the types of parameters or unexpected results may happen.
