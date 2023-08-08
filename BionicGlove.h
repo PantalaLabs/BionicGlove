@@ -51,7 +51,7 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 **********************************************************************/
 
 // https://github.com/cubiwan/Regressino
-#include <LinearRegression.h>
+// #include <LinearRegression.h>
 
 #ifndef BionicGlove_h
 #define BionicGlove_h
@@ -106,7 +106,7 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 #define DEFANGLEKNOCKVERTICALPOSITIVETHRESHOLD 100   //  ** preciselly adjusted , do not touch
 #define DEFANGLEKNOCKVERTICALNEGATIVETHRESHOLD 120   //  ** preciselly adjusted , do not touch
 #define DEFANGLEKNOCKHORIZONTALPOSITIVETHRESHOLD 100 //  ** preciselly adjusted , do not touch
-#define DEFANGLEKNOCKHORIZONTALNEGATIVETHRESHOLD 110 //  ** preciselly adjusted , do not touch
+#define DEFANGLEKNOCKHORIZONTALNEGATIVETHRESHOLD 100 //  ** preciselly adjusted , do not touch
 
 // #define MINLRKNOCKTHRESHOLD 2.0                    // min value expected out of LR calcs
 // #define MAXLRKNOCKTHRESHOLD 50.0                   // max value expected out of LR calcs
@@ -178,10 +178,10 @@ public:
   void setKnockDebounceInterval(uint32_t val);                                                          // set new knock debounce interval
   // void setSimpleKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg); // set new simple knock treshold
   // void setLrKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg);     // set new linear regression knock treshold
-  // void setFlickAllThreshold(float trs);                                                           // set all new flick treshold
-  // void setFlickOpenedThreshold(uint8_t f, float trs);                                             // set new finger positive flick treshold
-  // void setFlickClosedThreshold(uint8_t f, float trs);                                             // set new  finger negative flick treshold
-  // void setFlickDebounceInterval(uint32_t val);                                                    // set new flick  debounce interval
+  void setFlickAllThreshold(float trs);                                                           // set all new flick treshold
+  void setFlickOpenedThreshold(uint8_t f, float trs);                                             // set new finger positive flick treshold
+  void setFlickClosedThreshold(uint8_t f, float trs);                                             // set new  finger negative flick treshold
+  void setFlickDebounceInterval(uint32_t val);                                                    // set new flick  debounce interval
   float getAZGlastKnock();                                 // return last knock treshold
   void setAllAxleThresholdAngle(uint8_t ang);              // set all axels threshold angles
   void setAxleMinThresholdAngle(uint8_t axl, uint8_t ang); // set axel min threshold angle
@@ -246,7 +246,7 @@ public:
   void detachCallOnHorizontalNegativeKnock();
 
 private:
-  LinearRegression lr = LinearRegression();
+  //LinearRegression lr = LinearRegression();
   double values[2];
   const float zerof = 0.0;
   uint32_t frozen = 0;
@@ -281,9 +281,9 @@ private:
   bool receiveDataPack();                                                            // receive BT serial string and split
   void callbackClosedFinger();                                                       // check if any finger reached closed area and callback them
   void callbackOpenedFinger();                                                       // check if any finger reached opened area and callback them
-  void logFremoveOffset();                                                           // log all fingers
+  void logFingers();                                                           // log all fingers
   void callbackFlick();                                                              // remove offset accumullating the difference btween x - (x-1)
-  void callbackFlickLr();                                                            // apply linear regression to 4 readings
+  //void callbackFlickLr();                                                            // apply linear regression to 4 readings
   void callbackAxles();                                                              // check if any finger reached closed area and callback them
   void updateNewLimits();                                                            // compare if new readings are outside preset area and update to new ones
   void logAGremoveOffset();                                                          // stores last MAXLOGs values of 3 G accell axle to eventually remove its offsets
