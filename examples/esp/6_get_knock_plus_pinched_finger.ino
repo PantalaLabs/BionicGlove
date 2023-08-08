@@ -1,4 +1,4 @@
-    #include <BionicGlove.h>
+#include <BionicGlove.h>
 
 BionicGlove bionic;
 
@@ -8,7 +8,7 @@ void setup()
     bionic.start();
     bionic.attachCallOnVerticalPositiveKnock(printMessageA);
     bionic.attachCallOnVerticalNegativeKnock(printMessageB);
-    bionic.setAllThresholdPercentage(20);
+    bionic.setAllFingersThresholdPercentage(20);
 }
 
 void loop()
@@ -18,22 +18,22 @@ void loop()
 
 void printMessageA()
 {
-    if (bionic.getClosedFingerStatus(DATA_F_INDEX))
+    if (bionic.getFingerClosedStatus(DATA_F_INDEX))
     {
         Serial.println("1");
     }
-    else if (bionic.getClosedFingerStatus(DATA_F_MIDDLE))
+    else if (bionic.getFingerClosedStatus(DATA_F_MIDDLE))
     {
         Serial.println("3");
     }
 }
 void printMessageB()
 {
-    if (bionic.getClosedFingerStatus(DATA_F_INDEX))
+    if (bionic.getFingerClosedStatus(DATA_F_INDEX))
     {
         Serial.println("2");
     }
-    else if (bionic.getClosedFingerStatus(DATA_F_MIDDLE))
+    else if (bionic.getFingerClosedStatus(DATA_F_MIDDLE))
     {
         Serial.println("4");
     }

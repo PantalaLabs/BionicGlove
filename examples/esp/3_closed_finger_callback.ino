@@ -6,7 +6,7 @@ void setup()
 {
     Serial.begin(115200);
     bionic.start();
-    bionic.attachCallOnClosedFingerIndex(printMessage);
+    bionic.attachCallOnWideClosedFingerIndex(printMessage);
 }
  
 void loop()

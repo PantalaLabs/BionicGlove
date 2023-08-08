@@ -5,10 +5,10 @@ BionicGlove bionic;
 void setup()
 {
   Serial.begin(115200);
-  bionic.attachCallOnCrossMinXangle(printMessage1);
-  bionic.attachCallOnCrossMaxXangle(printMessage2);
-  bionic.attachCallOnCrossMinYangle(printMessage3);
-  bionic.attachCallOnCrossMaxYangle(printMessage4);
+  bionic.attachCallOnMinXangle(printMessage1);
+  bionic.attachCallOnMaxXangle(printMessage2);
+  bionic.attachCallOnMinYangle(printMessage3);
+  bionic.attachCallOnMaxYangle(printMessage4);
   bionic.start();
 }
 

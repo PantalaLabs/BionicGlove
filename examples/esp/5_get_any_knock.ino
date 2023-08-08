@@ -3,7 +3,7 @@ BionicGlove bionic;
 
 void setup()
 {
-    Serial.begin(38400);
+    Serial.begin(115200);
     bionic.attachCallOnVerticalPositiveKnock(message1);
     bionic.attachCallOnVerticalNegativeKnock(message2);
     bionic.attachCallOnHorizontalPositiveKnock(message3);

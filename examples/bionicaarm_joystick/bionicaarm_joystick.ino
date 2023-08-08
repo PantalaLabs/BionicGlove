@@ -53,7 +53,7 @@ void setup()
   bionic.setAxleMaxThresholdAngle(AXL_X, 50);
   bionic.setAxleMinThresholdAngle(AXL_Y, 50); // aumenta a sensibilidade
   bionic.setAxleMaxThresholdAngle(AXL_Y, 50);
-  bionic.setAllThresholdPercentage(15); // diminui a sensibilidade
+  bionic.setAllAxleThresholdAngle(15); // diminui a sensibilidade
 
   bionic.start();
   Serial.println("end setup");
@@ -86,24 +86,23 @@ void loop()
         alcanceAng = constrain(alcanceAng--, ALCANCE_ANGLE_MIN, ALCANCE_ANGLE_MAX);
         servoAlcance.write(alcanceAng);
       }
-
-      if (bionic.getFclosedStatus(DATA_F_INDEX))
+      if (bionic.getFingerClosedStatus(DATA_F_INDEX))
       {
         alturaAng = constrain(alturaAng--, ALCANCE_ANGLE_MIN, ALCANCE_ANGLE_MAX);
         servoAltura.write(alturaAng);
       }
-      else if (bionic.getFopenedStatus(DATA_F_INDEX))
+      else if (bionic.getFingerOpenedStatus(DATA_F_INDEX))
       {
         alturaAng = constrain(alturaAng++, ALCANCE_ANGLE_MIN, ALCANCE_ANGLE_MAX);
         servoAltura.write(alturaAng);
       }
 
-      if (bionic.getFclosedStatus(DATA_F_LITTLE))
+      if (bionic.getFingerClosedStatus(DATA_F_LITTLE))
       {
         garraAng = constrain(garraAng++, GARRA_ANGLE_MIN, GARRA_ANGLE_MAX);
         servoGarra.write(garraAng);
       }
-      else if (bionic.getFopenedStatus(DATA_F_LITTLE))
+      else if (bionic.getFingerOpenedStatus(DATA_F_LITTLE))
       {
         garraAng = constrain(garraAng--, GARRA_ANGLE_MIN, GARRA_ANGLE_MAX);
         servoGarra.write(garraAng);
