@@ -38,6 +38,7 @@ BionicGlove::BionicGlove()
   // setLrKnockThreshold(DEFLRKNOCKVERTICALPOSITIVETHRESHOLD, DEFLRKNOCKVERTICALNEGATIVETHRESHOLD, DEFLRKNOCKHORIZONTALPOSITIVETHRESHOLD, DEFLRKNOCKHORIZONTALNEGATIVETHRESHOLD);
 }
 
+// begin BT communication
 void BionicGlove::start()
 {
   setBuiltInLed(true);
@@ -49,10 +50,9 @@ void BionicGlove::start()
   ledOffAsync();
 }
 
+// read BT serial
 bool BionicGlove::read()
 {
-  // uint32_t now;
-
   ledOffAsync();
   if (SerialBT.available()) //@ each 10ms - MASTER defined
   {
@@ -175,6 +175,7 @@ bool BionicGlove::receiveDataPack()
   return false;
 }
 
+// get raw value from each one token at BT pack
 float BionicGlove::getRaw(uint8_t raw)
 {
   if ((raw >= 0) && (raw < MAXBTDATAPACK))
@@ -183,6 +184,7 @@ float BionicGlove::getRaw(uint8_t raw)
     return 0;
 }
 
+// get any token from -1 to +1
 float BionicGlove::getUnit(uint8_t raw)
 {
   if ((raw >= 0) && (raw < MAXBTDATAPACK))
@@ -202,7 +204,7 @@ float BionicGlove::getUnit(uint8_t raw)
       return accel[AXL_X].g / 2.0;
       break;
     case 6:
-      return accel[AXL_X].ang / 90.0;
+      return (accel[AXL_X].ang - 90.0) / 90.0;
       break;
     case 7:
       return accel[AXL_Y].raw / 512.0;
@@ -211,7 +213,7 @@ float BionicGlove::getUnit(uint8_t raw)
       return accel[AXL_Y].g / 2.0;
       break;
     case 9:
-      return accel[AXL_Y].ang / 90.0;
+      return (accel[AXL_Y].ang - 90.0) / 90.0;
       break;
     case 10:
       return accel[AXL_Z].raw / 512.0;
@@ -220,7 +222,7 @@ float BionicGlove::getUnit(uint8_t raw)
       return accel[AXL_Z].g / 2.0;
       break;
     case 12:
-      return accel[AXL_Z].ang / 90.0;
+      return (accel[AXL_Z].ang - 90.0) / 90.0;
       break;
     case 13:
       return smoothFactor;
@@ -234,46 +236,54 @@ float BionicGlove::getUnit(uint8_t raw)
     return 0;
 }
 
+// return one line of already received serial data pack
 String BionicGlove::getSerialData()
 {
   return serialData;
 }
 
+// get smoothed accel G raw values
 float BionicGlove::getAGsmoothed(uint8_t axl)
 {
   return lastAGsmoothed[axl];
 }
 
+// get last smoothed accel G raw values
 float BionicGlove::getLastAGsmoothed(uint8_t axl)
 {
   return lastAGsmoothed[axl];
 }
 
+// get smoothed accel Angle values
 float BionicGlove::getAAngsmoothed(uint8_t axl)
 {
   return lastAAngsmoothed[axl];
 }
 
+// end BT communication
 void BionicGlove::end()
 {
   SerialBT.end();
   on = false;
 }
 
+// return if BT is active
 bool BionicGlove::active()
 {
   return on;
 }
 
-uint16_t BionicGlove::getF(uint8_t f) // get expanded finger value
+// get expanded finger value
+uint16_t BionicGlove::getF(uint8_t f)
 {
   return finger[f].fingerRead;
 }
 
-float BionicGlove::getFaccel(uint8_t f)
-{
-  return finger[f].accel;
-}
+// DEPRECATED
+// float BionicGlove::getFaccel(uint8_t f)
+// {
+//   return finger[f].accel;
+// }
 
 // void BionicGlove::logAGremoveOffset()
 // {
@@ -287,6 +297,7 @@ float BionicGlove::getFaccel(uint8_t f)
 //   }
 // }
 
+//log last finger readings
 void BionicGlove::logFingers()
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
@@ -295,7 +306,7 @@ void BionicGlove::logFingers()
     {
       logF[f][i] = logF[f][i + 1];
     }
-    logF[f][(MAXFLICKLOG - 2)] = GETITEM(f) / 100; // leave logF[f][(MAXFLICKLOG - 1)] empty ?? WHY ???
+    logF[f][(MAXFLICKLOG - 2)] = GETITEM(f) / 100; // leave logF[f][(MAXFLICKLOG - 1)] empty !!!!
   }
 }
 
@@ -365,7 +376,7 @@ void BionicGlove::logFingers()
 //   }
 // }
 
-// old maths based on the accumulation of the difference between N and N-1 reading
+// calculate flick possibility based on the difference between logF[f][2] - logF[f][0] readings
 void BionicGlove::callbackFlick()
 {
   float diff;
@@ -440,7 +451,8 @@ void BionicGlove::callbackFlick()
   }
 }
 
-void BionicGlove::logAZGknock() // FILO
+//log axel Z g to calculate knock orientation
+void BionicGlove::logAZGknock()
 {
   knockAllowed = !knockAllowed; // slow down Slave SR to (bionic glove master SR)/2
   if (knockAllowed)
@@ -455,9 +467,9 @@ void BionicGlove::logAZGknock() // FILO
   }
 }
 
+//calculate knock based on last 3 axle angle readings
 void BionicGlove::callbackAngleKnock()
 {
-
   float result;
   bool hit = false;
 
@@ -722,28 +734,34 @@ void BionicGlove::callbackOpenedFinger()
   }
 }
 
+// set all closed and opened thresholds
 void BionicGlove::setAllFingersThresholdPercentage(uint8_t pct)
 {
   setAllClosedFingersThresholdPercentage(pct);
   setAllOpenedFingersThresholdPercentage(pct);
 }
 
+// set all closed Percentage thresholds for all fingers
 void BionicGlove::setAllClosedFingersThresholdPercentage(uint8_t pct)
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
     setClosedFingerThresholdPercentage(f, pct);
 }
+// set closed Percentage threshold for one finger
 void BionicGlove::setClosedFingerThresholdPercentage(uint8_t f, uint8_t pct)
 {
   finger[f].closedThresholdPercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
   updateClosedThreshold(f);
 }
 
+// set all opened Percentage thresholds for all fingers
 void BionicGlove::setAllOpenedFingersThresholdPercentage(uint8_t pct)
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
     setOpenedFingerThresholdPercentage(f, pct);
 }
+
+// set opened Percentage threshold for one finger
 void BionicGlove::setOpenedFingerThresholdPercentage(uint8_t f, uint8_t pct)
 {
   finger[f].openedThresholdPercentage = constrain(pct, MINPERCENTAGE, MAXPERCENTAGE);
@@ -764,6 +782,7 @@ in _ _ _ _ \       //
             \\    //
              =====
 */
+// update individual closed finger threshold and recalculate all limits
 void BionicGlove::updateClosedThreshold(uint8_t f) // smallest values on scale
 {
   finger[f].closedThresholdIn = ((MAXRES * (finger[f].closedThresholdPercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
@@ -785,17 +804,20 @@ in _ _ _ _  //    \\
   fingerRead
 
 */
+// update individual opened finger threshold and recalculate all limits
 void BionicGlove::updateOpenedThreshold(uint8_t f)
 {
   finger[f].openedThresholdIn = MAXRES - ((MAXRES * (finger[f].openedThresholdPercentage - SCHMITTTRIGGERPERCENTAGE)) / 100);
   finger[f].openedThresholdOut = MAXRES - ((MAXRES * (finger[f].openedThresholdPercentage + SCHMITTTRIGGERPERCENTAGE)) / 100);
 }
 
+// return if the finger is still inside closed area
 bool BionicGlove::getFingerClosedStatus(uint8_t f)
 {
   return finger[f].closedFingerStatus;
 }
 
+// return if the finger is still inside opened area
 bool BionicGlove::getFingerOpenedStatus(uint8_t f)
 {
   return finger[f].openedFingerStatus;
@@ -806,7 +828,7 @@ bool BionicGlove::getFingerOpenedStatus(uint8_t f)
 //                                                                  ACCEL
 //
 //------------------------------------------------------------------------------------------------------------------------------------
-
+// analyze if there was any axle red line
 void BionicGlove::callbackAxles()
 {
   for (uint8_t a = 0; a < (MAXACCELCHANNELS - 1); a++)
@@ -852,6 +874,7 @@ void BionicGlove::callbackAxles()
   }
 }
 
+// set all axels threshold angles
 void BionicGlove::setAllAxleThresholdAngle(uint8_t ang)
 {
   setAxleMinThresholdAngle(AXL_X, ang);
@@ -860,12 +883,14 @@ void BionicGlove::setAllAxleThresholdAngle(uint8_t ang)
   setAxleMaxThresholdAngle(AXL_Y, ang);
 }
 
+// set axel min threshold angle
 void BionicGlove::setAxleMinThresholdAngle(uint8_t axl, uint8_t ang)
 {
   accel[axl].minThresholdAngle = constrain(ang, MINANGLE, MAXANGLE);
   updateAxleMinThreshold(axl);
 }
 
+// set axel max threshold angle
 void BionicGlove::setAxleMaxThresholdAngle(uint8_t axl, uint8_t ang)
 {
   accel[axl].maxThresholdAngle = constrain(180 - ang, MINANGLE, MAXANGLE);
@@ -906,11 +931,13 @@ void BionicGlove::updateAxleMaxThreshold(uint8_t axl)
   accel[axl].maxThresholdOut = constrain(accel[axl].maxThresholdAngle - ((SCHMITTTRIGGERANGLE * 180) / 100), 1, 180);
 }
 
+// get axel min status
 bool BionicGlove::getAxleMinStatus(uint8_t axl)
 {
   return accel[axl].minThresholdStatus;
 }
 
+// get axel max status
 bool BionicGlove::getAxleMaxStatus(uint8_t axl)
 {
   return accel[axl].maxThresholdStatus;
@@ -1149,6 +1176,7 @@ void BionicGlove::detachCallOnHorizontalNegativeKnock()
   attachCallOnHorizontalNegativeKnock(isrDefaultUnused);
 }
 
+// detach all callbacks
 void BionicGlove::detachAll()
 {
   detachCallOnWideClosedFingerLittle(); // detach all
@@ -1195,6 +1223,7 @@ void BionicGlove::isrDefaultUnused()
 {
 }
 
+// use built in led to visual info
 void BionicGlove::setBuiltInLed(bool status)
 {
   ledBuiltInActive = status;
@@ -1277,10 +1306,11 @@ float BionicGlove::getAZGlastKnock()
   return lastKnockAZG;
 }
 
-void BionicGlove::freeze(uint32_t ms)
+// freeze any callback for n ms
+void BionicGlove::freeze(uint32_t n)
 {
   ts_frozen = millis();
-  frozen = ms;
+  frozen = n;
 }
 
 bool BionicGlove::doneMs(uint32_t t0, uint32_t dt)
