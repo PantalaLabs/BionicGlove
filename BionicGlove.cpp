@@ -112,57 +112,57 @@ bool BionicGlove::receiveDataPack()
       switch (i)
       {
       case 0:
-        finger[0].fingerRead = constrain(btDataPack[i].toInt(), 0, MAXRES);
-        if ((finger[0].fingerRead < 0 || finger[0].fingerRead > MAXRES)) // helps to keep a reeliable data structure
-          return false;
-        break;
       case 1:
-        finger[1].fingerRead = constrain(btDataPack[i].toInt(), 0, MAXRES);
-        if ((finger[1].fingerRead < 0 || finger[1].fingerRead > MAXRES)) // helps to keep a reeliable data structure
-          return false;
-        break;
       case 2:
-        finger[2].fingerRead = constrain(btDataPack[i].toInt(), 0, MAXRES);
-        if ((finger[2].fingerRead < 0 || finger[2].fingerRead > MAXRES)) // helps to keep a reeliable data structure
-          return false;
-        break;
       case 3:
-        finger[3].fingerRead = constrain(btDataPack[i].toInt(), 0, MAXRES);
-        if ((finger[3].fingerRead < 0 || finger[3].fingerRead > MAXRES)) // helps to keep a reeliable data structure
+        uint16_t newData;
+        newData = btDataPack[i].toInt();
+        if ((newData < 0 || newData > MAXRES)) // abort data reception to keep a reeliable data structure
           return false;
+        finger[i].fingerRead = constrain(newData, 0, MAXRES);
+        ALPHAFILTER(smoothedDataPack[i], newData, GETITEM(DATA_SMOOTHFACTOR));
         break;
       case 4:
         accel[AXL_X].raw = btDataPack[i].toFloat();
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_X].raw, GETITEM(DATA_SMOOTHFACTOR));
         break;
       case 5:
         accel[AXL_X].g = btDataPack[i].toFloat();
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_X].g, GETITEM(DATA_SMOOTHFACTOR));
         ALPHAFILTER(lastAGsmoothed[AXL_X], accel[AXL_X].g, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 6:
         accel[AXL_X].ang = btDataPack[i].toFloat();
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_X].ang, GETITEM(DATA_SMOOTHFACTOR));
         ALPHAFILTER(lastAAngsmoothed[AXL_X], accel[AXL_X].ang, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 7:
         accel[AXL_Y].raw = btDataPack[i].toFloat();
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_Y].raw, GETITEM(DATA_SMOOTHFACTOR));
         break;
       case 8:
         accel[AXL_Y].g = btDataPack[i].toFloat();
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_Y].g, GETITEM(DATA_SMOOTHFACTOR));
         ALPHAFILTER(lastAGsmoothed[AXL_Y], accel[AXL_Y].g, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 9:
         accel[AXL_Y].ang = btDataPack[i].toFloat();
-        feedKnockCriteria(accel[AXL_Y].ang);
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_Y].ang, GETITEM(DATA_SMOOTHFACTOR));
         ALPHAFILTER(lastAAngsmoothed[AXL_Y], accel[AXL_Y].ang, FIXEDSMOOTHCOEFFTOKNOCK);
+        feedKnockCriteria(accel[AXL_Y].ang);
         break;
       case 10:
         accel[AXL_Z].raw = btDataPack[i].toFloat();
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_Z].raw, GETITEM(DATA_SMOOTHFACTOR));
         break;
       case 11:
         accel[AXL_Z].g = btDataPack[i].toFloat();
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_Z].g, GETITEM(DATA_SMOOTHFACTOR));
         ALPHAFILTER(lastAGsmoothed[AXL_Z], accel[AXL_Z].g, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 12:
         accel[AXL_Z].ang = btDataPack[i].toFloat();
+        ALPHAFILTER(smoothedDataPack[i], accel[AXL_Z].ang, GETITEM(DATA_SMOOTHFACTOR));
         ALPHAFILTER(lastAAngsmoothed[AXL_Z], accel[AXL_Z].ang, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 13:
@@ -180,6 +180,15 @@ float BionicGlove::getRaw(uint8_t raw)
 {
   if ((raw >= 0) && (raw < MAXBTDATAPACK))
     return btDataPack[raw].toFloat();
+  else
+    return 0;
+}
+
+// get smoothed value from each one token at BT pack
+float BionicGlove::getSmooth(uint8_t raw)
+{
+  if ((raw >= 0) && (raw < MAXBTDATAPACK))
+    return smoothedDataPack[raw];
   else
     return 0;
 }
@@ -223,6 +232,58 @@ float BionicGlove::getUnit(uint8_t raw)
       break;
     case 12:
       return accel[AXL_Z].ang / 90.0;
+      break;
+    case 13:
+      return smoothFactor;
+      break;
+    default:
+      return 0;
+      break;
+    }
+  }
+  else
+    return 0;
+}
+
+// get any token from -1 to +1
+float BionicGlove::getUnitSmoothed(uint8_t raw)
+{
+  if ((raw >= 0) && (raw < MAXBTDATAPACK))
+  {
+    switch (raw)
+    {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return ((smoothedDataPack[raw] - 256.0) / 256.0);
+      break;
+    case 4:
+      return smoothedDataPack[raw] / 512.0;
+      break;
+    case 5:
+      return smoothedDataPack[raw] / 2.0;
+      break;
+    case 6:
+      return (smoothedDataPack[raw] - 90.0) / 90.0;
+      break;
+    case 7:
+      return smoothedDataPack[raw] / 512.0;
+      break;
+    case 8:
+      return smoothedDataPack[raw] / 2.0;
+      break;
+    case 9:
+      return (smoothedDataPack[raw] - 90.0) / 90.0;
+      break;
+    case 10:
+      return smoothedDataPack[raw] / 512.0;
+      break;
+    case 11:
+      return smoothedDataPack[raw] / 2.0;
+      break;
+    case 12:
+      return smoothedDataPack[raw] / 90.0;
       break;
     case 13:
       return smoothFactor;
@@ -297,7 +358,7 @@ uint16_t BionicGlove::getF(uint8_t f)
 //   }
 // }
 
-//log last finger readings
+// log last finger readings
 void BionicGlove::logFingers()
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
@@ -451,7 +512,7 @@ void BionicGlove::callbackFlick()
   }
 }
 
-//log axel Z g to calculate knock orientation
+// log axel Z g to calculate knock orientation
 void BionicGlove::logAZGknock()
 {
   knockAllowed = !knockAllowed; // slow down Slave SR to (bionic glove master SR)/2
@@ -467,7 +528,7 @@ void BionicGlove::logAZGknock()
   }
 }
 
-//calculate knock based on last 3 axle angle readings
+// calculate knock based on last 3 axle angle readings
 void BionicGlove::callbackAngleKnock()
 {
   float result;
