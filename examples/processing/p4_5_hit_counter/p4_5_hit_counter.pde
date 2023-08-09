@@ -48,7 +48,7 @@ void setup() {
   // Inicialização da comunicação serial
   String[] serialPorts = Serial.list();
   if (serialPorts.length > 0) {
-    serialPort = new Serial(this, "COM20", 9600);
+    serialPort = new Serial(this, "COM7", 115200);
     serialPort.bufferUntil('\n');
   } else {
     println("Nenhuma porta serial encontrada!");

@@ -102,11 +102,12 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 #define MAXANGLEKNOCKLOG 4                           // 4 samples @ 10ms
 #define MINANGLEKNOCKTHRESHOLD 20.0                  // min value expected out of LR calcs
 #define MAXANGLEKNOCKTHRESHOLD 150.0                 // max value expected out of LR calcs
-#define DEFANGLEKNOCKVERTICALPOSITIVETHRESHOLD 100   //  ** preciselly adjusted , do not touch
-#define DEFANGLEKNOCKVERTICALNEGATIVETHRESHOLD 120   //  ** preciselly adjusted , do not touch
-#define DEFANGLEKNOCKHORIZONTALPOSITIVETHRESHOLD 90  //  ** preciselly adjusted , do not touch
-#define DEFANGLEKNOCKHORIZONTALNEGATIVETHRESHOLD 100 //  ** preciselly adjusted , do not touch
+#define DEFANGLEKNOCKVERTICALPOSITIVETHRESHOLD 90    //  ** preciselly adjusted , do not touch
+#define DEFANGLEKNOCKVERTICALNEGATIVETHRESHOLD 110   //  ** preciselly adjusted , do not touch
+#define DEFANGLEKNOCKHORIZONTALPOSITIVETHRESHOLD 100 //  ** preciselly adjusted , do not touch
+#define DEFANGLEKNOCKHORIZONTALNEGATIVETHRESHOLD 95  //  ** preciselly adjusted , do not touch
 
+// D E P R E C A T E D
 // #define MINLRKNOCKTHRESHOLD 2.0                    // min value expected out of LR calcs
 // #define MAXLRKNOCKTHRESHOLD 50.0                   // max value expected out of LR calcs
 // #define DEFLRKNOCKVERTICALPOSITIVETHRESHOLD 15.0   //  ** preciselly adjusted , do not touch
@@ -114,6 +115,7 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 // #define DEFLRKNOCKHORIZONTALPOSITIVETHRESHOLD 13.0 //  ** preciselly adjusted , do not touch
 // #define DEFLRKNOCKHORIZONTALNEGATIVETHRESHOLD 15.0 //  ** preciselly adjusted , do not touch
 
+// D E P R E C A T E D
 // #define MINSIMPLEKNOCKTHRESHOLD 0.2                   // min value expected out of LR calcs
 // #define MAXSIMPLEKNOCKTHRESHOLD 3.0                   // max value expected out of LR calcs
 // #define DEFSIMPLEKNOCKVERTICALPOSITIVETHRESHOLD 1.5   //  ** preciselly adjusted , do not touch

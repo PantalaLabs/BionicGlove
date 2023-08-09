@@ -67,7 +67,7 @@
         // datapack : "> 54 257 183 26 0.99 <"
         async function callSerialBT() {
             const port = await navigator.serial.requestPort();
-            await port.open({ baudRate: 38400 });
+            await port.open({ baudRate: 115200 });
             const reader = port.readable.getReader();
             let dataPack = '';          //stores splitted buffer
             let readComplete = false;   // flag to finish reading 
@@ -81,7 +81,7 @@
                     }
                     const decoder = new TextDecoder();
                     const stringValue = decoder.decode(value);                      //char to string
-                    var dataString = stringValue;                                   
+                    var dataString = stringValue;
                     var dataPackStart = dataString.indexOf('>', dataPackStart);     //find first 'start' and 'end' indexes
                     var dataPackEnd = dataString.indexOf('<', dataPackStart + 1);
                     //"while" was disabled because of high lag in visual response to finger movement
@@ -90,26 +90,26 @@
                     //now , the screen update routine is called every 50ms, detached from buffer reading
                     //so there is no need to read the entire pack from the buffer
                     //while (dataString.includes('*') && (dataPackEnd >= 0)) { //recognize ALL datapacks inside the buffer
-                    if (dataString.includes('>') && dataString.includes('<')) {                           //recognize only first datapack
-                        dataString = dataString.substring(dataPackStart + 2, dataPackEnd);
+                    if ((dataPackStart != -1) && (dataPackEnd != -1)) {                           //recognize only first datapack
+                        dataString = dataString.substring(1, dataPackEnd);
                         const trimmedData = dataString.substring(0, dataString.length);
                         dataPack = trimmedData.split(' ');
-                        if (dataPack.length == 6) {
-                            //console.log(dataPack);
-                            const trimmed = dataPack.slice(0, 5); // get all 5 tokens
-                            trimmed.forEach((trimmed, index) => {
-                                dataTrimmed[index] = parseFloat(trimmed);
-                            });
-                            //unhapilly , alphafilter on JS mazes things a little lazy
-                            // fingerVals[0]=alphafilter(fingerVals[0],dataTrimmed[0],dataTrimmed[5]);
-                            // fingerVals[1]=alphafilter(fingerVals[1],dataTrimmed[1],dataTrimmed[5]);
-                            // fingerVals[2]=alphafilter(fingerVals[2],dataTrimmed[2],dataTrimmed[5]);
-                            // fingerVals[3]=alphafilter(fingerVals[3],dataTrimmed[3],dataTrimmed[5]);
-                            fingerVals[0] = dataTrimmed[0];
-                            fingerVals[1] = dataTrimmed[1];
-                            fingerVals[2] = dataTrimmed[2];
-                            fingerVals[3] = dataTrimmed[3];
-                        }
+                        //if (dataPack.length == 5) {
+                        //console.log(dataPack);
+                        const trimmed = dataPack.slice(0, 4); // get all 5 tokens
+                        trimmed.forEach((trimmed, index) => {
+                            dataTrimmed[index] = parseFloat(trimmed);
+                        });
+                        //unhapilly , alphafilter on JS mazes things a little lazy
+                        // fingerVals[0]=alphafilter(fingerVals[0],dataTrimmed[0],dataTrimmed[5]);
+                        // fingerVals[1]=alphafilter(fingerVals[1],dataTrimmed[1],dataTrimmed[5]);
+                        // fingerVals[2]=alphafilter(fingerVals[2],dataTrimmed[2],dataTrimmed[5]);
+                        // fingerVals[3]=alphafilter(fingerVals[3],dataTrimmed[3],dataTrimmed[5]);
+                        fingerVals[0] = dataTrimmed[0];
+                        fingerVals[1] = dataTrimmed[1];
+                        fingerVals[2] = dataTrimmed[2];
+                        fingerVals[3] = dataTrimmed[3];
+                        //}
                         //shrink dataPack only in WHILE loop
                         // dataString = dataString.substring(dataPackEnd + 2, dataString.length);  //shrink dataString
                         // dataPackStart = dataString.indexOf('s', dataPackStart);                 //find new 'start' and 'end' indexes
