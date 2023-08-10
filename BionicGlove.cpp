@@ -65,7 +65,7 @@ bool BionicGlove::read()
     {
       // updateNewLimits();
       logFingers();
-      logAZGknock();
+      logAZGforHandOrientation();
       if (doneMs(ts_frozen, frozen))
       {
         callbackClosedFinger();
@@ -129,12 +129,12 @@ bool BionicGlove::receiveDataPack()
       case 5:
         accel[AXL_X].g = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_X].g, GETITEM(DATA_SMOOTHFACTOR));
-        ALPHAFILTER(lastAGsmoothed[AXL_X], accel[AXL_X].g, FIXEDSMOOTHCOEFFTOKNOCK);
+        ALPHAFILTER(lastAGfixedSmooth[AXL_X], accel[AXL_X].g, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 6:
         accel[AXL_X].ang = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_X].ang, GETITEM(DATA_SMOOTHFACTOR));
-        ALPHAFILTER(lastAAngsmoothed[AXL_X], accel[AXL_X].ang, FIXEDSMOOTHCOEFFTOKNOCK);
+        // ALPHAFILTER(lastAAngFixedSmooth[AXL_X], accel[AXL_X].ang, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 7:
         accel[AXL_Y].raw = btDataPack[i].toFloat();
@@ -143,12 +143,12 @@ bool BionicGlove::receiveDataPack()
       case 8:
         accel[AXL_Y].g = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_Y].g, GETITEM(DATA_SMOOTHFACTOR));
-        ALPHAFILTER(lastAGsmoothed[AXL_Y], accel[AXL_Y].g, FIXEDSMOOTHCOEFFTOKNOCK);
+        ALPHAFILTER(lastAGfixedSmooth[AXL_Y], accel[AXL_Y].g, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 9:
         accel[AXL_Y].ang = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_Y].ang, GETITEM(DATA_SMOOTHFACTOR));
-        ALPHAFILTER(lastAAngsmoothed[AXL_Y], accel[AXL_Y].ang, FIXEDSMOOTHCOEFFTOKNOCK);
+        // ALPHAFILTER(lastAAngFixedSmooth[AXL_Y], accel[AXL_Y].ang, FIXEDSMOOTHCOEFFTOKNOCK);
         feedKnockCriteria(accel[AXL_Y].ang);
         break;
       case 10:
@@ -158,12 +158,12 @@ bool BionicGlove::receiveDataPack()
       case 11:
         accel[AXL_Z].g = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_Z].g, GETITEM(DATA_SMOOTHFACTOR));
-        ALPHAFILTER(lastAGsmoothed[AXL_Z], accel[AXL_Z].g, FIXEDSMOOTHCOEFFTOKNOCK);
+        ALPHAFILTER(lastAGfixedSmooth[AXL_Z], accel[AXL_Z].g, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 12:
         accel[AXL_Z].ang = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_Z].ang, GETITEM(DATA_SMOOTHFACTOR));
-        ALPHAFILTER(lastAAngsmoothed[AXL_Z], accel[AXL_Z].ang, FIXEDSMOOTHCOEFFTOKNOCK);
+        // ALPHAFILTER(lastAAngFixedSmooth[AXL_Z], accel[AXL_Z].ang, FIXEDSMOOTHCOEFFTOKNOCK);
         break;
       case 13:
         smoothFactor = btDataPack[i].toFloat();
@@ -303,23 +303,26 @@ String BionicGlove::getSerialData()
   return serialData;
 }
 
+// D E P R E C A T E D
 // get smoothed accel G raw values
-float BionicGlove::getAGsmoothed(uint8_t axl)
-{
-  return lastAGsmoothed[axl];
-}
+// float BionicGlove::getAGsmoothed(uint8_t axl)
+// {
+//   return lastAGfixedSmooth[axl];
+// }
 
-// get last smoothed accel G raw values
-float BionicGlove::getLastAGsmoothed(uint8_t axl)
-{
-  return lastAGsmoothed[axl];
-}
+// D E P R E C A T E D
+// get last fixed smoothed accel G raw values
+// float BionicGlove::getlastAGfixedSmooth(uint8_t axl)
+// {
+//   return lastAGfixedSmooth[axl];
+// }
 
+// D E P R E C A T E D
 // get smoothed accel Angle values
-float BionicGlove::getAAngsmoothed(uint8_t axl)
-{
-  return lastAAngsmoothed[axl];
-}
+// float BionicGlove::getAAngsmoothed(uint8_t axl)
+// {
+//   return lastAAngFixedSmooth[axl];
+// }
 
 // end BT communication
 void BionicGlove::end()
@@ -513,18 +516,18 @@ void BionicGlove::callbackFlick()
 }
 
 // log axel Z g to calculate knock orientation
-void BionicGlove::logAZGknock()
+void BionicGlove::logAZGforHandOrientation()
 {
   knockAllowed = !knockAllowed; // slow down Slave SR to (bionic glove master SR)/2
   if (knockAllowed)
   {
-    for (uint8_t i = 0; i < (MAXKNOCKLOG - 1); i++)
+    for (uint8_t i = 0; i < (MAXKNOCKLOG - 1); i++) //open new slot inside array
     {
-      logAZG[i] = logAZG[i + 1];
-      logAZGsmoothed[i] = logAZGsmoothed[i + 1];
+      //logAZG[i] = logAZG[i + 1];
+      logAZGorientation[i] = logAZGorientation[i + 1];
     }
-    logAZG[MAXKNOCKLOG - 1] = GETITEM(DATA_A_Z_G) + AZGOFFSET;
-    logAZGsmoothed[MAXKNOCKLOG - 1] = lastAGsmoothed[AXL_Z];
+    //logAZG[MAXKNOCKLOG - 1] = GETITEM(DATA_A_Z_G) + AZGOFFSET;
+    logAZGorientation[MAXKNOCKLOG - 1] = lastAGfixedSmooth[AXL_Z];
   }
 }
 
@@ -539,8 +542,7 @@ void BionicGlove::callbackAngleKnock()
     // simple angle subtraction method
     result = getKnockCriteria();
     // Serial.println(result);
-
-    if ((logAZGsmoothed[0] > 0.6)) // vertical
+    if ((logAZGorientation[0] > 0.6)) // vertical
     {
       if (result > knockVerticalPositiveThreshold)
       {
@@ -570,8 +572,10 @@ void BionicGlove::callbackAngleKnock()
     if (hit)
     {
       ts_lastKnock = millis();
-      lastKnockAZG = logAZG[MAXKNOCKLOG - 1];
-      // logAZGclear(); //do not clear - as soon as the array becomes filled again, theLR will hit another false knock
+      knockPower[AXL_X] = GETITEM(DATA_A_X_G);
+      knockPower[AXL_Y] = GETITEM(DATA_A_Y_G);
+      knockPower[AXL_Z] = GETITEM(DATA_A_Z_G);
+      // logAZGclear(); //do not clear - as soon as the array becomes filled again, the LR will hit another false knock
       ledOnAsync();
       hit = false;
     }
@@ -589,6 +593,7 @@ void BionicGlove::feedKnockCriteria(float item)
     logKnock[i] = logKnock[i + 1];
   logKnock[3] = item;
 }
+
 // D E P R E C A T E D !!!!!!!!!!!!!!!!!!!!!!!!!
 // void BionicGlove::callbackSimpleKnock()
 // {
@@ -602,7 +607,7 @@ void BionicGlove::feedKnockCriteria(float item)
 //     result = getKnockCriteria();
 //     // Serial.println(result);
 
-//     if ((logAZGsmoothed[0] > 0.6)) // vertical
+//     if ((logAZGorientation[0] > 0.6)) // vertical
 //     {
 //       if (result > knockVerticalPositiveThreshold)
 //       {
@@ -657,11 +662,11 @@ void BionicGlove::feedKnockCriteria(float item)
 //     lr.reset();
 //     // end linear regression ----------------------------------------------
 
-//     // // rlResult = getRaw(DATA_A_X_G) - lastAGsmoothed[AXL_X];
-//     // // Serial.print(logAZGsmoothed[0]);
+//     // // rlResult = getRaw(DATA_A_X_G) - lastAGfixedSmooth[AXL_X];
+//     // // Serial.print(logAZGorientation[0]);
 //     // // Serial.print(",");
 //     // // Serial.println(rlResult);
-//     if ((logAZGsmoothed[0] > 0.6)) // vertical
+//     if ((logAZGorientation[0] > 0.6)) // vertical
 //     {
 //       if (rlResult > knockVerticalPositiveThreshold)
 //       {
@@ -1274,11 +1279,12 @@ void BionicGlove::logFclear(uint8_t f)
   }
 }
 
-void BionicGlove::logAZGclear()
-{
-  for (uint8_t i = 0; i < (MAXKNOCKLOG - 2); i++)
-    logAZG[i] = logAZG[MAXKNOCKLOG - 1];
-}
+// D E P R E C A T E D
+// void BionicGlove::logAZGclear()
+// {
+//   for (uint8_t i = 0; i < (MAXKNOCKLOG - 2); i++)
+//     logAZG[i] = logAZG[MAXKNOCKLOG - 1];
+// }
 
 void BionicGlove::isrDefaultUnused()
 {
@@ -1362,9 +1368,9 @@ void BionicGlove::setFlickDebounceInterval(uint32_t val)
   flickDebounceInterval = val;
 }
 
-float BionicGlove::getAZGlastKnock()
+float BionicGlove::getKnockPower(uint8_t axl)
 {
-  return lastKnockAZG;
+  return knockPower[axl];
 }
 
 // freeze any callback for n ms

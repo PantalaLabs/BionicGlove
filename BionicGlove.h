@@ -103,7 +103,7 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 #define MINANGLEKNOCKTHRESHOLD 20.0                  // min value expected out of LR calcs
 #define MAXANGLEKNOCKTHRESHOLD 150.0                 // max value expected out of LR calcs
 #define DEFANGLEKNOCKVERTICALPOSITIVETHRESHOLD 90    //  ** preciselly adjusted , do not touch
-#define DEFANGLEKNOCKVERTICALNEGATIVETHRESHOLD 110   //  ** preciselly adjusted , do not touch
+#define DEFANGLEKNOCKVERTICALNEGATIVETHRESHOLD 100   //  ** preciselly adjusted , do not touch
 #define DEFANGLEKNOCKHORIZONTALPOSITIVETHRESHOLD 100 //  ** preciselly adjusted , do not touch
 #define DEFANGLEKNOCKHORIZONTALNEGATIVETHRESHOLD 95  //  ** preciselly adjusted , do not touch
 
@@ -261,13 +261,13 @@ private:
   float knockVerticalNegativeThreshold = DEFANGLEKNOCKVERTICALNEGATIVETHRESHOLD;     // negative knock activation limiar
   float knockHorizontalPositiveThreshold = DEFANGLEKNOCKHORIZONTALPOSITIVETHRESHOLD; // positive knock activation limiar
   float knockHorizontalNegativeThreshold = DEFANGLEKNOCKHORIZONTALNEGATIVETHRESHOLD; // negative knock activation limiar
-  float lastKnockAZG = 0;                                                            // last G value when knock was unlocked
+  float knockPower[MAXACCELCHANNELS] = {0};                                          // last G value when knock was unlocked
   float smoothFactor = 0;                                                            // smooth factor received from MASTER
   float logKnock[MAXANGLEKNOCKLOG] = {0};                                            // last Y angle readings to compute knock
-  float logAZG[MAXKNOCKLOG] = {0};                                                   // last Accel Z G readings to compute knock
-  float logAZGsmoothed[MAXKNOCKLOG] = {0};                                           // smoothed accel Z G readings to define if the hand is in normal or twisted posiction
-  float lastAGsmoothed[MAXACCELCHANNELS] = {0};                                      // smoothed RAW accels
-  float lastAAngsmoothed[MAXACCELCHANNELS] = {0};                                    // smoothed RAW accels
+  //float logAZG[MAXKNOCKLOG] = {0};                                                   // last Accel Z G readings to compute knock
+  float logAZGorientation[MAXKNOCKLOG] = {0};                                        // smoothed accel Z G readings to define if the hand is in normal or twisted posiction
+  float lastAGfixedSmooth[MAXACCELCHANNELS] = {0};                                   // smoothed RAW accels
+  float lastAAngFixedSmooth[MAXACCELCHANNELS] = {0};                                 // smoothed RAW accels
   uint32_t knockDebounceInterval = DEFKNOCKDEBOUNCEINTERVAL;                         // time in ms between to allowed knocks
   uint32_t ts_lastKnock = 0;                                                         // millis() + knockInterval
   uint32_t flickDebounceInterval = DEFFLICKDEBOUNCEINTERVAL;                         // time in ms between to allowed knocks
@@ -275,10 +275,7 @@ private:
   void ledOnAsync();                                                                 // led turn on
   void ledOffAsync();                                                                // async led turn off
   void detachAll();                                                                  // detach all callbacks
-  float getAGsmoothed(uint8_t axl);                                                  // get smoothed accel G raw values
-  float getLastAGsmoothed(uint8_t axl);                                              // get last smoothed accel G raw values
-  float getAAngsmoothed(uint8_t axl);                                                // get smoothed accel Angle values
-  float getAZGlastKnock();                                                           // return last knock treshold
+  float getKnockPower(uint8_t axl);                                                  // return last max knock value
   bool receiveDataPack();                                                            // receive BT serial string and split
   void callbackClosedFinger();                                                       // check if any finger reached closed area and callback them
   void callbackOpenedFinger();                                                       // check if any finger reached opened area and callback them
@@ -287,7 +284,7 @@ private:
   void callbackAxles();                                                              // check if any finger reached closed area and callback them
   void updateNewLimits();                                                            // compare if new readings are outside preset area and update to new ones
   void logAGremoveOffset();                                                          // stores last MAXLOGs values of 3 G accell axle to eventually remove its offsets
-  void logAZGknock();                                                                // put new finger read into knock array
+  void logAZGforHandOrientation();                                                     // put new finger read into knock array
   float getKnockCriteria();                                                          // compute knock criteria
   void feedKnockCriteria(float item);                                                // update knock array
   void callbackAngleKnock();                                                         // calculate knock based on last 3 axle angle readings
@@ -295,11 +292,14 @@ private:
   void updateOpenedThreshold(uint8_t f);                                             // update individual opened finger threshold and recalculate all limits
   void updateAxleMinThreshold(uint8_t axl);                                          // update axle min threshold
   void updateAxleMaxThreshold(uint8_t axl);                                          // update axle max threshold
-  void logAZGclear();                                                                // clear log for knock calculations
   void logFclear(uint8_t f);                                                         // clear all last finger readings
   bool doneMs(uint32_t t0, uint32_t dt);                                             // time rollover
   bool doneUs(uint32_t t0, uint32_t dt);                                             // time rollover
   bool done(uint32_t t, uint32_t t0, uint32_t dt);                                   // time rollover
+  // void logAZGclear();                                                             // DEPRECATED clear log for knock calculations
+  // float getAAngsmoothed(uint8_t axl);                                             // DEPRECATED get smoothed accel Angle values
+  // float getlastAGfixedSmooth(uint8_t axl);                                        // DEPRECATED get last smoothed accel G raw values
+  // float getAGsmoothed(uint8_t axl);                                               // DEPRECATED get smoothed accel G raw values
   // LinearRegression lr = LinearRegression();                                       // DEPRECATED
   // double values[2];                                                               // DEPRECATED
   // void callbackFlickLr();                                                         // DEPRECATED apply linear regression to 4 readings
