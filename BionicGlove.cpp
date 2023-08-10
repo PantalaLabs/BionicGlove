@@ -31,9 +31,8 @@ BionicGlove::BionicGlove()
   updateNewLimits();
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
     setFlickAllThreshold(DEFFLICKTHRESHOLD);
-
   setAngleKnockThreshold(DEFANGLEKNOCKVERTICALPOSITIVETHRESHOLD, DEFANGLEKNOCKVERTICALNEGATIVETHRESHOLD, DEFANGLEKNOCKHORIZONTALPOSITIVETHRESHOLD, DEFANGLEKNOCKHORIZONTALNEGATIVETHRESHOLD);
-  // D E P R E C A T E D !!!!!!!!!!!!!!!!!!!!!!!!!
+  // D E P R E C A T E D
   // setSimpleKnockThreshold(DEFSIMPLEKNOCKVERTICALPOSITIVETHRESHOLD, DEFSIMPLEKNOCKVERTICALNEGATIVETHRESHOLD, DEFSIMPLEKNOCKHORIZONTALPOSITIVETHRESHOLD, DEFSIMPLEKNOCKHORIZONTALNEGATIVETHRESHOLD);
   // setLrKnockThreshold(DEFLRKNOCKVERTICALPOSITIVETHRESHOLD, DEFLRKNOCKVERTICALNEGATIVETHRESHOLD, DEFLRKNOCKHORIZONTALPOSITIVETHRESHOLD, DEFLRKNOCKHORIZONTALNEGATIVETHRESHOLD);
 }
@@ -70,12 +69,12 @@ bool BionicGlove::read()
       {
         callbackClosedFinger();
         callbackOpenedFinger();
-        // callbackFlickLr();     // deprecated
         callbackFlick();
         callbackAngleKnock();
+        callbackAxles();
+        // callbackFlickLr();     // deprecated
         // callbackSimpleKnock(); // deprecated
         // callbackKnockLr();     // deprecated
-        callbackAxles();
       }
       return true;
     }
@@ -117,7 +116,7 @@ bool BionicGlove::receiveDataPack()
       case 3:
         uint16_t newData;
         newData = btDataPack[i].toInt();
-        if ((newData < 0 || newData > MAXRES)) // abort data reception to keep a reeliable data structure
+        if ((newData < 0 || newData > MAXRES)) // abort data reception to keep a reliable data structure
           return false;
         finger[i].fingerRead = constrain(newData, 0, MAXRES);
         ALPHAFILTER(smoothedDataPack[i], newData, GETITEM(DATA_SMOOTHFACTOR));
@@ -134,7 +133,7 @@ bool BionicGlove::receiveDataPack()
       case 6:
         accel[AXL_X].ang = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_X].ang, GETITEM(DATA_SMOOTHFACTOR));
-        // ALPHAFILTER(lastAAngFixedSmooth[AXL_X], accel[AXL_X].ang, FIXEDSMOOTHCOEFFTOKNOCK);
+        // ALPHAFILTER(lastAAngFixedSmooth[AXL_X], accel[AXL_X].ang, FIXEDSMOOTHCOEFFTOKNOCK); //deprecated
         break;
       case 7:
         accel[AXL_Y].raw = btDataPack[i].toFloat();
@@ -148,7 +147,7 @@ bool BionicGlove::receiveDataPack()
       case 9:
         accel[AXL_Y].ang = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_Y].ang, GETITEM(DATA_SMOOTHFACTOR));
-        // ALPHAFILTER(lastAAngFixedSmooth[AXL_Y], accel[AXL_Y].ang, FIXEDSMOOTHCOEFFTOKNOCK);
+        // ALPHAFILTER(lastAAngFixedSmooth[AXL_Y], accel[AXL_Y].ang, FIXEDSMOOTHCOEFFTOKNOCK); //deprecated
         feedKnockCriteria(accel[AXL_Y].ang);
         break;
       case 10:
@@ -163,7 +162,7 @@ bool BionicGlove::receiveDataPack()
       case 12:
         accel[AXL_Z].ang = btDataPack[i].toFloat();
         ALPHAFILTER(smoothedDataPack[i], accel[AXL_Z].ang, GETITEM(DATA_SMOOTHFACTOR));
-        // ALPHAFILTER(lastAAngFixedSmooth[AXL_Z], accel[AXL_Z].ang, FIXEDSMOOTHCOEFFTOKNOCK);
+        // ALPHAFILTER(lastAAngFixedSmooth[AXL_Z], accel[AXL_Z].ang, FIXEDSMOOTHCOEFFTOKNOCK); //deprecated
         break;
       case 13:
         smoothFactor = btDataPack[i].toFloat();
@@ -373,7 +372,7 @@ void BionicGlove::logFingers()
     logF[f][(MAXFLICKLOG - 2)] = GETITEM(f) / 100; // leave logF[f][(MAXFLICKLOG - 1)] empty !!!!
   }
 }
-
+// DEPRECATED
 // linear regression to the 4 items array finger readings ~ 350us
 // linear regression to the 3 items array finger readings ~ 270us
 // void BionicGlove::callbackFlickLr()
@@ -390,7 +389,6 @@ void BionicGlove::logFingers()
 //       finger[f].accel = values[0];
 //       // Serial.println(finger[f].accel);
 //       lr.reset();
-
 //       if ((finger[f].accel > 0) && (abs(finger[f].accel) > flickThreshold[f][OPENED]))
 //       {
 //         switch (f)
@@ -515,18 +513,18 @@ void BionicGlove::callbackFlick()
   }
 }
 
-// log axel Z g to calculate knock orientation
+// log axel Z g to calculate hand orientation
 void BionicGlove::logAZGforHandOrientation()
 {
   knockAllowed = !knockAllowed; // slow down Slave SR to (bionic glove master SR)/2
   if (knockAllowed)
   {
-    for (uint8_t i = 0; i < (MAXKNOCKLOG - 1); i++) //open new slot inside array
+    for (uint8_t i = 0; i < (MAXKNOCKLOG - 1); i++) // open new slot inside array
     {
-      //logAZG[i] = logAZG[i + 1];
+      // logAZG[i] = logAZG[i + 1];
       logAZGorientation[i] = logAZGorientation[i + 1];
     }
-    //logAZG[MAXKNOCKLOG - 1] = GETITEM(DATA_A_Z_G) + AZGOFFSET;
+    // logAZG[MAXKNOCKLOG - 1] = GETITEM(DATA_A_Z_G) + AZGOFFSET;
     logAZGorientation[MAXKNOCKLOG - 1] = lastAGfixedSmooth[AXL_Z];
   }
 }
@@ -599,14 +597,11 @@ void BionicGlove::feedKnockCriteria(float item)
 // {
 //   float result;
 //   bool hit = false;
-
 //   if (doneMs(ts_lastKnock, knockDebounceInterval) && knockAllowed)
 //   {
 //     // simple subtraction method
-
 //     result = getKnockCriteria();
 //     // Serial.println(result);
-
 //     if ((logAZGorientation[0] > 0.6)) // vertical
 //     {
 //       if (result > knockVerticalPositiveThreshold)
@@ -633,7 +628,6 @@ void BionicGlove::feedKnockCriteria(float item)
 //         hit = true;
 //       }
 //     }
-
 //     if (hit)
 //     {
 //       ts_lastKnock = millis();
@@ -650,7 +644,6 @@ void BionicGlove::feedKnockCriteria(float item)
 // {
 //   float rlResult;
 //   bool hit = false;
-
 //   if (doneMs(ts_lastKnock, knockDebounceInterval) && knockAllowed)
 //   {
 //     // linear regression ----------------------------------------------
@@ -661,7 +654,6 @@ void BionicGlove::feedKnockCriteria(float item)
 //     rlResult = values[0];
 //     lr.reset();
 //     // end linear regression ----------------------------------------------
-
 //     // // rlResult = getRaw(DATA_A_X_G) - lastAGfixedSmooth[AXL_X];
 //     // // Serial.print(logAZGorientation[0]);
 //     // // Serial.print(",");
@@ -692,7 +684,6 @@ void BionicGlove::feedKnockCriteria(float item)
 //         hit = true;
 //       }
 //     }
-
 //     if (hit)
 //     {
 //       ts_lastKnock = millis();
