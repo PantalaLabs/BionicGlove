@@ -205,7 +205,7 @@ Every method has one kind of parameter. Be careful not to mix the types of param
 
 7. float trs - refers to threshold parameters. You can use any value inside the allowed range. Must read all library.
 
-#### Data pack
+#### Bionic Glove Bluetooth Data Pack
 
 This is how all data are transmitted. A String of 16 tokens with space separator: 
 
@@ -245,14 +245,14 @@ This is how all data are transmitted. A String of 16 tokens with space separator
 
 
 #### Examples
-All  examples are sorted by difficulty.
+All examples are separated by folder.
 Even the most difficult one is a very simple esketch with a few lines.
 .
-
-.
-
-.
-
+![examples](/pictures/chrome.jpg) 
+![examples](/pictures/esp32.jpg) 
+![examples](/pictures/Proc.jpg) 
+![examples](/pictures/Ableton.jpg) 
+![examples](/pictures/pd.jpg) 
 .
 
 .
