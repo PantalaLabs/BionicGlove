@@ -247,16 +247,15 @@ This is how all data are transmitted. A String of 16 tokens with space separator
 #### Examples
 All examples are separated by folder.
 Even the most difficult one is a very simple esketch with a few lines.
-.
+
 ![examples](/pictures/esp32.jpg) 
 ![examples](/pictures/Proc.jpg) 
 ![examples](/pictures/pd.jpg) 
 
 ![examples](/pictures/Ableton.jpg) 
 ![examples](/pictures/chrome.jpg) 
-.
 
-.
+
 ### How to Wear
 
 Follow the steps to wear it. Do the steps in reverse to unwear:
