@@ -1,0 +1,55 @@
+#N canvas 725 73 366 509 10;
+#X msg -68 46 devices;
+#X obj -68 127 sel 13 10;
+#X obj -68 160 zl group 100;
+#X obj -68 193 iem_alisttosym;
+#X obj -68 226 fromsymbol;
+#X obj 199 105 image pdlogo.gif;
+#X obj 77 449 osc~;
+#X obj 77 482 dac~;
+#X obj 31 449 osc~;
+#X obj 31 482 dac~;
+#X obj 77 302 vsl 30 128 0 512 0 0 empty empty empty 0 -9 0 10 -4034
+-1 -1 4663 1;
+#X obj 31 302 vsl 30 128 0 512 0 0 empty empty empty 0 -9 0 10 -4034
+-1 -1 1538 1;
+#X obj -21 448 osc~;
+#X obj -21 481 dac~;
+#X obj -67 448 osc~;
+#X obj -67 481 dac~;
+#X obj -21 301 vsl 30 128 0 512 0 0 empty empty empty 0 -9 0 10 -4034
+-1 -1 1121 1;
+#X obj -67 301 vsl 30 128 0 512 0 0 empty empty empty 0 -9 0 10 -4034
+-1 -1 794 1;
+#X msg -6 46 open 7;
+#X obj -68 259 unpack f f f f;
+#X obj -68 94 comport 7 115200;
+#X text -68 11 read from ESP32 Bluetooth;
+#X obj 69 262 print;
+#X msg 51 46 close 7;
+#X connect 0 0 20 0;
+#X connect 1 0 2 0;
+#X connect 1 2 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 19 0;
+#X connect 4 0 22 0;
+#X connect 6 0 7 0;
+#X connect 6 0 7 1;
+#X connect 8 0 9 0;
+#X connect 8 0 9 1;
+#X connect 10 0 6 0;
+#X connect 11 0 8 0;
+#X connect 12 0 13 0;
+#X connect 12 0 13 1;
+#X connect 14 0 15 0;
+#X connect 14 0 15 1;
+#X connect 16 0 12 0;
+#X connect 17 0 14 0;
+#X connect 18 0 20 0;
+#X connect 19 0 17 0;
+#X connect 19 1 16 0;
+#X connect 19 2 11 0;
+#X connect 19 3 10 0;
+#X connect 20 0 1 0;
+#X connect 23 0 20 0;

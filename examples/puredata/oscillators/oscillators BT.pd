@@ -1,0 +1,53 @@
+#N canvas 725 73 382 509 10;
+#X obj 215 -240 image pdlogo.gif;
+#X msg -51 -305 devices;
+#X obj -51 -191 zl group 100;
+#X obj -51 -158 iem_alisttosym;
+#X obj -51 -125 fromsymbol;
+#X obj 94 98 osc~;
+#X obj 94 131 dac~;
+#X obj 48 98 osc~;
+#X obj 48 131 dac~;
+#X obj 94 -49 vsl 30 128 0 512 0 0 empty empty empty 0 -9 0 10 -4034
+-1 -1 0 1;
+#X obj 48 -49 vsl 30 128 0 512 0 0 empty empty empty 0 -9 0 10 -4034
+-1 -1 0 1;
+#X obj -4 97 osc~;
+#X obj -4 130 dac~;
+#X obj -50 97 osc~;
+#X obj -50 130 dac~;
+#X obj -4 -50 vsl 30 128 0 512 0 0 empty empty empty 0 -9 0 10 -4034
+-1 -1 0 1;
+#X obj -50 -50 vsl 30 128 0 512 0 0 empty empty empty 0 -9 0 10 -4034
+-1 -1 0 1;
+#X msg 68 -305 close 17;
+#X obj -51 -257 comport 17 115200;
+#X obj -51 -224 sel 62;
+#X msg 11 -305 open 17;
+#X obj -51 -92 unpack f f f f;
+#X text -49 -344 read from Serial Bluetooth;
+#X connect 1 0 18 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 4 0 21 0;
+#X connect 5 0 6 0;
+#X connect 5 0 6 1;
+#X connect 7 0 8 0;
+#X connect 7 0 8 1;
+#X connect 9 0 5 0;
+#X connect 10 0 7 0;
+#X connect 11 0 12 0;
+#X connect 11 0 12 1;
+#X connect 13 0 14 0;
+#X connect 13 0 14 1;
+#X connect 15 0 11 0;
+#X connect 16 0 13 0;
+#X connect 17 0 18 0;
+#X connect 18 0 19 0;
+#X connect 19 0 2 0;
+#X connect 19 1 2 0;
+#X connect 20 0 18 0;
+#X connect 21 0 16 0;
+#X connect 21 1 15 0;
+#X connect 21 2 10 0;
+#X connect 21 3 9 0;
