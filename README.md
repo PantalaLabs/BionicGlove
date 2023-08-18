@@ -269,7 +269,8 @@ https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af
 
 Every mobile equipment has power coupled to the body of the device and firmly attached. Sometimes even inside the device itself.
 
-For the Bionic Glove, there are two possibilities
+There are two possibilities to power up the Bionic Glove:
+
 1. using batteries, power packs or a VDC adapters (5v to 8V - never exceeds this range). Batteries and Power Packs must be firmly attached to the users´s arm. I stongly advise use this method. Incase of Power Adapters, zip tie the chord to a Bionic Glove´s corner as shown below.
 
 ![ziptie](/pictures/ziptie2.jpg) 
