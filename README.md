@@ -271,6 +271,8 @@ Every mobile equipment has power coupled to the body of the device and firmly at
 
 For the Bionic Glove, there are two possibilities
 1. using batteries, power packs or a VDC adapters (5v to 8V - never exceeds this range). Batteries and Power Packs must be firmly attached to the users´s arm. I stongly advise use this method. To VDC adapter, zip tie the chord to a Bionic Glove corner as shown below.
+![ziptie](/pictures/ziptie2.jpg) 
+
 2. USB power. In this case, I strongly advise using a zip tie to hold the first turn of the wire, preventing it from creating slack in the USB connector with constant use.
 
 ![ziptie](/pictures/ziptie.jpg) 
