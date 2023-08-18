@@ -286,9 +286,10 @@ For the Bionic Glove, there are two possibilities
 5. after paired, Bionic Glove will blink the blue led at every 3 seconds indicating that it is working and transmitting. 
 6. to make sure everything is working , use Putty (or arduino serial monitor) to monitor the serial port.
 
-REMEMBER: NEVER, NEVER connect your ESP32 to the external power source (VIN) together with the USB cable! 
-This will damage your microcontroller.
-There is an specific USB cable to do this task.
+##### REMEMBER: NEVER, NEVER
+1. never connect your ESP32 to the external power source (VIN) together with the USB cable! 
+This will damage your microcontroller. There is an specific USB cable to do this task.
+2. never feed VIN with more than 8V. There is a high risk to damage your microcontroller.
 
 #### Dongle Receiver
 1. connect the Dongle to an USB port;
