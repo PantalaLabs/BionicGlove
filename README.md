@@ -274,7 +274,7 @@ For the Bionic Glove, there are two possibilities
 
 ![ziptie](/pictures/ziptie2.jpg) 
 
-2. USB power. In this case, I strongly advise using a zip tie to hold the first turn of the wire, preventing it from creating slack in the USB connector with constant use. I do not recommend using this method because the USB connector will fail in a very short time.
+2. USB power. In this case, I strongly advise using a zip tie to hold the first turn of the wire. I do not recommend using this method because the USB connector will fail in a very short time.
 
 ![ziptie](/pictures/ziptie.jpg) 
 
