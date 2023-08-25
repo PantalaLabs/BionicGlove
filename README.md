@@ -277,14 +277,11 @@ https://youtube.com/shorts/KNA1FbFNsik
 
 ### How to Wear
 
-Follow the steps to wear it. Do the steps in reverse to unwear:
-1. lay the glove upside down on a table;
-2. wear from the little finger towards the index finger;
-3. place hand and glove vertically;
-4. tight the velcros;
-5. adjust so that the notches joining got exactly perpendicular to the glove support plate at the fingers middle position. The position of the main plate is also very important for the correct functioning of the glove. Adjust it forwards or backwards until the fingers and the joints have full free movement.
+https://youtube.com/shorts/VhoTej8YEuo
 
-https://github.com/PantalaLabs/BionicGlove/assets/25618533/3b336881-706c-43e9-af9a-d0ecc8897eee
+Adjust so that the notches joining got exactly perpendicular to the glove support plate at the fingers middle position. The position of the main plate is also very important for the correct functioning of the glove. Adjust it forwards or backwards until the fingers and the joints have full free movement.
+
+### How to Power it
 
 Every mobile equipment has power coupled to the body of the device and firmly attached. Sometimes even inside the device itself.
 
