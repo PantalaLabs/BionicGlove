@@ -249,6 +249,7 @@ All examples are separated by folder.
 Even the most difficult one is a very simple esketch with a few lines.
 
 ![examples](/pictures/esp32.jpg) 
+![examples](/pictures/arduino-logo-0.jpg)
 
 https://youtube.com/shorts/7GeD01V1IA4
 
