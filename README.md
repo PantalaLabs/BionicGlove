@@ -241,7 +241,7 @@ This is how all data are transmitted. A String of 16 tokens with space separator
 
 0.99 DATA_SMOOTHFACTOR
 
-< pack end
+<       pack end
 
 
 #### Examples
