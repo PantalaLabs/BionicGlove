@@ -211,7 +211,7 @@ This is how all data are transmitted. A String of 16 tokens with space separator
 
 "> 88 76 89 26 7.00 0.03 90.23 38.00 0.17 87.91 244.00 1.12 0.00 0.99 <"
 
->  pack start
+>       package start
 
 88 DATA_F_INDEX
 
@@ -241,7 +241,7 @@ This is how all data are transmitted. A String of 16 tokens with space separator
 
 0.99 DATA_SMOOTHFACTOR
 
-<       pack end
+<     end of package
 
 
 #### Examples
