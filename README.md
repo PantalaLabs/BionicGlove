@@ -250,7 +250,7 @@ This is how all data are transmitted. A String of 16 tokens with space separator
 
 #### Examples
 All examples are separated by folder.
-Even the most difficult one is a very simple esketch with a few lines.
+Even the most difficult one is a very simple sketch with a few lines.
 
 ![examples](/pictures/esp32.jpg) 
 ![examples](/pictures/arduino-logo-0.png)
@@ -278,6 +278,12 @@ https://www.youtube.com/shorts/455orbxOn7I
 ![examples](/pictures/chrome.jpg)
 
 https://youtube.com/shorts/KNA1FbFNsik
+
+![examples](/pictures/kit_braco_robotico_em_acrilico.jpg)
+
+https://www.instagram.com/reel/CydaNqSOUjY/?utm_source=ig_web_copy_link&igshid=MzRlODBiNWFlZA==
+
+
 
 
 ### How to Wear
