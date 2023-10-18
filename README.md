@@ -251,14 +251,15 @@ This is how all data are transmitted. A String of 16 tokens with space separator
 #### Examples
 All examples are separated by folder.
 Even the most difficult one is a very simple sketch with a few lines.
-
-|![examples](/pictures/esp32.jpg) ![examples](/pictures/arduino-logo-0.png) | https://youtube.com/shorts/7GeD01V1IA4 |
-|![examples](/pictures/android.jpg) | https://youtube.com/shorts/MM-frLD72EQ |
-|![examples](/pictures/Proc.jpg) | https://youtube.com/shorts/DhibsE4CeC0 https://youtube.com/shorts/4GAg0wk4kcI | 
-|![examples](/pictures/pd.jpg) | https://youtube.com/shorts/7AKSQntUIBc |
-|![examples](/pictures/Ableton.jpg) | https://www.youtube.com/shorts/455orbxOn7I |
-|![examples](/pictures/chrome.jpg) | https://youtube.com/shorts/KNA1FbFNsik |
-|![examples](/pictures/kit_braco_robotico_em_acrilico.jpg) | https://www.instagram.com/reel/CydaNqSOUjY/?utm_source=ig_web_copy_link&igshid=MzRlODBiNWFlZA== |
+<table>
+<tr><td>![examples](/pictures/esp32.jpg) ![examples](/pictures/arduino-logo-0.png) </td><td> https://youtube.com/shorts/7GeD01V1IA4 </td></tr>
+<tr><td>![examples](/pictures/android.jpg) </td><td> https://youtube.com/shorts/MM-frLD72EQ </td></tr>
+<tr><td>![examples](/pictures/Proc.jpg) </td><td> https://youtube.com/shorts/DhibsE4CeC0 <br> https://youtube.com/shorts/4GAg0wk4kcI </td></tr>
+<tr><td>![examples](/pictures/pd.jpg) </td><td> https://youtube.com/shorts/7AKSQntUIBc </td></tr>
+<tr><td>![examples](/pictures/Ableton.jpg) </td><td> https://www.youtube.com/shorts/455orbxOn7I </td></tr>
+<tr><td>![examples](/pictures/chrome.jpg) </td><td> https://youtube.com/shorts/KNA1FbFNsik </td></tr>
+<tr><td>![examples](/pictures/kit_braco_robotico_em_acrilico.jpg) </td><td> https://www.instagram.com/reel/CydaNqSOUjY/?utm_source=ig_web_copy_link&igshid=MzRlODBiNWFlZA== </td></tr>
+</table>
 
 
 
