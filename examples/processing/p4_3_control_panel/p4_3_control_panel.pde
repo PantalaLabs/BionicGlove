@@ -19,7 +19,7 @@ void setup() {
   // Define o tamanho da janela
   size(600, 600);
   cp5 = new ControlP5(this);
-  arduino = new Serial(this, "COM20", 38400);
+  arduino = new Serial(this, "COM7", 115200);
   arduino.bufferUntil('\n');
 
   cp5.addBang("indexO")
@@ -86,7 +86,7 @@ void draw() {
   // Desenha as dataPack
   // for (int i = 0; i < dataPack.length; i++) {
   for (int i = 0; i < 4; i++) {
-    int altura = (int)map(dataPack[3-i], 0, 512, 0, alturaMaxima);
+    int altura = (int)map(dataPack[i], 0, 512, 0, alturaMaxima);
     int x = (i+1) * larguraBarra;
     int y = height - altura - 100;
     fill(255);
@@ -165,7 +165,7 @@ void draw() {
 void serialEvent(Serial arduino) {
   if (arduino != null && arduino.available() > 0) {
     String[] data = arduino.readString().trim().split(",");
-    if (data.length > 0) {
+    if (data.length > 11) {
       for (int i = 0; i < dataPack.length; i++) {
         String valor = data[i].trim();
         try {

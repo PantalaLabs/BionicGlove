@@ -34,10 +34,10 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 
 ![cover](/pictures/cover.jpg) | ![eva](/pictures/eva.jpg)
 
+10/10/2023 Update
+* a whole new project emerged. With no moving parts, thinner, lighter and easier to use.
 
-Electronic parts:
-
-![prototype](/pictures/pcb.png)
+https://www.instagram.com/p/CygAKJ8ucLL/
 
 
 ### Choosing the best mode of communication for your needs 

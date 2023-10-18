@@ -53,11 +53,6 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 // https://github.com/cubiwan/Regressino
 // #include <LinearRegression.h>
 
-#define VERSION 0.9
-#define VERSION 1.0
-#define VERSION 1.01
-
-
 #ifndef BionicGlove_h
 #define BionicGlove_h
 
@@ -161,6 +156,7 @@ public:
   void start();                                                                                        // begin BT communication
   void end();                                                                                          // end BT communication
   bool read();                                                                                         // read BT serial
+  bool send(String s);                                                                                         // BT serial response
   bool active();                                                                                       // return if BT is active
   void freeze(uint32_t n);                                                                             // freeze any callback for n ms
   void setBuiltInLed(bool status);                                                                     // use built in led to visual info
@@ -182,6 +178,8 @@ public:
   void setFlickAllThreshold(float trs);                                                                // set all new flick treshold
   void setFlickOpenedThreshold(uint8_t f, float trs);                                                  // set new finger positive flick treshold
   void setFlickClosedThreshold(uint8_t f, float trs);                                                  // set new  finger negative flick treshold
+  void setFlickAllOpenedThreshold(float trs);                                                          // set new finger positive flick treshold
+  void setFlickAllClosedThreshold(float trs);                                                          // set new  finger negative flick treshold
   void setFlickDebounceInterval(uint32_t val);                                                         // set new flick  debounce interval
   void setAllAxleThresholdAngle(uint8_t ang);                                                          // set all axels threshold angles
   void setAxleMinThresholdAngle(uint8_t axl, uint8_t ang);                                             // set axel min threshold angle
@@ -257,6 +255,7 @@ private:
   String serialData = "";                                                            // receive the BT string line on each READ
   String btDataPack[MAXBTDATAPACK];                                                  // receive splitted dataSerial string
   float smoothedDataPack[MAXBTDATAPACK];                                             // all smoothed datatpack tokens
+  String message;
   bool on = false;                                                                   // flags if BT is active
   const char *pin = "1234";                                                          // default slave pin
   String device_name = "BIONICSlave";                                                // default slave name

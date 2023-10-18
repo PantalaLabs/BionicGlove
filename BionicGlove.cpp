@@ -49,6 +49,11 @@ void BionicGlove::start()
   ledOffAsync();
 }
 
+bool BionicGlove::send(String s)
+{
+  message = s;
+}
+
 // read BT serial
 bool BionicGlove::read()
 {
@@ -76,15 +81,16 @@ bool BionicGlove::read()
         // callbackSimpleKnock(); // deprecated
         // callbackKnockLr();     // deprecated
       }
+      SerialBT.print("R"); //send a RECEIVED message to glove 
       return true;
     }
   }
   return false;
 }
 
+// receive datapack from serial bt
 bool BionicGlove::receiveDataPack()
 {
-  // receive datapack
   int8_t thisSeparator = 1, nextSeparator = 1, separatorCounter = 0;
 
   serialData = SerialBT.readStringUntil('<');                    // get all buffer chars up to EXCLUDING first '<'
@@ -580,11 +586,13 @@ void BionicGlove::callbackAngleKnock()
   }
 }
 
+// compute knock criteria
 float BionicGlove::getKnockCriteria()
 {
   return logKnock[3] - logKnock[0];
 }
 
+// update knock array
 void BionicGlove::feedKnockCriteria(float item)
 {
   for (uint8_t i = 0; i < 3; i++)
@@ -695,6 +703,7 @@ void BionicGlove::feedKnockCriteria(float item)
 //   }
 // }
 
+// compare if new readings are outside preset area and update to new ones
 void BionicGlove::updateNewLimits()
 {
   int16_t croped;
@@ -1283,6 +1292,7 @@ void BionicGlove::setBuiltInLed(bool status)
     pinMode(BULTINLED, OUTPUT);
 }
 
+// set new angle knock treshold
 void BionicGlove::setAngleKnockThreshold(float val_verPos, float val_verNeg, float val_horPos, float val_horNeg)
 {
   // discard out of range values
@@ -1324,6 +1334,7 @@ void BionicGlove::setAngleKnockThreshold(float val_verPos, float val_verNeg, flo
 //      knockHorizontalNegativeThreshold = constrain(val_horNeg, MINLRKNOCKTHRESHOLD, MAXLRKNOCKTHRESHOLD);
 //  }
 
+// set all new flick treshold
 void BionicGlove::setFlickAllThreshold(float trs)
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
@@ -1331,6 +1342,20 @@ void BionicGlove::setFlickAllThreshold(float trs)
     setFlickOpenedThreshold(f, trs);
     setFlickClosedThreshold(f, trs);
   }
+}
+
+// set new finger positive flick treshold
+void BionicGlove::setFlickAllOpenedThreshold(float trs)
+{
+  for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
+    setFlickOpenedThreshold(f, trs);
+}
+
+// set new  finger negative flick treshold
+void BionicGlove::setFlickAllClosedThreshold(float trs)
+{
+  for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
+    setFlickClosedThreshold(f, trs);
 }
 
 void BionicGlove::setFlickOpenedThreshold(uint8_t f, float trs)
