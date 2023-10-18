@@ -91,7 +91,7 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <td>each of all 4 fingers absolute position. It tracks every position of the finger</td>
 <td>n/a</td>
 <td>4 - one value for each finger</td>
-<td>0-512</td>
+<td>0-511</td>
 </tr>
 
 <tr>
@@ -314,7 +314,7 @@ There are two possibilities to power up the Bionic Glove:
 ##### REMEMBER: NEVER, NEVER
 1. never connect your ESP32 to the external power source (VIN) together with the USB cable! 
 This will damage your microcontroller. There is an specific USB cable to do this task.
-2. never feed VIN with more than 8V. There is a high risk to damage your microcontroller.
+2. never feed VIN with more than 5V. There is a high risk to damage your microcontroller.
 
 #### Dongle Receiver
 1. connect the Dongle to an USB port;
