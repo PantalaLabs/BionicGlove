@@ -252,11 +252,9 @@ This is how all data are transmitted. A String of 16 tokens with space separator
 All examples are separated by folder.
 Even the most difficult one is a very simple sketch with a few lines.
 
-|![examples](/pictures/esp32.jpg) 
- ![examples](/pictures/arduino-logo-0.png) | https://youtube.com/shorts/7GeD01V1IA4 |
+|![examples](/pictures/esp32.jpg) ![examples](/pictures/arduino-logo-0.png) | https://youtube.com/shorts/7GeD01V1IA4 |
 |![examples](/pictures/android.jpg) | https://youtube.com/shorts/MM-frLD72EQ |
-|![examples](/pictures/Proc.jpg) | https://youtube.com/shorts/DhibsE4CeC0
-                                    https://youtube.com/shorts/4GAg0wk4kcI | 
+|![examples](/pictures/Proc.jpg) | https://youtube.com/shorts/DhibsE4CeC0 https://youtube.com/shorts/4GAg0wk4kcI | 
 |![examples](/pictures/pd.jpg) | https://youtube.com/shorts/7AKSQntUIBc |
 |![examples](/pictures/Ableton.jpg) | https://www.youtube.com/shorts/455orbxOn7I |
 |![examples](/pictures/chrome.jpg) | https://youtube.com/shorts/KNA1FbFNsik |
