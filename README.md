@@ -298,7 +298,7 @@ There are two possibilities to power up the Bionic Glove:
 
 2. ~~USB power.In this case, I strongly advise using a zip tie to hold the first turn of the wire. I do not recommend using this method because the USB connector will fail in a very short time. Even though it's the strongest USB connector, it's not made for moving devices.~~
 
-![ziptie](/pictures/ziptie.jpg) 
+~~![ziptie](/pictures/ziptie.jpg)~~
 
 
 ### Connections
