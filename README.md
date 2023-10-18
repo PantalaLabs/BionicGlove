@@ -39,7 +39,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is wearable glove th
 
 https://www.instagram.com/p/CygAKJ8ucLL/
 
-![cover](/pictures/before_after.jpg) | ![eva](/pictures/before_after.jpg)
+![cover](/pictures/before_after.jpg)
 
 
 
