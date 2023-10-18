@@ -13,7 +13,7 @@ Please :
 
 ![prototype](/pictures/issue.png)
 
-Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is a project of a wearable glove started at may/13/2023 that can control microcontrolled or not devices , robots, mobile apps, desktop programs (Ableton, Processing, etc), games, art installations, entertainment, etc through the interpretation of their behaviors and movements.
+Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is a project of a wearable glove started at May/13/2023 that can control microcontrolled or not devices , robots, mobile apps, desktop programs (Ableton, Processing, etc), games, art installations, entertainment, etc through the interpretation of their behaviors and movements.
 
 
 ### Prototypes
@@ -36,7 +36,7 @@ Bionic Glove from Pantala Labs (http://www.pantalalabs.com) is a project of a we
 ![cover](/pictures/cover.jpg) | ![eva](/pictures/eva.jpg)
 
 10/10/2023 Update
-* a whole new project emerged. With no moving parts, thinner, lighter and easier to use.
+* a whole new design emerged. With no moving parts, thinner, lighter and easier to use.
 
 https://www.instagram.com/p/CygAKJ8ucLL/
 
@@ -292,13 +292,13 @@ Every mobile equipment has power coupled to the body of the device and firmly at
 
 There are two possibilities to power up the Bionic Glove:
 
-1. using batteries, power packs or a VDC adapters (5v to 8V - never exceeds this range). Batteries and Power Packs must be firmly attached to the users´s arm. I stongly advise use this method. Incase of Power Adapters, zip tie the chord to a Bionic Glove´s corner as shown below.
+1. using batteries, power packs or a 5VDC adapters (never more than 5V). Batteries and Power Packs must be firmly attached to the users´s arm. I stongly advise use this method. Incase of Power Adapters, zip tie the chord to a Bionic Glove´s corner as shown below.
 
 ![ziptie](/pictures/ziptie2.jpg) 
 
-2. USB power. In this case, I strongly advise using a zip tie to hold the first turn of the wire. I do not recommend using this method because the USB connector will fail in a very short time. Even though it's the strongest USB connector, it's not made for moving devices.
+2. ~~USB power.In this case, I strongly advise using a zip tie to hold the first turn of the wire. I do not recommend using this method because the USB connector will fail in a very short time. Even though it's the strongest USB connector, it's not made for moving devices.~~
 
-![ziptie](/pictures/ziptie.jpg) 
+~~![ziptie](/pictures/ziptie.jpg) ~~
 
 
 ### Connections
