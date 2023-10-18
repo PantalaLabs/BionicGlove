@@ -264,7 +264,7 @@ Even the most difficult one is a very simple sketch with a few lines.
 
 ### How to Wear
 
-~~ https://youtube.com/shorts/VhoTej8YEuo ~~
+~~ http://youtube.com/shorts/VhoTej8YEuo ~~ (deprecated)
 
 ~~Adjust so that the notches joining got exactly perpendicular to the glove support plate at the fingers middle position. The position of the main plate is also very important for the correct functioning of the glove. Adjust it forwards or backwards until the fingers and the joints have full free movement.~~
 
