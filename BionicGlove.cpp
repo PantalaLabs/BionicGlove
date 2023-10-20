@@ -43,7 +43,7 @@ void BionicGlove::start()
   setBuiltInLed(true);
   ledOnAsync();
   delay(500); // wait a little bit to start BT. avoid high inrush
-  SerialBT.setPin(pin);
+  // SerialBT.setPin(pin);
   SerialBT.begin(device_name);
   on = true;
   ledOffAsync();
@@ -81,7 +81,7 @@ bool BionicGlove::read()
         // callbackSimpleKnock(); // deprecated
         // callbackKnockLr();     // deprecated
       }
-      SerialBT.print("R"); //send a RECEIVED message to glove 
+      SerialBT.print("R"); // send a RECEIVED message to glove
       return true;
     }
   }
@@ -209,7 +209,7 @@ float BionicGlove::getUnit(uint8_t raw)
     case 1:
     case 2:
     case 3:
-      return ((getF(raw) - 256.0) / 256.0);
+      return ((getF(raw) - 2047.0) / 2047.0);
       break;
     case 4:
       return accel[AXL_X].raw / 512.0;
@@ -1011,7 +1011,7 @@ bool BionicGlove::getAxleMaxStatus(uint8_t axl)
 
 void BionicGlove::ledOnAsync()
 {
-  if (ledBuiltInActive)
+  if (builtInLedActive)
   {
     digitalWrite(BULTINLED, HIGH);
     turnOffLed = millis();
@@ -1020,7 +1020,7 @@ void BionicGlove::ledOnAsync()
 
 void BionicGlove::ledOffAsync()
 {
-  if (ledBuiltInActive)
+  if (builtInLedActive)
   {
     if ((turnOffLed > 0) && doneMs(turnOffLed, 5))
     {
@@ -1287,7 +1287,7 @@ void BionicGlove::isrDefaultUnused()
 // use built in led to visual info
 void BionicGlove::setBuiltInLed(bool status)
 {
-  ledBuiltInActive = status;
+  builtInLedActive = status;
   if (status)
     pinMode(BULTINLED, OUTPUT);
 }

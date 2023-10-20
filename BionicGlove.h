@@ -46,7 +46,7 @@ Z
 15-<*
 
 
-Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
+Never use Serial.begin(9600) with boudrate above 38400!!!!!!!!!!!
 
 **********************************************************************/
 
@@ -136,7 +136,7 @@ Never use Serial.begin(9600) with oudrate above 38400!!!!!!!!!!!
 #define CLOSED 0
 #define OPENED 1
 
-#define MAXRES 0b111111111
+#define MAXRES 0b111111111111
 
 #define SCHMITTTRIGGERPERCENTAGE 5
 #define SCHMITTTRIGGERANGLE 5
@@ -156,7 +156,7 @@ public:
   void start();                                                                                        // begin BT communication
   void end();                                                                                          // end BT communication
   bool read();                                                                                         // read BT serial
-  bool send(String s);                                                                                         // BT serial response
+  bool send(String s);                                                                                 // BT serial response
   bool active();                                                                                       // return if BT is active
   void freeze(uint32_t n);                                                                             // freeze any callback for n ms
   void setBuiltInLed(bool status);                                                                     // use built in led to visual info
@@ -165,6 +165,7 @@ public:
   float getSmooth(uint8_t raw);                                                                        // get smoothed value from each one value at BT pack
   float getUnit(uint8_t raw);                                                                          // get any token from -1 to +1
   float getUnitSmoothed(uint8_t raw);                                                                  // get any smoothed token from -1 to +1
+  bool getGloveId();                                                                                   // get glove id
   uint16_t getF(uint8_t f);                                                                            // get expanded finger value
   void setAllFingersThresholdPercentage(uint8_t pct);                                                  // set all closed and opened thresholds
   void setAllClosedFingersThresholdPercentage(uint8_t pct);                                            // set all closed Percentage thresholds for all fingers
@@ -249,15 +250,15 @@ public:
 private:
   const float zerof = 0.0;
   uint32_t frozen = 0;
-  uint32_t ts_frozen = 0;                                                            // last time a event happen
-  uint32_t ts_nextLed;                                                               // last time led was turned on
-  bool ledBuiltInActive = false;                                                     // flags if built is working
-  String serialData = "";                                                            // receive the BT string line on each READ
-  String btDataPack[MAXBTDATAPACK];                                                  // receive splitted dataSerial string
-  float smoothedDataPack[MAXBTDATAPACK];                                             // all smoothed datatpack tokens
+  uint32_t ts_frozen = 0;                // last time a event happen
+  uint32_t ts_nextLed;                   // last time led was turned on
+  bool builtInLedActive = false;         // flags if built is working
+  String serialData = "";                // receive the BT string line on each READ
+  String btDataPack[MAXBTDATAPACK];      // receive splitted dataSerial string
+  float smoothedDataPack[MAXBTDATAPACK]; // all smoothed datatpack tokens
   String message;
   bool on = false;                                                                   // flags if BT is active
-  const char *pin = "1234";                                                          // default slave pin
+  //const char *pin = "1234";                                                          // default slave pin
   String device_name = "BIONICSlave";                                                // default slave name
   float logF[MAXFINGERCHANNELS][MAXFLICKLOG] = {0};                                  // log finger readings to apply  offset removal
   float flickThreshold[MAXFINGERCHANNELS][2] = {0};                                  // flick activation limiar
