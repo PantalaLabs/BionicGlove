@@ -13,13 +13,13 @@ void loop()
 {
     if (bionic.read())
     {
-        Serial.print(bionic.getF(FINGER_INDEX));
+        Serial.print(bionic.getF(FINGER_INDEX)/8);
         Serial.print(",");
-        Serial.print(bionic.getF(FINGER_MIDDLE));
+        Serial.print(bionic.getF(FINGER_MIDDLE)/8);
         Serial.print(",");
-        Serial.print(bionic.getF(FINGER_RING));
+        Serial.print(bionic.getF(FINGER_RING)/8);
         Serial.print(",");
-        Serial.print(bionic.getF(FINGER_LITTLE));
+        Serial.print(bionic.getF(FINGER_LITTLE)/8);
 
         Serial.print(",");
         Serial.print(bionic.getFingerClosedStatus(FINGER_INDEX));

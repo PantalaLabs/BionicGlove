@@ -15,6 +15,7 @@
  *********************************************************************/
 
 #include <BluetoothSerial.h>
+#include <Arduino.h>
 #include "BionicGlove.h"
 
 #if !defined(CONFIG_BT_SPP_ENABLED)
@@ -41,6 +42,18 @@ BionicGlove::BionicGlove()
 void BionicGlove::start()
 {
   setBuiltInLed(true);
+  init();
+}
+
+void BionicGlove::startEurorack()
+{
+  eurorackSetup();
+  setBuiltInLed(false);
+  init();
+}
+
+void BionicGlove::init()
+{
   ledOnAsync();
   delay(500); // wait a little bit to start BT. avoid high inrush
   // SerialBT.setPin(pin);
@@ -1028,6 +1041,56 @@ void BionicGlove::ledOffAsync()
       digitalWrite(BULTINLED, LOW);
     }
   }
+}
+
+void BionicGlove::eurorackSetup()
+{
+  pinMode(BIONICEURO_SWITCH1PIN, INPUT);
+  pinMode(BIONICEURO_SWITCH2PIN, INPUT);
+
+  for (uint8_t i = 0; i < 12; i++)
+    pinMode(eurorackDigitalOutPins[i], OUTPUT);
+  for (uint8_t i = 0; i < 8; i++)
+    pinMode(eurorackAnalogOutPins[i], OUTPUT);
+
+  pinMode(BIONICEURO_POT1PIN, INPUT);
+  pinMode(BIONICEURO_POT2PIN, INPUT);
+
+  for (uint8_t i = 0; i < 8; i++)
+  {
+    ledcSetup(i, BIONICEURO_PWMFREQ, BIONICEURO_PWMRES);
+    ledcAttachPin(eurorackAnalogOutPins[i], i);
+  }
+
+  for (uint8_t i = 0; i < 4; i++)
+    digitalWrite(eurorackDigitalOutChannels[i], HIGH);
+  delay(200);
+  for (uint8_t i = 0; i < 4; i++)
+    digitalWrite(eurorackDigitalOutChannels[i], LOW);
+
+  for (uint8_t i = 0; i < 4; i++)
+    ledcWrite(eurorackAnalogOutChannels[i], 511);
+  delay(200);
+  for (uint8_t i = 0; i < 4; i++)
+    ledcWrite(eurorackAnalogOutChannels[i], 0);
+
+  for (uint8_t i = 4; i < 8; i++)
+    ledcWrite(eurorackAnalogOutChannels[i], 511);
+  delay(200);
+  for (uint8_t i = 4; i < 8; i++)
+    ledcWrite(eurorackAnalogOutChannels[i], 0);
+
+  for (uint8_t i = 4; i < 8; i++)
+    digitalWrite(eurorackDigitalOutChannels[i], HIGH);
+  delay(200);
+  for (uint8_t i = 4; i < 8; i++)
+    digitalWrite(eurorackDigitalOutChannels[i], LOW);
+
+  for (uint8_t i = 8; i < 12; i++)
+    digitalWrite(eurorackDigitalOutChannels[i], HIGH);
+  delay(200);
+  for (uint8_t i = 8; i < 12; i++)
+    digitalWrite(eurorackDigitalOutChannels[i], LOW);
 }
 
 // wide  -----------------------------------------------------------

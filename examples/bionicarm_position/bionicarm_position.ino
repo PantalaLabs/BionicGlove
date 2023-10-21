@@ -83,8 +83,8 @@ void loop()
     // crop Bionic Glove reading to create more responsiveness = less hand movement -> more arm movement
     cropped[0] = constrain(bionic.getRaw(DATA_A_X_ANG), BASE_READ_MIN, BASE_READ_MAX);
     cropped[1] = constrain(bionic.getRaw(DATA_A_Y_ANG), ALCANCE_READ_MIN, ALCANCE_READ_MAX);
-    cropped[2] = constrain(bionic.getRaw(DATA_F_LITTLE), GARRA_READ_MIN, GARRA_READ_MAX);
-    cropped[3] = constrain(bionic.getRaw(DATA_F_INDEX), ALTURA_READ_MIN, ALTURA_READ_MAX);
+    cropped[2] = constrain(bionic.getRaw(DATA_F_LITTLE)/8, GARRA_READ_MIN, GARRA_READ_MAX);
+    cropped[3] = constrain(bionic.getRaw(DATA_F_INDEX)/8, ALTURA_READ_MIN, ALTURA_READ_MAX);
 
     smoothness = bionic.getRaw(DATA_SMOOTHFACTOR);
     ALPHAFILTER(smoothedRead[0], map(cropped[0], BASE_READ_MIN, BASE_READ_MAX, BASE_ANGLE_MAX, BASE_ANGLE_MIN), 0.6 * smoothness);             // base

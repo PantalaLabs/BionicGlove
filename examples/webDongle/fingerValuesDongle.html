@@ -102,7 +102,7 @@
                             //console.log(dataPack);
                             const trimmed = dataPack.slice(0, 16); // get only first 4 tokens
                             trimmed.forEach((trimmed, index) => {
-                                dataTrimmed[index] = parseFloat(trimmed);
+                                dataTrimmed[index] = parseFloat(trimmed)/8;
                             });
                             var alphaFactor = dataTrimmed[14];
                             for (let i = 0; i < 4; i++) {

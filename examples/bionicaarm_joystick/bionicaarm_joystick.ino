@@ -74,13 +74,13 @@ void loop()
         }
         if (bionic.getFingerClosedStatus(DATA_F_INDEX) || bionic.getFingerOpenedStatus(DATA_F_INDEX))
         {
-            alturaAng += bionic.getUnitSmoothed(DATA_F_INDEX);
+            alturaAng += bionic.getUnitSmoothed(DATA_F_INDEX)/8;
             alturaAng = constrain(alturaAng, ALCANCE_ANGLE_MIN, ALCANCE_ANGLE_MAX);
             servoAltura.write(alturaAng);
         }
         if (bionic.getFingerClosedStatus(DATA_F_LITTLE) || bionic.getFingerOpenedStatus(DATA_F_LITTLE))
         {
-            garraAng -= bionic.getUnitSmoothed(DATA_F_LITTLE);
+            garraAng -= bionic.getUnitSmoothed(DATA_F_LITTLE)/8;
             garraAng = constrain(garraAng, GARRA_ANGLE_MIN, GARRA_ANGLE_MAX);
             servoGarra.write(garraAng);
         }

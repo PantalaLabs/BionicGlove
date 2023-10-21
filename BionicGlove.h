@@ -141,6 +141,70 @@ Never use Serial.begin(9600) with boudrate above 38400!!!!!!!!!!!
 #define SCHMITTTRIGGERPERCENTAGE 5
 #define SCHMITTTRIGGERANGLE 5
 
+#define BIONICEURO_D1_PIN 5
+#define BIONICEURO_D2_PIN 18
+#define BIONICEURO_D3_PIN 19
+#define BIONICEURO_D4_PIN 21
+
+#define BIONICEURO_A1_PIN 12
+#define BIONICEURO_A2_PIN 27
+#define BIONICEURO_A3_PIN 26
+#define BIONICEURO_A4_PIN 32
+
+#define BIONICEURO_A5_PIN 13
+#define BIONICEURO_A6_PIN 14
+#define BIONICEURO_A7_PIN 25
+#define BIONICEURO_A8_PIN 33
+
+#define BIONICEURO_D5_PIN 15
+#define BIONICEURO_D6_PIN 16
+#define BIONICEURO_D7_PIN 17
+
+#if defined DO_DEBUG
+#define BIONICEURO_D8_PIN 17
+#else
+#define BIONICEURO_D8_PIN 3
+#endif
+
+#define BIONICEURO_D9_PIN 2
+#define BIONICEURO_D10_PIN 4
+#if defined DO_DEBUG
+#define BIONICEURO_D11_PIN 22
+#else
+#define BIONICEURO_D11_PIN 1
+#endif
+#define BIONICEURO_D12_PIN 22
+
+#define BIONICEURO_POT1PIN 35
+#define BIONICEURO_POT2PIN 34
+
+#define BIONICEURO_SWITCH1PIN 36
+#define BIONICEURO_SWITCH2PIN 39
+
+#define BIONICEURO_PWMFREQ 0b1111111111111
+#define BIONICEURO_PWMRES 12
+
+#define BIONICEURO_A1_CHANNEL 0
+#define BIONICEURO_A2_CHANNEL 1
+#define BIONICEURO_A3_CHANNEL 2
+#define BIONICEURO_A4_CHANNEL 3
+#define BIONICEURO_A5_CHANNEL 4
+#define BIONICEURO_A6_CHANNEL 5
+#define BIONICEURO_A7_CHANNEL 6
+#define BIONICEURO_A8_CHANNEL 7
+#define BIONICEURO_D1_CHANNEL BIONICEURO_D1_PIN
+#define BIONICEURO_D2_CHANNEL BIONICEURO_D2_PIN
+#define BIONICEURO_D3_CHANNEL BIONICEURO_D3_PIN
+#define BIONICEURO_D4_CHANNEL BIONICEURO_D4_PIN
+#define BIONICEURO_D5_CHANNEL BIONICEURO_D5_PIN
+#define BIONICEURO_D6_CHANNEL BIONICEURO_D6_PIN
+#define BIONICEURO_D7_CHANNEL BIONICEURO_D7_PIN
+#define BIONICEURO_D8_CHANNEL BIONICEURO_D8_PIN
+#define BIONICEURO_D9_CHANNEL BIONICEURO_D9_PIN
+#define BIONICEURO_D10_CHANNEL BIONICEURO_D10_PIN
+#define BIONICEURO_D11_CHANNEL BIONICEURO_D11_PIN
+#define BIONICEURO_D12_CHANNEL BIONICEURO_D12_PIN
+
 #define ALPHAFILTER(tar, amt, alpha)                                            \
   {                                                                             \
     tar = (((float)(alpha) * (float)(amt)) + ((1.0 - (alpha)) * (float)(tar))); \
@@ -247,6 +311,10 @@ public:
   void attachCallOnHorizontalNegativeKnock(void (*onRise)(void));
   void detachCallOnHorizontalNegativeKnock();
 
+  void startEurorack();
+  int8_t eurorackAnalogOutChannels[8] = {BIONICEURO_A1_CHANNEL, BIONICEURO_A2_CHANNEL, BIONICEURO_A3_CHANNEL, BIONICEURO_A4_CHANNEL, BIONICEURO_A5_CHANNEL, BIONICEURO_A6_CHANNEL, BIONICEURO_A7_CHANNEL, BIONICEURO_A8_CHANNEL};
+  int8_t eurorackDigitalOutChannels[12] = {BIONICEURO_D1_CHANNEL, BIONICEURO_D2_CHANNEL, BIONICEURO_D3_CHANNEL, BIONICEURO_D4_CHANNEL, BIONICEURO_D5_CHANNEL, BIONICEURO_D6_CHANNEL, BIONICEURO_D7_CHANNEL, BIONICEURO_D8_CHANNEL, BIONICEURO_D9_CHANNEL, BIONICEURO_D10_CHANNEL, BIONICEURO_D11_CHANNEL, BIONICEURO_D12_CHANNEL};
+
 private:
   const float zerof = 0.0;
   uint32_t frozen = 0;
@@ -257,8 +325,8 @@ private:
   String btDataPack[MAXBTDATAPACK];      // receive splitted dataSerial string
   float smoothedDataPack[MAXBTDATAPACK]; // all smoothed datatpack tokens
   String message;
-  bool on = false;                                                                   // flags if BT is active
-  //const char *pin = "1234";                                                          // default slave pin
+  bool on = false; // flags if BT is active
+  // const char *pin = "1234";                                                          // default slave pin
   String device_name = "BIONICSlave";                                                // default slave name
   float logF[MAXFINGERCHANNELS][MAXFLICKLOG] = {0};                                  // log finger readings to apply  offset removal
   float flickThreshold[MAXFINGERCHANNELS][2] = {0};                                  // flick activation limiar
@@ -277,6 +345,7 @@ private:
   uint32_t ts_lastKnock = 0;                                 // millis() + knockInterval
   uint32_t flickDebounceInterval = DEFFLICKDEBOUNCEINTERVAL; // time in ms between to allowed knocks
   uint32_t ts_lastFlick = 0;                                 // millis() + knockInterval
+  void init();                                               // start procedures
   void ledOnAsync();                                         // led turn on
   void ledOffAsync();                                        // async led turn off
   void detachAll();                                          // detach all callbacks
@@ -311,6 +380,10 @@ private:
   // float logAG[MAXACCELCHANNELS][MAXKNOCKLOG] = {0};       // DEPRECATED log all accel axles G readings to aplly offset removal
   // void callbackSimpleKnock();                             // DEPRECATED integrate ZG signal to find knock condition
   // void callbackKnockLr();                                 // DEPRECATED integrate ZG signal to find knock condition
+
+  void eurorackSetup(); // start euroack interface
+  int8_t eurorackAnalogOutPins[8] = {BIONICEURO_A1_PIN, BIONICEURO_A2_PIN, BIONICEURO_A3_PIN, BIONICEURO_A4_PIN, BIONICEURO_A5_PIN, BIONICEURO_A6_PIN, BIONICEURO_A7_PIN, BIONICEURO_A8_PIN};
+  int8_t eurorackDigitalOutPins[12] = {BIONICEURO_D1_PIN, BIONICEURO_D2_PIN, BIONICEURO_D3_PIN, BIONICEURO_D4_PIN, BIONICEURO_D5_PIN, BIONICEURO_D6_PIN, BIONICEURO_D7_PIN, BIONICEURO_D8_PIN, BIONICEURO_D9_PIN, BIONICEURO_D10_PIN, BIONICEURO_D11_PIN, BIONICEURO_D12_PIN};
 
   // callbacks
   void (*callClosedLittle)(void);
