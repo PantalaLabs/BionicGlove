@@ -117,7 +117,9 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <tr>
 <td>finger limits</td>
 <td>everytime a finger reaches a position wide closed and/or opened, you can trigger a callback. the limits are configurable </td>
-<td>percentage</td>
+<td> min 10%<br>
+    max 90% <br>
+    default for all fingers 15%</td>
 <td>8 - one callback for each finger at wide open or wide close</td>
 <td>true / false</td>
 </tr>
