@@ -165,7 +165,14 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <tr>
 <td>hand knock</td>
 <td>everytime you simulate a knock, like a door knock, you create a trigger inside the library. The knock can be in a horizontal or a vertical orientation and positive (up or right) and/or negative (down or left) way</td>
-<td>value</td>
+<td>min angle variation 20 <br>
+    max angle variation 150<br>
+    defaults:<br>
+    vert. pos. 90<br>
+    vert. neg. 100<br>
+    horiz. pos. 100<br>
+    horiz. neg. 95<br>
+</td>
 <td>4 - one callback for each vertical/horizontal , positive/negative </td>
 <td>true / false</td>
 </tr>
