@@ -50,9 +50,6 @@ Never use Serial.begin(9600) with boudrate above 38400!!!!!!!!!!!
 
 **********************************************************************/
 
-// https://github.com/cubiwan/Regressino
-// #include <LinearRegression.h>
-
 #ifndef BionicGlove_h
 #define BionicGlove_h
 
@@ -127,9 +124,10 @@ Never use Serial.begin(9600) with boudrate above 38400!!!!!!!!!!!
 #define FIXEDSMOOTHCOEFFTOKNOCK 0.03
 
 #define MAXFLICKLOG 9                    // 9 samples @ 10ms master Sample Rate = 90ms to climb the flick  ** preciselly adjusted , do not touch
-#define MINFLICKTHRESHOLD 0.5            // min value expected out of LR calcs
-#define MAXFLICKTHRESHOLD 5.0            // max value expected out of LR calcs
-#define DEFFLICKTHRESHOLD 2.8            //  ** preciselly adjusted , do not touch
+#define MINFLICKTHRESHOLD 10.5           // min value expected out of flick calcs
+#define MAXFLICKTHRESHOLD 40.0           // max value expected out of flick calcs
+#define DEFFLICKOPENEDTHRESHOLD 27.0     //  ** preciselly adjusted , do not touch
+#define DEFFLICKCLOSEDTHRESHOLD 31.0     //  ** preciselly adjusted , do not touch
 #define DEFFLICKDEBOUNCEINTERVAL 400     // time in ms to considert next flick
 #define MAXFLICKLINEARREGRESSIONLEARNS 3 // 90us each LR round
 
@@ -217,19 +215,19 @@ class BionicGlove
 public:
   BionicGlove();
 
-  void start();                                                                                        // begin BT communication
-  void end();                                                                                          // end BT communication
-  bool read();                                                                                         // read BT serial
-  bool send(String s);                                                                                 // BT serial response
-  bool active();                                                                                       // return if BT is active
-  void freeze(uint32_t n);                                                                             // freeze any callback for n ms
-  void setBuiltInLed(bool status);                                                                     // use built in led to visual info
-  String getSerialData();                                                                              // return one line of serial data pack
-  float getRaw(uint8_t raw);                                                                           // get raw value from each one value at BT pack
-  float getSmooth(uint8_t raw);                                                                        // get smoothed value from each one value at BT pack
-  float getUnit(uint8_t raw);                                                                          // get any token from -1 to +1
-  float getUnitSmoothed(uint8_t raw);                                                                  // get any smoothed token from -1 to +1
-  bool getGloveId();                                                                                   // get glove id
+  void start();                       // begin BT communication
+  void end();                         // end BT communication
+  bool read();                        // read BT serial
+  bool send(String s);                // BT serial response
+  bool active();                      // return if BT is active
+  void freeze(uint32_t n);            // freeze any callback for n ms
+  void setBuiltInLed(bool status);    // use built in led to visual info
+  String getSerialData();             // return one line of serial data pack
+  float getRaw(uint8_t raw);          // get raw value from each one value at BT pack
+  float getSmooth(uint8_t raw);       // get smoothed value from each one value at BT pack
+  float getUnit(uint8_t raw);         // get any token from -1 to +1
+  float getUnitSmoothed(uint8_t raw); // get any smoothed token from -1 to +1
+  // bool getGloveId();                                                                                   // get glove id
   uint16_t getF(uint8_t f);                                                                            // get expanded finger value
   void setAllFingersThresholdPercentage(uint8_t pct);                                                  // set all closed and opened thresholds
   void setAllClosedFingersThresholdPercentage(uint8_t pct);                                            // set all closed Percentage thresholds for all fingers

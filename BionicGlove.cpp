@@ -31,7 +31,10 @@ BionicGlove::BionicGlove()
   setAllAxleThresholdAngle(DEFTHRESHOLDANGLE);              // set all critical area to 30 degrees
   updateNewLimits();
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
-    setFlickAllThreshold(DEFFLICKTHRESHOLD);
+  {
+    setFlickOpenedThreshold(f, DEFFLICKOPENEDTHRESHOLD);
+    setFlickClosedThreshold(f, DEFFLICKCLOSEDTHRESHOLD);
+  }
   setAngleKnockThreshold(DEFANGLEKNOCKVERTICALPOSITIVETHRESHOLD, DEFANGLEKNOCKVERTICALNEGATIVETHRESHOLD, DEFANGLEKNOCKHORIZONTALPOSITIVETHRESHOLD, DEFANGLEKNOCKHORIZONTALNEGATIVETHRESHOLD);
   // D E P R E C A T E D
   // setSimpleKnockThreshold(DEFSIMPLEKNOCKVERTICALPOSITIVETHRESHOLD, DEFSIMPLEKNOCKVERTICALNEGATIVETHRESHOLD, DEFSIMPLEKNOCKHORIZONTALPOSITIVETHRESHOLD, DEFSIMPLEKNOCKHORIZONTALNEGATIVETHRESHOLD);
@@ -384,11 +387,11 @@ void BionicGlove::logFingers()
 {
   for (uint8_t f = 0; f < MAXFINGERCHANNELS; f++)
   {
-    for (uint8_t i = 0; i < (MAXFLICKLOG - 2); i++)
+    for (uint8_t i = 0; i < (MAXFLICKLOG - 1); i++)
     {
       logF[f][i] = logF[f][i + 1];
     }
-    logF[f][(MAXFLICKLOG - 2)] = GETITEM(f) / 100; // leave logF[f][(MAXFLICKLOG - 1)] empty !!!!
+    logF[f][(MAXFLICKLOG - 1)] = GETITEM(f) / 100;
   }
 }
 // DEPRECATED
@@ -469,12 +472,12 @@ void BionicGlove::callbackFlick()
       diff = logF[f][2] - logF[f][0];
       if ((diff > 0) && (abs(diff) > flickThreshold[f][OPENED]))
       {
-        // for (uint8_t k = 0; k < 9; k++)
+        // for (uint8_t k = 0; k < MAXFLICKLOG; k++)
         // {
         //   Serial.print(logF[f][k]);
         //   Serial.println(",");
         // }
-        // Serial.println(diff);
+        // Serial.println("diff:" + String(diff));
         // Serial.println("_");
 
         switch (f)
@@ -500,12 +503,12 @@ void BionicGlove::callbackFlick()
       else if ((diff < 0) && (abs(diff) > flickThreshold[f][CLOSED]))
       {
 
-        // for (uint8_t k = 1; k <= i; k++)
+        // for (uint8_t k = 0; k < MAXFLICKLOG; k++)
         // {
-        //   Serial.print(logF[f][k] - logF[f][k - 1]);
+        //   Serial.print(logF[f][k]);
         //   Serial.println(",");
         // }
-        // Serial.println(acc);
+        // Serial.println("diff:" + String(diff));
         // Serial.println("_");
 
         switch (f)
@@ -1330,7 +1333,7 @@ void BionicGlove::detachAll()
 
 void BionicGlove::logFclear(uint8_t f)
 {
-  for (uint8_t i = 0; i < (MAXFLICKLOG - 1); i++)
+  for (uint8_t i = 0; i < MAXFLICKLOG; i++)
   {
     logF[f][i] = 0;
   }

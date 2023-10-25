@@ -105,7 +105,11 @@ These are all features coverd by glove. Many of them have parameters to ajust to
 <tr>
 <td>finger flick</td>
 <td>everytime a high acceleration is reached when opening or closing a finger, like a flick, you can trigger a callback everytime a flick reaches a threshold</td>
-<td>value</td>
+<td> min parameter value 10.5 <br>
+    max parameter value 40.0 <br>
+    default open flick 27.0 <br>
+    default close flick 31.0
+</td>
 <td>8 - one callback for each finger at opening or closing threshold</td>
 <td>true / false</td>
 </tr>

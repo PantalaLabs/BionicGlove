@@ -8,9 +8,9 @@ void setup()
 void loop()
 {
     if (bionic.read())
-        Serial.println(">" + String(bionic.getF(DATA_F_INDEX)/8) + " " + //
-                           String(bionic.getF(DATA_F_MIDDLE)/8) + " " +  //
-                           String(bionic.getF(DATA_F_RING)/8) + " " +    //
-                           String(bionic.getF(DATA_F_LITTLE)/8) + " " +  //
-                           String(bionic.getF(DATA_SMOOTHFACTOR)/8) + "<");
+    {
+        String s;
+        s = String(bionic.getRaw(DATA_F_INDEX)) + String(",") + String(bionic.getRaw(DATA_F_MIDDLE)) + String(",") + String(bionic.getRaw(DATA_F_RING)) + String(",") + String(bionic.getRaw(DATA_F_LITTLE));
+        Serial.println(s);
+    }
 }
