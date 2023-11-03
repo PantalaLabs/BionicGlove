@@ -389,7 +389,10 @@ Click on 2nd tab "Port Configuration" and change Bits per second to 115200:
 
 ##### Max4Live <-> Ableton
 
+Download M4L component and save it into Ableton  **\Ableton\User Library\Presets\MIDI Effects\Max MIDI Effect
+
 By default Max4Live will not map controls directly to Ableton. But there is a way to create a new Control Surface like any other Midi Controller and map thru a MIDI loop / virtual MIDI:
+
 
 WINDOWS / LoopMIDI
 
