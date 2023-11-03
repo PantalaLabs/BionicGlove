@@ -324,8 +324,8 @@ private:
   float smoothedDataPack[MAXBTDATAPACK]; // all smoothed datatpack tokens
   String message;
   bool on = false; // flags if BT is active
-  // const char *pin = "1234";                                                          // default slave pin
-  String device_name = "BIONICSlave";                                                // default slave name
+  const char *pin = "1234A";                                                          // default slave pin
+  String device_name = "BIONIC_BT";                                                // default slave name
   float logF[MAXFINGERCHANNELS][MAXFLICKLOG] = {0};                                  // log finger readings to apply  offset removal
   float flickThreshold[MAXFINGERCHANNELS][2] = {0};                                  // flick activation limiar
   float knockVerticalPositiveThreshold = DEFANGLEKNOCKVERTICALPOSITIVETHRESHOLD;     // positive knock activation limiar
