@@ -401,13 +401,29 @@ In this situation the M4L component will send a MIDI message to LoopMIDI and Abl
 
 ![midiloop](/pictures/midiloop1.png)
 
-3. Now send the MAX4Live signal to M4L midiloop port. After that, Ableton will be capable to listen any message sent by BionicGlove.
+3. Open Ableton, open a new project the project you want to modify.
 
-![midiloop](/pictures/midiloop2.png)
+4. Add the BionicGlove object to your project
 
-4. Right-click on the BionicGlove control you want to map, and choose the EDIT MIDI MAP option. Do the mapping to the slave control.
+![ableton2](/pictures/ableton2.png)
 
-![midiloop](/pictures/midiloop3.png)
+5. Open Option/Preferences/MIDI and configure IN / OUT
+
+![ableton4](/pictures/ableton4.png)
+
+6. Close MIDI configuration. Now send the MAX4Live signal to M4L midiloop port. After that, Ableton will be capable to listen any message sent by BionicGlove.
+
+![ableton3](/pictures/ableton3.png)
+
+7. In this example , I added an Instrument/Analog/Bass/Basic Bass
+
+![ableton5](/pictures/ableton5.png)
+
+8. Choose Bionic Glove COM port
+
+![ableton6](/pictures/ableton6.png)
+
+9. Now you have the Bionic Glove object sending CCs to Ableton.
 
 
 https://www.ableton.com/en/manual/midi-and-key-remote-control/
